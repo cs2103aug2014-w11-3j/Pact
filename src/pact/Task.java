@@ -8,13 +8,22 @@ public class Task {
     };
     
     public Task() {
-        taskName = "";
-        startTime = new Date();
-        endTime = new Date();
-        isCompleted = false;
-        isArchived = false;
+        this.taskName = "";
+        this.startTime = new Date();
+        this.endTime = new Date();
+        this.isCompleted = false;
+        this.isArchived = false;
     }
-	
+    
+    public Task(Task copy) {
+    	this.taskName = copy.taskName;
+    	this.startTime = copy.startTime;
+    	this.endTime = copy.endTime;
+    	this.isCompleted = copy.isCompleted;
+    	this.isArchived = copy.isArchived;
+    	
+    	
+    }
 	public String taskName;
 	public Date startTime;
 	public Date endTime;
