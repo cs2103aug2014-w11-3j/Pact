@@ -190,7 +190,7 @@ public class DataHandler {
         }
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Task t = new Task();
         DataHandler d = new DataHandler();
         t.taskName = "gajah";
