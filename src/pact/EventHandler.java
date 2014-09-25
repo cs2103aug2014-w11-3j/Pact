@@ -21,15 +21,22 @@ public class EventHandler {
     private static DataHandler datahandler;
     
     
-    public static void main(String[] args) throws ParseException {
+    //public static void main(String[] args) throws ParseException {
+    //}
+    
+    public EventHandler() {
+        initialize();
+    }
+    
+    public int initialize() {
         array = new ArrayList<String>();
         datahandler = new DataHandler();
         task = new Task();
         searchResult = new ArrayList<Task>();
         formatter = new java.text.SimpleDateFormat("ddMMyyy HHmm");
-        determineCommand(array);
+        return 0;
     }
-    public static int determineCommand(ArrayList<String> parameters) throws ParseException {
+    public int determineCommand(ArrayList<String> parameters) throws ParseException {
         
         int commandType = Integer.parseInt(parameters.get(indexOfFirstItem));
 
@@ -57,7 +64,7 @@ public class EventHandler {
                     
         return status;          
     }
-    private static int addTask(ArrayList<String> parameters) throws ParseException {
+    private int addTask(ArrayList<String> parameters) throws ParseException {
         int noOfParameter = parameters.size();
         
         for (int index = 2; index < noOfParameter; index+=2) {
@@ -83,13 +90,13 @@ public class EventHandler {
         return status;
         
     }
-    private static int readFile(ArrayList<String> parameters) {
+    private int readFile(ArrayList<String> parameters) {
         String display = "";
         status = datahandler.searchTask(display, searchResult);
         return status;
         
     }
-    private static int updateFile(ArrayList<String> parameters) throws ParseException {
+    private int updateFile(ArrayList<String> parameters) throws ParseException {
         String field = null;
         String changeToValue = null;
         String nameOfTaskToBeUpdated = "";
@@ -148,7 +155,7 @@ public class EventHandler {
         
     }
 
-    private static int archiveTask(ArrayList<String> parameters) {
+    private int archiveTask(ArrayList<String> parameters) {
 
         String nameOfTaskToBeDeleted = parameters.get(indexOfSecondItem);       
         datahandler.searchTask(nameOfTaskToBeDeleted, searchResult);
@@ -156,7 +163,7 @@ public class EventHandler {
         return status;
         
     }
-    private static int searchTask(ArrayList<String> parameters) {
+    private int searchTask(ArrayList<String> parameters) {
         String keyword = parameters.get(indexOfSecondItem);
         status = datahandler.searchTask(keyword, searchResult);
         return status;

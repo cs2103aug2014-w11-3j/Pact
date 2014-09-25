@@ -23,7 +23,7 @@ public class Parser {
     private static String timedTaskKey = "from";
     private static String deadlineTaskKey = "due on";
     
-    private static  ArrayList<String> parameters;
+    private ArrayList<String> parameters;
     
     public ArrayList<String> parse(String userInput) {
         userCommand = userInput;

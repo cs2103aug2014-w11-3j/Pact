@@ -1,5 +1,7 @@
 package pact;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CommandLineInterface {
@@ -7,7 +9,17 @@ public class CommandLineInterface {
     private Scanner scanner = new Scanner(System.in);
     
     public static void main(String[] args) {
-        
+        CommandLineInterface cli = new CommandLineInterface();
+        Parser commandParser = new Parser();
+        EventHandler logic = new EventHandler();
+        ArrayList<String> parsedCommand;
+        while (true) {
+            parsedCommand = commandParser.parse(cli.getUserCommand());
+            try {
+                logic.determineCommand(parsedCommand);
+            } catch (ParseException pe) {
+            }
+        }
     }
     
     public int printToUser(String message) {
