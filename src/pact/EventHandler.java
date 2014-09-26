@@ -33,12 +33,11 @@ public class EventHandler {
         datahandler = new DataHandler();
         task = new Task();
         searchResult = new ArrayList<Task>();
-        formatter = new java.text.SimpleDateFormat("ddMMyyy HHmm");
+        formatter = new java.text.SimpleDateFormat("ddMMyyyy HHmm");
         return 0;
     }
     public int determineCommand(ArrayList<String> parameters) throws ParseException {
-        
-        int commandType = Integer.parseInt(parameters.get(indexOfFirstItem));
+        int commandType = Integer.parseInt(parameters.get(1));
 
         switch(commandType) {            
         case 0:
@@ -69,18 +68,19 @@ public class EventHandler {
         
         for (int index = 2; index < noOfParameter; index+=2) {
             value = index;
+            
             switch(parameters.get(value)) {
             case "taskName":
-                task.taskName = parameters.get(value++);
+                task.taskName = parameters.get(++value);
                 break;
             case "startTime":
-                task.startTime = formatter.parse(parameters.get(value++));
+                task.startTime = formatter.parse(parameters.get(++value));
                 break;
             case "endTime":
-                task.endTime = formatter.parse(parameters.get(value++));
+                task.endTime = formatter.parse(parameters.get(++value));
                 break;          
             case "type":
-                task.type = TASK_TYPE.valueOf(parameters.get(value++));
+                task.type = TASK_TYPE.valueOf(parameters.get(++value).toUpperCase());
                 break;
             default:
                 return error;
@@ -129,7 +129,7 @@ public class EventHandler {
         case "taskName":
             editedTask.taskName = changeToValue;
             break;
-        case "startName":
+        case "startTime":
             editedTask.startTime = formatter.parse(changeToValue);
             break;
         case "endTime":
@@ -166,6 +166,8 @@ public class EventHandler {
     private int searchTask(ArrayList<String> parameters) {
         String keyword = parameters.get(indexOfSecondItem);
         status = datahandler.searchTask(keyword, searchResult);
+        for (int i = 0; i < searchResult.size(); ++i)
+            System.out.println(searchResult.get(i).taskName);
         return status;
         
     }

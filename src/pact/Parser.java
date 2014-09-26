@@ -12,7 +12,7 @@ public class Parser {
     private static String commandSearch = "4";
     private static String commandParameter = "commandType";
     private static String typeParameter = "type";//for create task: floating/deadline/timed
-    private static String descriptionParameter = "description";
+    private static String descriptionParameter = "taskName";
     private static String startTimeParameter = "startTime";
     private static String endTimeParameter = "endTime";
     private static String fieldParameter = "field"; //for update command: field to be updated
@@ -100,9 +100,9 @@ public class Parser {
             parameters.add(array2[0]);
             String[] array3 = array2[1].trim().split("to",2);
             parameters.add(startTimeParameter);
-            parameters.add(array3[0]);
+            parameters.add(array3[0].trim());
             parameters.add(endTimeParameter);
-            parameters.add(array3[1]);
+            parameters.add(array3[1].trim());
             
         } else if (createType.equals("deadline")) {
             String[] array1 =userParameters[1].trim().split("due on",2);
@@ -111,7 +111,6 @@ public class Parser {
         } else {
             parameters.add(userParameters[1]);
         }
-        
         
     }
 
@@ -135,7 +134,6 @@ public class Parser {
         
         parameters.add(descriptionParameter);
         parameters.add(newValues[0]);
-
     }
     
     public void getDeleteParameters() {

@@ -190,15 +190,15 @@ public class DataHandler {
         }
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Task t = new Task();
         DataHandler d = new DataHandler();
         t.taskName = "gajah";
         t.type = TASK_TYPE.FLOATING;
         t.startTime = new Date(2014-1900,8,22,17,50,30);
         d.addTask(t);
-        /*for (int i = 0; i < d._data.size(); ++i) {
+        for (int i = 0; i < d._data.size(); ++i) {
             System.out.println(d.convertTaskToString(d._data.get(i)));
-        }*/
-    }
+        }
+    }*/
 }
