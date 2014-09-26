@@ -64,6 +64,8 @@ public class EventHandler {
         return status;          
     }
     private int addTask(ArrayList<String> parameters) throws ParseException {
+        task = new Task();
+        
         int noOfParameter = parameters.size();
         
         for (int index = 2; index < noOfParameter; index+=2) {

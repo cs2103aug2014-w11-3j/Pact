@@ -1,40 +1,24 @@
 {
-taskname:risan
-start:Thu Jan 01 09:00:00 SGT 1970
-end:Thu Jan 01 10:00:00 SGT 1970
+taskname:nyancat
+start:Fri Sep 26 11:45:20 SGT 2014
+end:Fri Sep 26 11:45:20 SGT 2014
 type:floating
 complete:false
 archive:false
 }
 {
-taskname:risan
-start:Thu Jan 01 09:00:00 SGT 1970
-end:Thu Jan 01 10:00:00 SGT 1970
+taskname:pikapika
+start:Fri Sep 26 11:55:06 SGT 2014
+end:Fri Sep 26 11:55:06 SGT 2014
 type:floating
 complete:false
 archive:false
 }
 {
-taskname:risan mwahahahah
-start:Fri Sep 26 10:33:59 SGT 2014
-end:Fri Sep 26 10:33:59 SGT 2014
-type:floating
-complete:false
-archive:false
-}
-{
-taskname:gajah
-start:Fri Sep 26 10:52:11 SGT 2014
-end:Fri Sep 26 10:52:11 SGT 2014
-type:floating
-complete:false
-archive:true
-}
-{
-taskname:flashmt
-start:Fri Sep 26 10:52:11 SGT 2014
-end:Fri Sep 26 10:52:11 SGT 2014
-type:floating
+taskname:asdahskd 
+start:Tue Sep 09 14:00:00 SGT 2014
+end:Wed Sep 10 15:00:00 SGT 2014
+type:timed
 complete:false
 archive:false
 }

@@ -106,10 +106,11 @@ public class Parser {
             
         } else if (createType.equals("deadline")) {
             String[] array1 =userParameters[1].trim().split("due on",2);
+            parameters.add(array1[0].trim());
             parameters.add(endTimeParameter);
-            parameters.add(array1[1]);
+            parameters.add(array1[1].trim());
         } else {
-            parameters.add(userParameters[1]);
+            parameters.add(userParameters[1].trim());
         }
         
     }
