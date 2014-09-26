@@ -12,13 +12,29 @@ start:Fri Sep 26 11:55:06 SGT 2014
 end:Fri Sep 26 11:55:06 SGT 2014
 type:floating
 complete:false
-archive:false
+archive:true
 }
 {
 taskname:asdahskd 
 start:Tue Sep 09 14:00:00 SGT 2014
 end:Wed Sep 10 15:00:00 SGT 2014
 type:timed
+complete:false
+archive:false
+}
+{
+taskname:risanrisan
+start:Fri Sep 26 12:06:04 SGT 2014
+end:Fri Sep 26 12:06:04 SGT 2014
+type:floating
+complete:false
+archive:false
+}
+{
+taskname:having lunch
+start:Fri Sep 26 12:06:38 SGT 2014
+end:Fri Nov 09 10:00:00 SGT 2001
+type:deadline
 complete:false
 archive:false
 }

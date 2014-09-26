@@ -95,6 +95,8 @@ public class EventHandler {
     private int readFile(ArrayList<String> parameters) {
         String display = "";
         status = datahandler.searchTask(display, searchResult);
+        for (int i = 0; i < searchResult.size(); ++i)
+            System.out.println(searchResult.get(i).taskName);
         return status;
         
     }
