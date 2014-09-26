@@ -12,7 +12,7 @@ public class EventHandler {
     private static int value;
     private static int status;
     private static int error = -1;      
-    private static int success = 1;
+    private static int success = 0;
     private static int indexOfFirstItem = 0;
     private static int indexOfSecondItem = 3;
     private static int noOfUpdateParameters= 8;
@@ -109,12 +109,13 @@ public class EventHandler {
             value = index;          
             switch(parameters.get(value)) {
             case "taskName":
-                nameOfTaskToBeUpdated = parameters.get(value++);
+                nameOfTaskToBeUpdated = parameters.get(++value);
+                break;
             case "field":
-                field = parameters.get(value++);
+                field = parameters.get(++value);
                 break;
             case "changeToValue":
-                changeToValue = parameters.get(value++);
+                changeToValue = parameters.get(++value);
                 break;
             default:
                 return error;
@@ -144,6 +145,8 @@ public class EventHandler {
         default:
             return error;
         }
+              
+        
         if (datahandler.archiveTask(searchResult.get(indexOfFirstItem)) == success &&
             datahandler.addTask(editedTask) == success) {
             

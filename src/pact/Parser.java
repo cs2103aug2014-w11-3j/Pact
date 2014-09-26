@@ -16,7 +16,7 @@ public class Parser {
     private static String startTimeParameter = "startTime";
     private static String endTimeParameter = "endTime";
     private static String fieldParameter = "field"; //for update command: field to be updated
-    private static String newValueParameter = "value";
+    private static String newValueParameter = "changeToValue";
     private static String searchKeyParameter= "searchKey";
     
     
@@ -130,10 +130,13 @@ public class Parser {
         
         parameters.add(newValueParameter);
         String[] newValues = array1[1].trim().split("to",2);
-        parameters.add(newValues[1]);
+        parameters.add(newValues[1].trim());
         
         parameters.add(descriptionParameter);
-        parameters.add(newValues[0]);
+        parameters.add(newValues[0].trim());
+        
+        //for (int i = 0; i < parameters.size(); ++i)
+        //    System.out.println(parameters.get(i));
     }
     
     public void getDeleteParameters() {

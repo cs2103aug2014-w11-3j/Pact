@@ -19,6 +19,7 @@ public class Task {
     	this.taskName = copy.taskName;
     	this.startTime = copy.startTime;
     	this.endTime = copy.endTime;
+    	this.type = copy.type;
     	this.isCompleted = copy.isCompleted;
     	this.isArchived = copy.isArchived;
     	

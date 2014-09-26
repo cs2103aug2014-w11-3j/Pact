@@ -54,6 +54,17 @@ public class DataHandler {
         return 0;
     }
     
+    public int deleteTask(Task taskToArchive) {
+        for (int i = 0; i < _data.size(); ++i) {
+            if (_data.get(i).taskName.equals(taskToArchive.taskName)) {
+                //_data.remove
+                break;
+            }
+        }
+        saveFile();
+        return 0;
+    }
+    
     public int searchTask(String keyword, ArrayList<Task> searchResult) {
         for (int i = 0; i < _data.size(); ++i) {
             if (_data.get(i).taskName.contains(keyword) && _data.get(i).isArchived == false) {
