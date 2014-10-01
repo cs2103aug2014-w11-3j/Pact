@@ -38,7 +38,6 @@ public class DataHandler {
     }
     
     public int addTask(Task taskToAdd) {
-        System.out.println(taskToAdd.taskName);
         _data.add(taskToAdd);
         saveFile();
         return 0;
@@ -58,6 +57,7 @@ public class DataHandler {
     public int deleteTask(Task taskToArchive) {
         for (int i = 0; i < _data.size(); ++i) {
             if (_data.get(i).taskName.equals(taskToArchive.taskName)) {
+                _data.remove(i);
                 break;
             }
         }

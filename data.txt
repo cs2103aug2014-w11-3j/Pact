@@ -1,40 +1,40 @@
 {
-taskname:nyancat
-start:Fri Sep 26 11:45:20 SGT 2014
-end:Fri Sep 26 11:45:20 SGT 2014
+taskname:homeworkCS2103T
+start:Wed Oct 01 11:21:03 SGT 2014
+end:Wed Oct 01 11:21:03 SGT 2014
 type:floating
 complete:false
 archive:false
 }
 {
-taskname:pikapika
-start:Fri Sep 26 11:55:06 SGT 2014
-end:Fri Sep 26 11:55:06 SGT 2014
+taskname:homeworkCS2101
+start:Wed Oct 01 11:21:14 SGT 2014
+end:Wed Oct 01 11:21:14 SGT 2014
 type:floating
 complete:false
 archive:true
 }
 {
-taskname:asdahskd 
-start:Tue Sep 09 14:00:00 SGT 2014
-end:Wed Sep 10 15:00:00 SGT 2014
-type:timed
-complete:false
-archive:false
-}
-{
-taskname:risanrisan
-start:Fri Sep 26 12:06:04 SGT 2014
-end:Fri Sep 26 12:06:04 SGT 2014
+taskname:hanrui
+start:Wed Oct 01 11:21:37 SGT 2014
+end:Wed Oct 01 11:21:37 SGT 2014
 type:floating
 complete:false
 archive:false
 }
 {
-taskname:having lunch
-start:Fri Sep 26 12:06:38 SGT 2014
-end:Fri Nov 09 10:00:00 SGT 2001
-type:deadline
+taskname:damith
+start:Wed Oct 01 11:23:57 SGT 2014
+end:Wed Oct 01 11:23:57 SGT 2014
+type:floating
+complete:false
+archive:true
+}
+{
+taskname:lecture
+start:Wed Oct 01 11:23:57 SGT 2014
+end:Wed Oct 01 11:23:57 SGT 2014
+type:floating
 complete:false
 archive:false
 }
