@@ -14,7 +14,9 @@ public class EventHandler {
     private static int error = -1;      
     private static int success = 0;
     private static int indexOfFirstItem = 0;
-    private static int indexOfSecondItem = 3;
+    private static int indexOfSecondVariable = 0;
+    private static int indexOfSecondValue = 3;
+    private static int indexOfThirdValue = 5;
     private static int noOfUpdateParameters= 8;
     private static java.text.SimpleDateFormat formatter;
     private static ArrayList<Task> searchResult;
@@ -36,7 +38,7 @@ public class EventHandler {
         formatter = new java.text.SimpleDateFormat("ddMMyyyy HHmm");
         return 0;
     }
-    public int determineCommand(ArrayList<String> parameters) throws ParseException {
+    public int determineCommand(ArrayList<String> parameters) throws Exception {
         int commandType = Integer.parseInt(parameters.get(1));
 
         switch(commandType) {            
@@ -55,6 +57,9 @@ public class EventHandler {
         case 4:
             status = searchTask(parameters);
             break;
+        case 5:
+        	status = undo();
+        	break;
         default:
             status = error;
             break;
@@ -63,7 +68,9 @@ public class EventHandler {
                     
         return status;          
     }
-    private int addTask(ArrayList<String> parameters) throws ParseException {
+
+
+	private int addTask(ArrayList<String> parameters) throws ParseException {
         task = new Task();
         
         int noOfParameter = parameters.size();
@@ -92,7 +99,7 @@ public class EventHandler {
         return status;
         
     }
-    private int readFile(ArrayList<String> parameters) {
+    private int readFile(ArrayList<String> parameters) throws Exception {
         String display = "";
         status = datahandler.searchTask(display, searchResult);
         for (int i = 0; i < searchResult.size(); ++i)
@@ -100,7 +107,7 @@ public class EventHandler {
         return status;
         
     }
-    private int updateFile(ArrayList<String> parameters) throws ParseException {
+    private int updateFile(ArrayList<String> parameters) throws Exception {
         String field = null;
         String changeToValue = null;
         String nameOfTaskToBeUpdated = "";
@@ -162,20 +169,33 @@ public class EventHandler {
         
     }
 
-    private int archiveTask(ArrayList<String> parameters) {
+    private int archiveTask(ArrayList<String> parameters) throws Exception {
 
-        String nameOfTaskToBeDeleted = parameters.get(indexOfSecondItem);       
+        String nameOfTaskToBeDeleted = parameters.get(indexOfSecondValue);       
         datahandler.searchTask(nameOfTaskToBeDeleted, searchResult);
         status = datahandler.archiveTask(searchResult.get(indexOfFirstItem));
         return status;
         
     }
-    private int searchTask(ArrayList<String> parameters) {
-        String keyword = parameters.get(indexOfSecondItem);
-        status = datahandler.searchTask(keyword, searchResult);
+    private int searchTask(ArrayList<String> parameters) throws Exception {
+    	boolean searchWhole;
+    	String keyword;
+    	if(parameters.get(indexOfSecondVariable).equals("searchWhole")){
+    		searchWhole = Boolean.parseBoolean(parameters.get(indexOfSecondValue));
+    		keyword = parameters.get(indexOfThirdValue);
+    	}else{
+    		searchWhole = Boolean.parseBoolean(parameters.get(indexOfThirdValue));
+    		keyword = parameters.get(indexOfSecondValue);
+    	}
+
+        status = datahandler.searchTask(keyword, searchResult, searchWhole);
         for (int i = 0; i < searchResult.size(); ++i)
             System.out.println(searchResult.get(i).taskName);
         return status;
         
     }
+    private int undo() throws Exception {
+		status = datahandler.undo();
+		return status;
+	}
 }
