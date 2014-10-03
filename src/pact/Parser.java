@@ -10,6 +10,7 @@ public class Parser {
     private static String commandUpdate = "2";
     private static String commandDelete = "3";
     private static String commandSearch = "4";
+    private static String commandUndo ="5";
     private static String commandParameter = "commandType";
     private static String typeParameter = "type";//for create task: floating/deadline/timed
     private static String descriptionParameter = "taskName";
@@ -18,6 +19,7 @@ public class Parser {
     private static String fieldParameter = "field"; //for update command: field to be updated
     private static String newValueParameter = "changeToValue";
     private static String searchKeyParameter= "searchKey";
+    private static String searchWholeParameter = "searchWhole";
     
     
     private static String timedTaskKey = "from";
@@ -50,6 +52,13 @@ public class Parser {
             parameters.add(commandParameter);
             parameters.add(commandSearch);
             getSearchParameters();
+        } else if(commandType.equals("searchWhole")){
+        	parameters.add(commandParameter);
+        	parameters.add(commandSearch);
+        	getSearchWholeParameters();
+        }else if(commandType.equals("undo")){
+        	parameters.add(commandParameter);
+        	parameters.add(commandUndo);
         } else {
             //invalid command-what to do? return error or parameters.add("invalid")
         }
@@ -81,7 +90,11 @@ public class Parser {
             return "delete";
         } else if (userCommandType.equalsIgnoreCase("search") || userCommandType.equalsIgnoreCase("get")||userCommandType.equalsIgnoreCase("find")) {
             return "search";
-        } else {
+        }else if (userCommandType.equalsIgnoreCase("searchWhole")){
+        	return "searchWhole";
+        }else if(userCommandType.equalsIgnoreCase("undo")){
+        	return "undo";
+        }else {
             return "invalid";
         }
         
@@ -115,6 +128,8 @@ public class Parser {
         
     }
 
+   
+    
     public void getUpdateParameters() {
         String words[] = splitUserCommand();
         parameters.add(fieldParameter);
@@ -148,9 +163,19 @@ public class Parser {
     
     public void getSearchParameters() {
         String[] words = splitUserCommand();
+        parameters.add(searchWholeParameter);
+  	   	parameters.add("false");
         parameters.add(searchKeyParameter);
-        parameters.add(words[1]);
+        parameters.add(words[1].trim());
         
+    }
+    
+    public void getSearchWholeParameters(){
+ 	   String[] words = userCommand.trim().split(" ",2);
+ 	   parameters.add(searchWholeParameter);
+ 	   parameters.add("true");
+ 	   parameters.add(searchKeyParameter);
+ 	   parameters.add(words[1].trim());
     }
     
     public String getCreateType (String userValues) {
