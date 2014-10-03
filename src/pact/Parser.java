@@ -1,5 +1,6 @@
 package pact;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class Parser {
@@ -27,7 +28,7 @@ public class Parser {
     
     private ArrayList<String> parameters;
     
-    public ArrayList<String> parse(String userInput) {
+    public ArrayList<String> parse(String userInput) throws ParseException {
         userCommand = userInput;
         parameters  = new ArrayList<String>();
         commandType = determineCommandType(getCommandType());
@@ -69,17 +70,17 @@ public class Parser {
     
     }
 
-    public String getCommandType() {
+    public String getCommandType() throws ParseException{
         String[] splitString = splitUserCommand();
         return splitString[0];
         
      }
     
-    public String[] splitUserCommand() {
+    public String[] splitUserCommand() throws ParseException {
         String[] words = userCommand.trim().split(" ", 2);
         return words;
     }
-    public String determineCommandType(String userCommandType) {
+    public String determineCommandType(String userCommandType) throws ParseException{
         if (userCommandType.equalsIgnoreCase("add") || userCommandType.equalsIgnoreCase("create")) {
             return "createTask";
         } else if (userCommandType.equalsIgnoreCase("searchAll") || userCommandType.equalsIgnoreCase("read")||userCommandType.equalsIgnoreCase("display")) {
@@ -100,7 +101,7 @@ public class Parser {
         
     }
 
-    public void getCreateParameters() {
+    public void getCreateParameters() throws ParseException {
         String[] userParameters  = splitUserCommand();
         String createType = getCreateType(userParameters[1]);
         parameters.add(typeParameter);
@@ -130,7 +131,7 @@ public class Parser {
 
    
     
-    public void getUpdateParameters() {
+    public void getUpdateParameters() throws ParseException{
         String words[] = splitUserCommand();
         parameters.add(fieldParameter);
 
@@ -155,13 +156,13 @@ public class Parser {
         //    System.out.println(parameters.get(i));
     }
     
-    public void getDeleteParameters() {
+    public void getDeleteParameters() throws ParseException {
         String[] words = splitUserCommand();
         parameters.add(descriptionParameter);
         parameters.add(words[1]);
     }
     
-    public void getSearchParameters() {
+    public void getSearchParameters() throws ParseException{
         String[] words = splitUserCommand();
         parameters.add(searchWholeParameter);
   	   	parameters.add("false");
@@ -170,7 +171,7 @@ public class Parser {
         
     }
     
-    public void getSearchWholeParameters(){
+    public void getSearchWholeParameters() throws ParseException{
  	   String[] words = userCommand.trim().split(" ",2);
  	   parameters.add(searchWholeParameter);
  	   parameters.add("true");
@@ -178,7 +179,7 @@ public class Parser {
  	   parameters.add(words[1].trim());
     }
     
-    public String getCreateType (String userValues) {
+    public String getCreateType (String userValues) throws ParseException {
         String taskType="";
         int indexDeadline = userValues.toLowerCase().indexOf(deadlineTaskKey);
         int indexTimed = userValues.toLowerCase().indexOf(timedTaskKey);
