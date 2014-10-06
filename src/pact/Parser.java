@@ -1,196 +1,35 @@
 package pact;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 
 public class Parser {
-    private static String commandType;
-    private static String userCommand = "";
-    private static String commandCreateTask ="0";
-    private static String commandRead = "1";
-    private static String commandUpdate = "2";
-    private static String commandDelete = "3";
-    private static String commandSearch = "4";
-    private static String commandUndo ="5";
-    private static String commandParameter = "commandType";
-    private static String typeParameter = "type";//for create task: floating/deadline/timed
-    private static String descriptionParameter = "taskName";
-    private static String startTimeParameter = "startTime";
-    private static String endTimeParameter = "endTime";
-    private static String fieldParameter = "field"; //for update command: field to be updated
-    private static String newValueParameter = "changeToValue";
-    private static String searchKeyParameter= "searchKey";
-    private static String searchWholeParameter = "searchWhole";
-    
-    
-    private static String timedTaskKey = "from";
-    private static String deadlineTaskKey = "due on";
-    
-    private ArrayList<String> parameters;
-    
-    public ArrayList<String> parse(String userInput) throws ParseException {
-        userCommand = userInput;
-        parameters  = new ArrayList<String>();
-        commandType = determineCommandType(getCommandType());
-
-        if (commandType.equals("createTask")) {
-            parameters.add(commandParameter);
-            parameters.add(commandCreateTask);
-            getCreateParameters();
-            
-        } else if (commandType.equals("read")) {
-            parameters.add(commandParameter);
-            parameters.add(commandRead);
-        } else if (commandType.equals("update")) {
-            parameters.add(commandParameter);
-            parameters.add(commandUpdate);
-            getUpdateParameters();
-        } else if (commandType.equals("delete")) {
-            parameters.add(commandParameter);
-            parameters.add(commandDelete);
-            getDeleteParameters();
-        } else if (commandType.equals("search")) {
-            parameters.add(commandParameter);
-            parameters.add(commandSearch);
-            getSearchParameters();
-        } else if(commandType.equals("searchWhole")){
-        	parameters.add(commandParameter);
-        	parameters.add(commandSearch);
-        	getSearchWholeParameters();
-        }else if(commandType.equals("undo")){
-        	parameters.add(commandParameter);
-        	parameters.add(commandUndo);
-        } else {
-            //invalid command-what to do? return error or parameters.add("invalid")
+        
+    public ArrayList<String> parse(String userInput) {
+        ArrayList<String> result = new ArrayList<String>();
+        String[] splitString = userInput.trim().split(" ", 2);
+        CommandType code = CommandType.getCommandType(splitString[0]);
+        if (code == CommandType.CREATE) {
+            ParserForCREATE subParser = new 
+            //CREATE
+        } else if (code == CommandType.READ) {
+            //READ
+        } else if (code == CommandType.UPDATE) {
+            //UPDATE
+        } else if (code == CommandType.DELETE) {
+            //DELETE
+        } else if (code == CommandType.EXIT) {
+            //EXIT
+        } else if (code == CommandType.INVALID) {
+            //NOT A COMMAND
         }
-         
-   
-    
-    return parameters;
-    
-    }
-
-    public String getCommandType() throws ParseException{
-        String[] splitString = splitUserCommand();
-        return splitString[0];
-        
-     }
-    
-    public String[] splitUserCommand() throws ParseException {
-        String[] words = userCommand.trim().split(" ", 2);
-        return words;
-    }
-    public String determineCommandType(String userCommandType) throws ParseException{
-        if (userCommandType.equalsIgnoreCase("add") || userCommandType.equalsIgnoreCase("create")) {
-            return "createTask";
-        } else if (userCommandType.equalsIgnoreCase("searchAll") || userCommandType.equalsIgnoreCase("read")||userCommandType.equalsIgnoreCase("display")) {
-            return "read";
-        } else if (userCommandType.equalsIgnoreCase("update") || userCommandType.equalsIgnoreCase("edit")) {
-            return "update";
-        } else if (userCommandType.equalsIgnoreCase("delete") || userCommandType.equalsIgnoreCase("remove")) {
-            return "delete";
-        } else if (userCommandType.equalsIgnoreCase("search") || userCommandType.equalsIgnoreCase("get")||userCommandType.equalsIgnoreCase("find")) {
-            return "search";
-        }else if (userCommandType.equalsIgnoreCase("searchWhole")){
-        	return "searchWhole";
-        }else if(userCommandType.equalsIgnoreCase("undo")){
-        	return "undo";
-        }else {
-            return "invalid";
-        }
-        
-    }
-
-    public void getCreateParameters() throws ParseException {
-        String[] userParameters  = splitUserCommand();
-        String createType = getCreateType(userParameters[1]);
-        parameters.add(typeParameter);
-        parameters.add(createType);
-        
-        
-        parameters.add(descriptionParameter);
-        if (createType.equals("timed")) {
-            String[] array2 = userParameters[1].split("from",2);
-            parameters.add(array2[0]);
-            String[] array3 = array2[1].trim().split("to",2);
-            parameters.add(startTimeParameter);
-            parameters.add(array3[0].trim());
-            parameters.add(endTimeParameter);
-            parameters.add(array3[1].trim());
-            
-        } else if (createType.equals("deadline")) {
-            String[] array1 =userParameters[1].trim().split("due on",2);
-            parameters.add(array1[0].trim());
-            parameters.add(endTimeParameter);
-            parameters.add(array1[1].trim());
-        } else {
-            parameters.add(userParameters[1].trim());
-        }
-        
-    }
-
-   
-    
-    public void getUpdateParameters() throws ParseException{
-        String words[] = splitUserCommand();
-        parameters.add(fieldParameter);
-
-        String[] array1 = words[1].trim().split(" ",2);
-        if (array1[0].equalsIgnoreCase("startTime")) {
-            parameters.add(startTimeParameter);
-        
-        } else if (array1[0].equalsIgnoreCase("endTime")) {
-            parameters.add(endTimeParameter);
-        } else {
-            parameters.add(descriptionParameter);
-        }
-        
-        parameters.add(newValueParameter);
-        String[] newValues = array1[1].trim().split("to",2);
-        parameters.add(newValues[1].trim());
-        
-        parameters.add(descriptionParameter);
-        parameters.add(newValues[0].trim());
-        
-        //for (int i = 0; i < parameters.size(); ++i)
-        //    System.out.println(parameters.get(i));
+        return result;
     }
     
-    public void getDeleteParameters() throws ParseException {
-        String[] words = splitUserCommand();
-        parameters.add(descriptionParameter);
-        parameters.add(words[1]);
+    public static void main(String args[]) throws Exception {
+        Parser parser = new Parser();
+        parser.parse("add Duong Dat to");
+        parser.parse("show Duong Dat to");
+        parser.parse("display Duong Dat to");
+        parser.parse("clgt Duong Dat to");
     }
-    
-    public void getSearchParameters() throws ParseException{
-        String[] words = splitUserCommand();
-        parameters.add(searchWholeParameter);
-  	   	parameters.add("false");
-        parameters.add(searchKeyParameter);
-        parameters.add(words[1].trim());
-        
-    }
-    
-    public void getSearchWholeParameters() throws ParseException{
- 	   String[] words = userCommand.trim().split(" ",2);
- 	   parameters.add(searchWholeParameter);
- 	   parameters.add("true");
- 	   parameters.add(searchKeyParameter);
- 	   parameters.add(words[1].trim());
-    }
-    
-    public String getCreateType (String userValues) throws ParseException {
-        String taskType="";
-        int indexDeadline = userValues.toLowerCase().indexOf(deadlineTaskKey);
-        int indexTimed = userValues.toLowerCase().indexOf(timedTaskKey);
-        if (indexDeadline != -1) {
-            taskType = "deadline";
-        } else if (indexTimed!=-1) {
-            taskType = "timed";
-        } else {
-            taskType= "floating";
-        }
-        return taskType;
-    }
-    
 }

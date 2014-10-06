@@ -29,7 +29,10 @@ public class DataHandler {
     private final String TASKTYPE_FLOATING = "floating";
     private final String TASKTYPE_DEADLINE = "deadline";
     private final String TASKTYPE_TIMED = "timed";
-    
+
+    //private static int error = -1;      
+    private static int success = 0;
+
     private ArrayList<Task> _data;
     
     public DataHandler() {
@@ -40,7 +43,7 @@ public class DataHandler {
     public int addTask(Task taskToAdd) {
         _data.add(taskToAdd);
         saveFile();
-        return 0;
+        return success;
     }
     
     public int archiveTask(Task taskToArchive) {
@@ -51,7 +54,7 @@ public class DataHandler {
             }
         }
         saveFile();
-        return 0;
+        return success;
     }
     
     public int deleteTask(Task taskToArchive) {
@@ -62,7 +65,7 @@ public class DataHandler {
             }
         }
         saveFile();
-        return 0;
+        return success;
     }
     
     public int searchTask(String keyword, ArrayList<Task> searchResult) {
@@ -71,7 +74,11 @@ public class DataHandler {
                 searchResult.add(_data.get(i));
             }
         }
-        return 0;
+        return success;
+    }
+    
+    public int undo() {
+        return success;
     }
     
     private String convertTypeToString(TASK_TYPE toConvert) {
