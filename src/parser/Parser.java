@@ -1,35 +1,41 @@
-package pact;
+package parser;
 
 import java.util.ArrayList;
+
+import pact.CommandType;
 
 public class Parser {
         
     public ArrayList<String> parse(String userInput) {
-        ArrayList<String> result = new ArrayList<String>();
+        ParserForAll subParser = null;
         String[] splitString = userInput.trim().split(" ", 2);
         CommandType code = CommandType.getCommandType(splitString[0]);
         if (code == CommandType.CREATE) {
-            ParserForCREATE subParser = new 
-            //CREATE
+            subParser = new ParserForCreate();
+            
         } else if (code == CommandType.READ) {
-            //READ
+            subParser = new ParserForRead();
+            
         } else if (code == CommandType.UPDATE) {
-            //UPDATE
+            subParser = new ParserForUpdate();
+            
         } else if (code == CommandType.DELETE) {
-            //DELETE
+            subParser = new ParserForDelete();
+            
         } else if (code == CommandType.EXIT) {
-            //EXIT
+            
+        } else if (code == CommandType.UNDO) {
+            
         } else if (code == CommandType.INVALID) {
-            //NOT A COMMAND
+            //maybe throw an Exception?
         }
-        return result;
+
+        subParser.getParameters(splitString[1]);
+        return subParser.parameters;
     }
     
     public static void main(String args[]) throws Exception {
         Parser parser = new Parser();
         parser.parse("add Duong Dat to");
-        parser.parse("show Duong Dat to");
-        parser.parse("display Duong Dat to");
-        parser.parse("clgt Duong Dat to");
     }
 }

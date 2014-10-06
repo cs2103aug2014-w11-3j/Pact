@@ -1,8 +1,12 @@
-package pact;
+package parser;
 
 import java.text.ParseException;
 
-public class ParserForUpdate {
+public class ParserForUpdate extends ParserForAll {
+    
+    public void getParameters(String input) {
+    }
+    
     public void getUpdateParameters() throws ParseException{
         String words[] = splitUserCommand();
         parameters.add(fieldParameter);

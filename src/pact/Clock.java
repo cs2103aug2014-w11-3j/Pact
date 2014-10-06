@@ -35,11 +35,8 @@ public class Clock {
         GregorianCalendar tmp = new GregorianCalendar();
         dateString = dateString.replaceAll("\\W+", "");
         timeString = timeString.replaceAll("\\W+", "");
-        System.out.println(dateString);
-        System.out.println(timeString);
         Date date;
         if (!dateString.isEmpty()) {
-            System.out.println("date detected");
             date = guess(dateString, dateDictionary);
             tmp.setTime(date);
             result.set(GregorianCalendar.DATE, tmp.get(GregorianCalendar.DATE));
@@ -47,10 +44,8 @@ public class Clock {
             result.set(GregorianCalendar.YEAR, tmp.get(GregorianCalendar.YEAR));
         }
         if (!timeString.isEmpty()) {
-            System.out.println("time detected");
             date = guess(timeString, timeDictionary);
             tmp.setTime(date);
-            System.out.println(date.toString());
             result.set(GregorianCalendar.HOUR, tmp.get(GregorianCalendar.HOUR));
             result.set(GregorianCalendar.MINUTE, tmp.get(GregorianCalendar.MINUTE));
         }

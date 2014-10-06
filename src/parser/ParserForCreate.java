@@ -1,8 +1,12 @@
-package pact;
+package parser;
 
 import java.text.ParseException;
 
-public class ParserForCreate {
+public class ParserForCreate extends ParserForAll {
+    
+    public void getParameters(String input) {
+    }
+
     public void getCreateParameters() throws ParseException {
         String[] userParameters  = splitUserCommand();
         String createType = getCreateType(userParameters[1]);

@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import parser.Parser;
+
 public class CommandLineInterface {
 
     private Scanner scanner = new Scanner(System.in);

@@ -9,7 +9,7 @@ public enum CommandType {
                                   { "show", "display", "search", "find" }, 
                                   { "update", "change" }, 
                                   { "delete", "remove" }, 
-                                  { "exit", "quit", "halt" }
+                                  { "exit", "quit", "halt" },
                                   { "undo", "cancel" } };
 
     private CommandType(int passcode) {
