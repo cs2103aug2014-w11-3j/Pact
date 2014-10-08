@@ -1,4 +1,4 @@
-package pact;
+package utility;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,8 +9,9 @@ import java.util.Scanner;
 
 public class Clock {
     
+    private static String commonFormat = "dd/MM/yyyy HH:mm";
     private static String[] dateDictionary = { "ddMMyyyy", "ddMMMMyyyy", "MMMMddyyyy"};
-    private static String[] timeDictionary = { "HHmm", "hhmmaa", "hhaa" };
+    private static String[] timeDictionary = { "HHmm", "hhmma", "hha" };
     
     private Date guess(String input, String[] dict) throws Exception {
         HashSet<Date> result = new HashSet<Date>();
@@ -23,18 +24,21 @@ public class Clock {
                 //not suitable, don't need to do anything
             }
         }
-        if (result.size() != 1) {
+        if (result.isEmpty()) {
             throw new Exception("zzzz");
         } else {
             return result.iterator().next();
         }
     }
     
-    public GregorianCalendar parse(String dateString, String timeString) throws Exception {
+    public String parse(String dateString, String timeString) throws Exception {
         GregorianCalendar result = new GregorianCalendar();
         GregorianCalendar tmp = new GregorianCalendar();
-        dateString = dateString.replaceAll("\\W+", "");
-        timeString = timeString.replaceAll("\\W+", "");
+        dateString = dateString.trim().replaceAll("\\W+", "");
+        timeString = timeString.trim().replaceAll("\\W+", "").toUpperCase();
+        if (timeString.length() % 2 != 0) {
+            timeString = "0" + timeString;
+        }
         Date date;
         if (!dateString.isEmpty()) {
             date = guess(dateString, dateDictionary);
@@ -46,12 +50,12 @@ public class Clock {
         if (!timeString.isEmpty()) {
             date = guess(timeString, timeDictionary);
             tmp.setTime(date);
-            result.set(GregorianCalendar.HOUR, tmp.get(GregorianCalendar.HOUR));
+            result.set(GregorianCalendar.HOUR_OF_DAY, tmp.get(GregorianCalendar.HOUR_OF_DAY));
             result.set(GregorianCalendar.MINUTE, tmp.get(GregorianCalendar.MINUTE));
         }
-        return result;
+        return new SimpleDateFormat(commonFormat).format(result.getTime());
     }
-
+    
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
         String st1 = sc.nextLine();

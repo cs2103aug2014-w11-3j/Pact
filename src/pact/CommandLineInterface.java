@@ -1,10 +1,11 @@
 package pact;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Scanner;
-
 import parser.Parser;
+import utility.Keyword;
+
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Scanner;
 
 public class CommandLineInterface {
 
@@ -14,12 +15,19 @@ public class CommandLineInterface {
         CommandLineInterface cli = new CommandLineInterface();
         Parser commandParser = new Parser();
         EventHandler logic = new EventHandler();
-        ArrayList<String> parsedCommand;
+        HashMap<Keyword, String> parsedCommand = new HashMap<Keyword, String>();
+        System.out.println("Welome to PACT");
+        System.out.println("Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\"");
         while (true) {
-            parsedCommand = commandParser.parse(cli.getUserCommand());
-            try {
+            try{
+                parsedCommand = commandParser.parse(cli.getUserCommand());
                 logic.determineCommand(parsedCommand);
-            } catch (ParseException pe) {
+            }
+            catch(ParseException pe){
+                System.out.println("Please try again: Invalid command!");
+                System.out.println("Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\"");
+            } catch (Exception pe) {
+                System.out.println("Invalid format!");
             }
         }
     }

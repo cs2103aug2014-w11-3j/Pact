@@ -14,7 +14,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-import pact.Task.TASK_TYPE;
+import utility.Task;
+import utility.Task.TASK_TYPE;
 
 public class DataHandler {
     private final String _fileName = "data.txt";
@@ -29,10 +30,7 @@ public class DataHandler {
     private final String TASKTYPE_FLOATING = "floating";
     private final String TASKTYPE_DEADLINE = "deadline";
     private final String TASKTYPE_TIMED = "timed";
-
-    //private static int error = -1;      
-    private static int success = 0;
-
+    
     private ArrayList<Task> _data;
     
     public DataHandler() {
@@ -40,45 +38,101 @@ public class DataHandler {
         loadFile();
     }
     
+    /**
+     * Appends the specified task to the end of this Data.
+     * @param taskToAdd task to be appended to this Data.
+     * @return error code. 0 if there is no error
+     */
+    
     public int addTask(Task taskToAdd) {
         _data.add(taskToAdd);
         saveFile();
-        return success;
+        return 0;
     }
     
+    /**
+     * Set the specified task to be archived.
+     * @param taskToArchive task to be archived.
+     * @return error code. 0 if there is no error
+     */
     public int archiveTask(Task taskToArchive) {
         for (int i = 0; i < _data.size(); ++i) {
-            if (_data.get(i).taskName.equals(taskToArchive.taskName)) {
+            if (_data.get(i).taskName.equals(taskToArchive.taskName) && _data.get(i).isArchived == false) {
                 _data.get(i).isArchived = true;
                 break;
             }
         }
         saveFile();
-        return success;
+        return 0;
     }
     
-    public int deleteTask(Task taskToArchive) {
+    /**
+     * Remove the specified task completely from the Data.
+     * @param taskToDelete task to be deleted.
+     * @return error code. 0 if there is no error
+     */
+    
+    public int deleteTask(Task taskToDelete) {
         for (int i = 0; i < _data.size(); ++i) {
-            if (_data.get(i).taskName.equals(taskToArchive.taskName)) {
+            if (_data.get(i).taskName.equals(taskToDelete.taskName) && _data.get(i).isArchived == false) {
                 _data.remove(i);
                 break;
             }
         }
         saveFile();
-        return success;
+        return 0;
     }
     
-    public int searchTask(String keyword, ArrayList<Task> searchResult) {
-        for (int i = 0; i < _data.size(); ++i) {
-            if (_data.get(i).taskName.contains(keyword) && _data.get(i).isArchived == false) {
-                searchResult.add(_data.get(i));
+    private boolean matchWhole(String keyword, String taskName) {
+        String thisWord = "";
+        for (int i = 0; i < taskName.length(); ++i) {
+            if (taskName.charAt(i) == ' ') {
+                if (thisWord.equals(keyword)) {
+                    return true;
+                }
+                thisWord = "";
+            } else thisWord = thisWord + taskName.charAt(i);
+        }
+        if (thisWord.equals(keyword)) {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * search tasks in Data that matched the specified keyword
+     * @param keyword keyword to be search
+     * @param searchResult the result will be stored in this arraylist
+     * @param searchWhole if true, check for words. if false, check for substring
+     * @return error code. 0 if there is no error
+     */
+    
+    public int searchTask(String keyword, ArrayList<Task> searchResult, boolean searchWhole) {
+        if (searchWhole) {
+            for (int i = 0; i < _data.size(); ++i) {
+                if (_data.get(i).isArchived == false) {
+                    if (matchWhole(keyword,_data.get(i).taskName)) {
+                        searchResult.add(_data.get(i));
+                    }
+                }
+            }
+        } else {
+            for (int i = 0; i < _data.size(); ++i) {
+                if (_data.get(i).taskName.contains(keyword) && _data.get(i).isArchived == false) {
+                    searchResult.add(_data.get(i));
+                }
             }
         }
-        return success;
+        return 0;
     }
     
+    /**
+     * undo the last command
+     * @return error code. 0 if there is no error
+     */
+    
     public int undo() {
-        return success;
+        return 0;
     }
     
     private String convertTypeToString(TASK_TYPE toConvert) {

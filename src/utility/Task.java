@@ -1,4 +1,4 @@
-package pact;
+package utility;
 
 import java.util.Date;
 

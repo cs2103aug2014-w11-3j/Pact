@@ -3,21 +3,24 @@ package pact;
 import java.util.ArrayList;
 import java.text.ParseException;
 
-
-import pact.Task.TASK_TYPE;
+import utility.Task;
+import utility.Task.TASK_TYPE;
 
 public class EventHandler {
-    public static ArrayList<String> array;
+  
+	public static ArrayList<String> array;
     private static Task task;
     private static int value;
     private static int status;
     private static int error = -1;      
     private static int success = 0;
     private static int indexOfFirstItem = 0;
-    private static int indexOfSecondVariable = 0;
+    private static int indexOfSecondVariable = 2;
     private static int indexOfSecondValue = 3;
     private static int indexOfThirdValue = 5;
-    private static int noOfUpdateParameters= 8;
+    private static int noOfUpdateParameters = 8;
+    private static boolean searchWholeTrue = true;
+    private static boolean searchWholeFalse = false;
     private static java.text.SimpleDateFormat formatter;
     private static ArrayList<Task> searchResult;
     private static DataHandler datahandler;
@@ -59,7 +62,7 @@ public class EventHandler {
             break;
         case 5:
         	status = undo();
-        	break;
+        	break; 
         default:
             status = error;
             break;
@@ -101,7 +104,7 @@ public class EventHandler {
     }
     private int readFile(ArrayList<String> parameters) throws Exception {
         String display = "";
-        status = datahandler.searchTask(display, searchResult);
+        status = datahandler.searchTask(display, searchResult, searchWholeFalse);
         for (int i = 0; i < searchResult.size(); ++i)
             System.out.println(searchResult.get(i).taskName);
         return status;
@@ -133,7 +136,7 @@ public class EventHandler {
             }           
         }
         
-        datahandler.searchTask(nameOfTaskToBeUpdated, searchResult);
+        datahandler.searchTask(nameOfTaskToBeUpdated, searchResult, searchWholeTrue);
     
         Task editedTask = new Task(searchResult.get(indexOfFirstItem));
         
@@ -170,11 +173,28 @@ public class EventHandler {
     }
 
     private int archiveTask(ArrayList<String> parameters) throws Exception {
-
-        String nameOfTaskToBeDeleted = parameters.get(indexOfSecondValue);       
-        datahandler.searchTask(nameOfTaskToBeDeleted, searchResult);
-        status = datahandler.archiveTask(searchResult.get(indexOfFirstItem));
-        return status;
+    	boolean archiveAll;  
+        String nameOfTaskToBeDeleted;
+        
+        if(parameters.get(indexOfSecondVariable).equals("deleteAll")){
+    		archiveAll = Boolean.parseBoolean(parameters.get(indexOfSecondValue));
+    		nameOfTaskToBeDeleted = parameters.get(indexOfThirdValue);
+    	}else{
+    		archiveAll = Boolean.parseBoolean(parameters.get(indexOfThirdValue));
+    		nameOfTaskToBeDeleted = parameters.get(indexOfSecondValue);
+    	}
+        if(archiveAll == false){
+        	datahandler.searchTask(nameOfTaskToBeDeleted, searchResult, searchWholeTrue);
+        	for(int i = 0; i < searchResult.size(); i++){
+        		status = datahandler.archiveTask(searchResult.get(indexOfFirstItem));
+        	}
+        }else{
+        	datahandler.searchTask(nameOfTaskToBeDeleted, searchResult, searchWholeFalse);
+        	for(int i = 0; i < searchResult.size(); i++){
+        		status = datahandler.archiveTask(searchResult.get(indexOfFirstItem));
+        	}
+        }
+        return status; 
         
     }
     private int searchTask(ArrayList<String> parameters) throws Exception {
@@ -189,13 +209,15 @@ public class EventHandler {
     	}
 
         status = datahandler.searchTask(keyword, searchResult, searchWhole);
-        for (int i = 0; i < searchResult.size(); ++i)
-            System.out.println(searchResult.get(i).taskName);
+        
+        for (int i = 0; i < searchResult.size(); ++i){
+           System.out.println(searchResult.get(i).taskName);
+        }
         return status;
         
     }
     private int undo() throws Exception {
 		status = datahandler.undo();
 		return status;
-	}
+	} 
 }
