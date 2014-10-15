@@ -5,13 +5,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
-import java.util.Scanner;
 
 public class Clock {
     
-    private static String commonFormat = "dd/MM/yyyy HH:mm";
-    private static String[] dateDictionary = { "ddMMyyyy", "ddMMMMyyyy", "MMMMddyyyy"};
-    private static String[] timeDictionary = { "HHmm", "hhmma", "hha" };
+    public enum TimeType {
+        NONE, TIME, DATE
+    };
+    
+    public static String FORMAT_COMMON = "dd/MM/yyyy HH:mm";
+    public static String FORMAT_DATE = "dd/MM/yyyy";
+    private static String[] DICTIONARY_DATE = { "ddMMyyyy", "ddMMMMyyyy", "MMMMddyyyy"};
+    private static String[] DICTIONARY_TIME = { "HHmm", "hhmma", "hha" };
     
     private Date guess(String input, String[] dict) throws Exception {
         HashSet<Date> result = new HashSet<Date>();
@@ -25,7 +29,7 @@ public class Clock {
             }
         }
         if (result.isEmpty()) {
-            throw new Exception("zzzz");
+            throw new Exception("Cannot guess this time");
         } else {
             return result.iterator().next();
         }
@@ -41,27 +45,28 @@ public class Clock {
         }
         Date date;
         if (!dateString.isEmpty()) {
-            date = guess(dateString, dateDictionary);
+            date = guess(dateString, DICTIONARY_DATE);
             tmp.setTime(date);
             result.set(GregorianCalendar.DATE, tmp.get(GregorianCalendar.DATE));
             result.set(GregorianCalendar.MONTH, tmp.get(GregorianCalendar.MONTH));
             result.set(GregorianCalendar.YEAR, tmp.get(GregorianCalendar.YEAR));
         }
         if (!timeString.isEmpty()) {
-            date = guess(timeString, timeDictionary);
+            date = guess(timeString, DICTIONARY_TIME);
             tmp.setTime(date);
             result.set(GregorianCalendar.HOUR_OF_DAY, tmp.get(GregorianCalendar.HOUR_OF_DAY));
             result.set(GregorianCalendar.MINUTE, tmp.get(GregorianCalendar.MINUTE));
         }
-        return new SimpleDateFormat(commonFormat).format(result.getTime());
+        return new SimpleDateFormat(FORMAT_COMMON).format(result.getTime());
     }
     
-    public static void main(String[] args) throws Exception {
-        Scanner sc = new Scanner(System.in);
-        String st1 = sc.nextLine();
-        String st2 = sc.nextLine();
-        new Clock().parse(st1, st2);
-        sc.close();
+    public long parseFromCommonFormat(String source) {
+        GregorianCalendar result = new GregorianCalendar();
+        try {
+            result.setTime(new SimpleDateFormat(FORMAT_COMMON).parse(source));
+        } catch (Exception e) {
+        }
+        return result.getTimeInMillis();
     }
-
+    
 }

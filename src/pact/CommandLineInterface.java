@@ -3,7 +3,7 @@ package pact;
 import parser.Parser;
 import utility.Keyword;
 
-import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -15,32 +15,34 @@ public class CommandLineInterface {
         CommandLineInterface cli = new CommandLineInterface();
         Parser commandParser = new Parser();
         EventHandler logic = new EventHandler();
-        HashMap<Keyword, String> parsedCommand = new HashMap<Keyword, String>();
+        HashMap<Keyword, String> parsedCommand;
+        ArrayList<String> result;
         System.out.println("Welome to PACT");
         System.out.println("Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\"");
         while (true) {
-            try{
+            try {
                 parsedCommand = commandParser.parse(cli.getUserCommand());
-                logic.determineCommand(parsedCommand);
-            }
-            catch(ParseException pe){
+                result = logic.determineCommand(parsedCommand);
+                for (String st : result) {
+                    System.out.println(st);
+                }
+            } catch (Exception pe) {
                 System.out.println("Please try again: Invalid command!");
                 System.out.println("Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\"");
-            } catch (Exception pe) {
-                System.out.println("Invalid format!");
+                System.out.println(pe.getMessage());
             }
         }
     }
     
-    public int printToUser(String message) {
+    public void printToUser(String message) {
         System.out.println(message);
-        return 0;
     }
     
     private String getUserCommand() { //get from Scanner or something else
         String command;
         do {
             command = scanner.nextLine();
+            command = command.trim();
         } while (command.isEmpty());
         return command;
     }

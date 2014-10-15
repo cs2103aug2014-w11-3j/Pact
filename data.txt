@@ -1,40 +1,34 @@
 {
-taskname:homeworkCS2103T
-start:Wed Oct 01 11:21:03 SGT 2014
-end:Wed Oct 01 11:21:03 SGT 2014
-type:floating
-complete:false
-archive:false
+    CONTENT: submit assignment to Ms.Isabel
+    END: 10/10/2014 23:59
+    START: 08/10/2014 20:00
+    TYPE: TIMED
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
 }
 {
-taskname:homeworkCS2101
-start:Wed Oct 01 11:21:14 SGT 2014
-end:Wed Oct 01 11:21:14 SGT 2014
-type:floating
-complete:false
-archive:true
+    CONTENT: submit assignment to Mr.Damith
+    END: 10/10/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
 }
 {
-taskname:hanrui
-start:Wed Oct 01 11:21:37 SGT 2014
-end:Wed Oct 01 11:21:37 SGT 2014
-type:floating
-complete:false
-archive:false
+    CONTENT: submit assignment to Ms.Isabel
+    END: 10/10/2014 23:59
+    START: 08/10/2014 20:00
+    TYPE: TIMED
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
 }
 {
-taskname:damith
-start:Wed Oct 01 11:23:57 SGT 2014
-end:Wed Oct 01 11:23:57 SGT 2014
-type:floating
-complete:false
-archive:true
-}
-{
-taskname:lecture
-start:Wed Oct 01 11:23:57 SGT 2014
-end:Wed Oct 01 11:23:57 SGT 2014
-type:floating
-complete:false
-archive:false
+    CONTENT: play fifa
+    END: 16/11/2014 22:00
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
 }
