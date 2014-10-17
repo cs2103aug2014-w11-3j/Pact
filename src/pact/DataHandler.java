@@ -17,9 +17,11 @@ public class DataHandler {
     private final String fileName = "data.txt";
             
     private ArrayList<Task> data;
+    private ArrayList<Task> previousData;
     
     public DataHandler() {
         data = new ArrayList<Task>();
+        previousData = new ArrayList<Task>();
         loadFile();
     }
     
@@ -134,8 +136,8 @@ public class DataHandler {
         return result;
     }
     
-    public int undo() {
-        return 0;
+    public void undo() {
+        restoreFile();
     }
     
     private void writeToFile(BufferedWriter writer) throws IOException {
@@ -175,10 +177,25 @@ public class DataHandler {
         }
     }
     
+    private void backupFile() {
+        previousData = new ArrayList<Task>();
+        for (int i = 0; i < data.size(); ++i) {
+            previousData.add(data.get(i));
+        }
+    }
+    
+    private void restoreFile() {
+        data = new ArrayList<Task>();
+        for(int i = 0; i < data.size(); ++i) {
+            data.add(previousData.get(i));
+        }
+    }
+    
     private void saveFile() {
         try {
             FileWriter fileWriter = new FileWriter(fileName);
             BufferedWriter writer = new BufferedWriter(fileWriter);
+            backupFile();
             writeToFile(writer);
             writer.close();
         } catch (IOException e) {
