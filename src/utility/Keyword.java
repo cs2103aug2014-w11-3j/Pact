@@ -9,7 +9,7 @@ public enum Keyword {
     DELETE      (new String[] { "delete", "remove" }), 
     EXIT        (new String[] { "exit", "quit", "halt" }), 
     UNDO        (new String[] { "undo", "cancel" }),
-    CLEAR       (new String[] {"clear", "deleteAll", "removeAll" }),
+    CLEAR       (new String[] { "clear", "deleteAll", "removeAll" }),
     
     METHOD      (new String[] { "method" }), 
     CONTENT     (new String[] { "content"}), 

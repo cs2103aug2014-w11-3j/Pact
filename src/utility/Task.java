@@ -76,6 +76,26 @@ public class Task {
         }
         return result;
     }
+    
+    public String getValue(Keyword key) {
+    	String value = "";
+        if (key.equals(Keyword.CONTENT)) {
+            value = content;
+        } else if (key.equals(Keyword.START)) {
+        	value = start;
+        } else if (key.equals(Keyword.END)) {
+            value = end;
+        } else if (key.equals(Keyword.TYPE)) {
+            value = String.valueOf(type);
+        } else if (key.equals(Keyword.COMPLETED)) {
+            value = String.valueOf(isCompleted);
+        } else if (key.equals(Keyword.ARCHIVED)) {
+        	value = String.valueOf(isArchived);
+        } else if (key.equals(Keyword.ALLDAY)) {
+        	value = String.valueOf(isAllDayTask);
+        }
+        return value;
+    }
 
     public void setValue(Keyword key, String value) {
         if (key.equals(Keyword.CONTENT)) {

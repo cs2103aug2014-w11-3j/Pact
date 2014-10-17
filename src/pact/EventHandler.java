@@ -12,6 +12,7 @@ public class EventHandler {
     private static final String ANNOUNCEMENT_DELETE = "Deleted Successfully.";
     private static final String ANNOUNCEMENT_UPDATE = "Updated Successfully.";
     private static final String ANNOUNCEMENT_UNDO = "Undo Successfully.";
+    private static final String ANNOUNCEMENT_CLEAR = "Cleared Successfully.";
     
     private DataHandler dataHandler = new DataHandler();
     private ArrayList<String> result = new ArrayList<String>();
@@ -28,7 +29,9 @@ public class EventHandler {
         } else if (code.equals(Keyword.UPDATE)) {
             updateTask(parameters);
         } else if (code.equals(Keyword.DELETE)) {
-            deleteTask(parameters);
+            deleteTask(parameters, false);
+        } else if (code.equals(Keyword.CLEAR)) {
+        	deleteTask(parameters, true);  
         } else if (code.equals(Keyword.UNDO)) {
             undo();
         } else {
@@ -43,15 +46,15 @@ public class EventHandler {
         for (Keyword key : parameters.keySet()) {
             value = parameters.get(key); 
             if (key.equals(Keyword.CONTENT)) {
-                task.content = value;
+                task.setValue(key, value);
             } else if (key.equals(Keyword.START)) {
-                task.start = value;
+            	task.setValue(key, value);
             } else if (key.equals(Keyword.END)) {
-                task.end = value;
+            	task.setValue(key, value);
             } else if (key.equals(Keyword.ALLDAY)) {
-                task.isAllDayTask = Boolean.parseBoolean(value);
+            	task.setValue(key, value);
             } else if (key.equals(Keyword.TYPE)) {
-                task.type = Keyword.getMeaning(value);
+            	task.setValue(key, value);
             }
         }
         dataHandler.addTask(task);
@@ -79,14 +82,18 @@ public class EventHandler {
         }
     }
 
-    private void deleteTask(HashMap<Keyword, String> parameters) {
+    private void deleteTask(HashMap<Keyword, String> parameters, Boolean clear) {
         int counter = 0;
         ArrayList<Task> queryResult = dataHandler.deleteTask(parameters.get(Keyword.CONTENT), parameters.containsKey(Keyword.FOREVER));
         if (queryResult.isEmpty()) {
             result.add(ANNOUNCEMENT_NOT_FOUND);
             return;
         }
-        result.add(ANNOUNCEMENT_DELETE);
+        if (clear == false) {
+        	result.add(ANNOUNCEMENT_DELETE);
+        } else {
+        	result.add(ANNOUNCEMENT_CLEAR);
+        }
         for (Task i : queryResult) {
             ++counter;
             result.add(Integer.toString(counter) + ". " + i.getDisplayedString());
