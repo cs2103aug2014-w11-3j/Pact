@@ -32,3 +32,52 @@
     ARCHIVED: false
     ALLDAY: false
 }
+{
+    CONTENT: hello
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: hey
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: me
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: meeee
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: heyhey
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: hey
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: i am back
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}

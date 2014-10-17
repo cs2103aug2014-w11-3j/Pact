@@ -73,10 +73,13 @@ public class Parser {
         String key, value;
         Keyword argType;
         String[] argument = input.trim().split("--");
+        
         for (int i = 0; i < argument.length; ++i) {
+           
             if (i == 0) {
                 key = "content";
                 value = argument[0].trim();
+            
             } else {
                 argument[i] = argument[i].trim() + " ";
                 String[] tmp = argument[i].split(" ", 2);
@@ -102,6 +105,7 @@ public class Parser {
         userInput = userInput.trim();
         userInput = userInput + " ";
         String[] splitString = userInput.split(" ", 2);
+       
         Keyword code = Keyword.getMeaning(splitString[0].trim());
         if (!Keyword.isCommand(code)) {
             throw new Exception("not a method");

@@ -9,7 +9,8 @@ public enum Keyword {
     DELETE      (new String[] { "delete", "remove" }), 
     EXIT        (new String[] { "exit", "quit", "halt" }), 
     UNDO        (new String[] { "undo", "cancel" }),
-
+    CLEAR       (new String[] {"clear", "deleteAll", "removeAll" }),
+    
     METHOD      (new String[] { "method" }), 
     CONTENT     (new String[] { "content"}), 
     NEWCONTENT  (new String[] { "description", "name", "task" }), 
@@ -47,7 +48,7 @@ public enum Keyword {
     }
     
     public static boolean isCommand(Keyword input) {
-        Keyword[] commandList = {CREATE, READ, DELETE, UPDATE, EXIT, UNDO};
+        Keyword[] commandList = {CREATE, READ, DELETE, UPDATE, EXIT, UNDO,CLEAR};
         return Arrays.asList(commandList).contains(input);
     }
     
@@ -62,6 +63,9 @@ public enum Keyword {
         } else if (method.equals(DELETE)) {
             argList = new Keyword[] { CONTENT, FOREVER };
         } else if (method.equals(UNDO)) {
+            argList = new Keyword[] {CONTENT};
+        } else if (method.equals(CLEAR)) {
+            argList = new Keyword[] {CONTENT};
         }
         return Arrays.asList(argList).contains(key);
     }
