@@ -65,7 +65,7 @@ public enum Keyword {
         } else if (method.equals(UNDO)) {
             argList = new Keyword[] {CONTENT};
         } else if (method.equals(CLEAR)) {
-            argList = new Keyword[] {CONTENT};
+            argList = new Keyword[] {CONTENT,FOREVER};
         }
         return Arrays.asList(argList).contains(key);
     }
