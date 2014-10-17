@@ -18,7 +18,7 @@ public class CommandLineInterface {
         HashMap<Keyword, String> parsedCommand;
         ArrayList<String> result;
         System.out.println("Welome to PACT");
-        System.out.println("Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\"");
+        System.out.println("Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\"");
         while (true) {
             try {
                 parsedCommand = commandParser.parse(cli.getUserCommand());
@@ -28,7 +28,7 @@ public class CommandLineInterface {
                 }
             } catch (Exception pe) {
                 System.out.println("Please try again: Invalid command!");
-                System.out.println("Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\"");
+              //System.out.println("Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\"");
                 System.out.println(pe.getMessage());
             }
         }

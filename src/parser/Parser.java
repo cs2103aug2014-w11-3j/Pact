@@ -8,7 +8,10 @@ import utility.Keyword;
 
 public class Parser {
 
-    public HashMap<Keyword, String> parameters = new HashMap<Keyword, String>();
+	private static final String WRONG_FORMAT_MISSING_ENDDATE = "End date required\nCorrect format :\n"
+														+ "add <taskName> --st <startDate> --en <endDate>";
+	private static final String INVALID_COMMAND = "Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\"";
+	public HashMap<Keyword, String> parameters = new HashMap<Keyword, String>();
     
     public TimeType startType;
     public TimeType endType;
@@ -22,7 +25,7 @@ public class Parser {
     
     public void configCreate() throws Exception {
         if (!startType.equals(TimeType.NONE) && !endType.equals(TimeType.NONE)) { 
-            //have both start and end
+            //have both start and end  	
             if (!startType.equals(endType)) {
                 throw new Exception("start and end must have same format");
             }
@@ -31,7 +34,7 @@ public class Parser {
         } else {
             //don't have start or don't have end
             if (!startType.equals(TimeType.NONE)) {
-                throw new Exception("must have end time if have start time");
+                throw new Exception(WRONG_FORMAT_MISSING_ENDDATE);
             }
             if (!endType.equals(TimeType.NONE)) {
                 //have end
@@ -108,7 +111,7 @@ public class Parser {
        
         Keyword code = Keyword.getMeaning(splitString[0].trim());
         if (!Keyword.isCommand(code)) {
-            throw new Exception("not a method");
+            throw new Exception(INVALID_COMMAND);
         }
         getParameters(code, splitString[1].trim());
         return parameters;
