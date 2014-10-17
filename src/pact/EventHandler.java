@@ -11,6 +11,7 @@ public class EventHandler {
     private static final String ANNOUNCEMENT_CREATE = "Added Successfully.";
     private static final String ANNOUNCEMENT_DELETE = "Deleted Successfully.";
     private static final String ANNOUNCEMENT_UPDATE = "Updated Successfully.";
+    private static final String ANNOUNCEMENT_UNDO = "Undo Successfully.";
     
     private DataHandler dataHandler = new DataHandler();
     private ArrayList<String> result = new ArrayList<String>();
@@ -29,7 +30,7 @@ public class EventHandler {
         } else if (code.equals(Keyword.DELETE)) {
             deleteTask(parameters);
         } else if (code.equals(Keyword.UNDO)) {
-            
+            undo();
         } else {
 
         }
@@ -119,8 +120,8 @@ public class EventHandler {
     }
 
 
-//    private int undo() throws Exception {
-//      status = datahandler.undo();
-//      return status;
-//  }
+    private void undo() throws Exception {
+    	 dataHandler.undo();
+    	 result.add(ANNOUNCEMENT_UNDO);
+    }
 }
