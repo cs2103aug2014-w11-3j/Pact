@@ -28,7 +28,6 @@ public class CommandLineInterface {
                 }
             } catch (Exception pe) {
                 System.out.println("Please try again: Invalid command!");
-              //System.out.println("Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\"");
                 System.out.println(pe.getMessage());
             }
         }

@@ -8,9 +8,15 @@ import utility.Keyword;
 
 public class Parser {
 
-	private static final String WRONG_FORMAT_MISSING_ENDDATE = "End date required\nCorrect format :\n"
-														+ "add <taskName> --st <startDate> --en <endDate>";
-	private static final String INVALID_COMMAND = "Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\"";
+	private static final String MISSING_ENDDATE = "End date required\n";			
+	private static final String NO_ARGUMENTS = "Arguments required\n";
+	private static final String TIMED_TASK_FORMAT = "Format for Time Task : add <taskName> --st <startDate> --en <endDate>\n";
+	private static final String DEADLINE_TASK_FORMAT = "Format for Deadline Task : add <taskName> --en <endDate>\n";
+	private static final String FlOATING_TASK_FORMAT = "Format for Floating Task : add <taskName>\n";
+	private static final String UPDATE_FORMAT = "Format for update/change : update/change <taskName> --<field> <changeToValue>\n";
+	private static final String UPDATE_DELETE = "Format for delete : delete <taskName>\n";
+	private static final String INVALID_COMMAND = "Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\" \n";
+	
 	public HashMap<Keyword, String> parameters = new HashMap<Keyword, String>();
     
     public TimeType startType;
@@ -34,7 +40,7 @@ public class Parser {
         } else {
             //don't have start or don't have end
             if (!startType.equals(TimeType.NONE)) {
-                throw new Exception(WRONG_FORMAT_MISSING_ENDDATE);
+                throw new Exception(MISSING_ENDDATE +TIMED_TASK_FORMAT);
             }
             if (!endType.equals(TimeType.NONE)) {
                 //have end
@@ -69,13 +75,12 @@ public class Parser {
 
     }
     
-    public void getParameters(Keyword method, String input) throws Exception {
+    public void getParameters(Keyword method, String[] argument) throws Exception {
         parameters.put(Keyword.METHOD, method.toString().toLowerCase());
         startType = TimeType.NONE;
         endType = TimeType.NONE;
         String key, value;
         Keyword argType;
-        String[] argument = input.trim().split("--");
         
         for (int i = 0; i < argument.length; ++i) {
            
@@ -113,7 +118,19 @@ public class Parser {
         if (!Keyword.isCommand(code)) {
             throw new Exception(INVALID_COMMAND);
         }
-        getParameters(code, splitString[1].trim());
+        userInput = splitString[1].trim();
+        String[] argument = userInput.trim().split("--");
+        
+        if (userInput.equals("")) {
+        	if (code.equals(Keyword.CREATE)) {
+        		throw new Exception(NO_ARGUMENTS + FlOATING_TASK_FORMAT +DEADLINE_TASK_FORMAT+ TIMED_TASK_FORMAT );
+        	}else if(code.equals(Keyword.UPDATE)){
+        		throw new Exception(NO_ARGUMENTS + UPDATE_FORMAT);
+        	}else if(code.equals(Keyword.DELETE)){
+        		throw new Exception(NO_ARGUMENTS + UPDATE_DELETE);
+        	}
+        }
+        getParameters(code, argument);
         return parameters;
     }
     
