@@ -17,6 +17,13 @@ public class Clock {
     private static String[] DICTIONARY_DATE = { "ddMMyyyy", "ddMMMMyyyy", "MMMMddyyyy"};
     private static String[] DICTIONARY_TIME = { "HHmm", "hhmma", "hha" };
     
+    /**
+     * Guess the time from input string using a dictionary_date or dictionary_time
+     * @param input
+     * @param dictionary
+     * @return Date
+     * @throws Exception
+     */
     private Date guess(String input, String[] dictionary) throws Exception {
         HashSet<Date> result = new HashSet<Date>();
         for (int i = 0; i < dictionary.length; ++i) {
@@ -35,6 +42,13 @@ public class Clock {
         }
     }
     
+    /**
+     * Parse and set the time into GregorianCalendar format
+     * @param dateString
+     * @param timeString
+     * @return formatted timeString
+     * @throws Exception
+     */
     public String parse(String dateString, String timeString) throws Exception {
         GregorianCalendar result = new GregorianCalendar();
         GregorianCalendar tmp = new GregorianCalendar();
@@ -60,6 +74,11 @@ public class Clock {
         return new SimpleDateFormat(FORMAT_COMMON).format(result.getTime());
     }
     
+    /**
+     * Parse source into GregorianCalendar format
+     * @param source
+     * @return
+     */
     public long parseFromCommonFormat(String source) {
         GregorianCalendar result = new GregorianCalendar();
         try {

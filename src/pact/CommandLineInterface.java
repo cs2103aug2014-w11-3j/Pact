@@ -11,6 +11,10 @@ public class CommandLineInterface {
 
     private Scanner scanner = new Scanner(System.in);
     
+    /**
+     * main method
+     * @param args
+     */
     public static void main(String[] args) {
         CommandLineInterface cli = new CommandLineInterface();
         Parser commandParser = new Parser();
@@ -37,6 +41,10 @@ public class CommandLineInterface {
         System.out.println(message);
     }*/
     
+    /**
+     * Get the user's command
+     * @return command
+     */
     private String getUserCommand() { //get from Scanner or something else
         String command;
         do {

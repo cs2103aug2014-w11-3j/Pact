@@ -22,13 +22,25 @@ public class Parser {
     private TimeType startType;
     private TimeType endType;
     
+    /**
+     * Insert isAllDay parameter into HashMap
+     * @param isAllDay
+     */
     private void setAllDay(boolean isAllDay) {
         parameters.put(Keyword.ALLDAY, Boolean.toString(isAllDay));
     }
+    /**
+     * Insert typeOfTask parameter into HashMap
+     * @param typeOfTask
+     */
     private void setType(Keyword typeOfTask) {
         parameters.put(Keyword.TYPE, typeOfTask.toString());
     }
     
+    /**
+     * set the type of Task : timed, floating, deadline 
+     * @throws Exception
+     */
     private void configCreate() throws Exception {
         if (!startType.equals(TimeType.NONE) && !endType.equals(TimeType.NONE)) { 
             //have both start and end  	
@@ -53,6 +65,13 @@ public class Parser {
         }
     }
     
+    /**
+     * Parse the string and set the TIMETYPE for the Task
+     * @param argType START/END
+     * @param value
+     * @return parsed time 
+     * @throws Exception
+     */
     private String parseTimeArg(Keyword argType, String value) throws Exception {
         if (value.contains("at")) {
             String[] tmp = value.trim().split("at", 2);
@@ -75,6 +94,12 @@ public class Parser {
 
     }
     
+    /**
+     * Process string array to get parameters and put in HashMap
+     * @param method
+     * @param argument
+     * @throws Exception
+     */
     private void getParameters(Keyword method, String[] argument) throws Exception {
         parameters.put(Keyword.METHOD, method.toString().toLowerCase());
         startType = TimeType.NONE;
@@ -108,6 +133,12 @@ public class Parser {
         }
     }
 
+    /**
+     * Parse the userInput and calls appropriate methods
+     * @param userInput
+     * @return parameters HashMap<Keyword, String>
+     * @throws Exception
+     */
     public HashMap<Keyword, String> parse(String userInput) throws Exception {
         parameters.clear();
         userInput = userInput.trim();

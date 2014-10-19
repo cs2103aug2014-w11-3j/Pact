@@ -31,10 +31,19 @@ public enum Keyword {
  
     private String[] dictionary;
 
+    /**
+     * Use a particular dictionary
+     * @param otherOptions
+     */
     private Keyword(String[] otherOptions) {
         this.dictionary = otherOptions;  
     }
     
+    /**
+     * Obtain the meaning of the command string
+     * @param code
+     * @return Keyword
+     */
     public static Keyword getMeaning(String code) {
         code = code.toLowerCase().trim();
         for (Keyword command : Keyword.values()) {
@@ -47,11 +56,22 @@ public enum Keyword {
         return INVALID;
     }
     
+    /**
+     * Check if the keyword is a command
+     * @param input
+     * @return boolean
+     */
     public static boolean isCommand(Keyword input) {
         Keyword[] commandList = {CREATE, READ, DELETE, UPDATE, EXIT, UNDO,CLEAR};
         return Arrays.asList(commandList).contains(input);
     }
     
+    /**
+     * Check if the input arguments are valid
+     * @param method
+     * @param key
+     * @return
+     */
     public static boolean isProperArgument(Keyword method, Keyword key) {
         Keyword[] argList = {};
         if (method.equals(CREATE)) {

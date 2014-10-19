@@ -18,7 +18,10 @@ public class DataHandler {
             
     private ArrayList<Task> data;
     private ArrayList<Task> previousData;
-    
+      
+    /**
+     * Initialize the DataHandler
+     */
     public DataHandler() {
         data = new ArrayList<Task>();
         previousData = new ArrayList<Task>();
@@ -39,12 +42,23 @@ public class DataHandler {
     }
     */
     
+    /**
+     * Add a task to file
+     * @param task
+     * @return status
+     */
     public int createTask(Task task) {
         data.add(task);
         saveFile();
         return 0;
     }
-        
+    
+    /**
+     * Archive/delete task
+     * @param keyword
+     * @param isDeleting
+     * @return Task that are deleted
+     */
     public ArrayList<Task> deleteTask(String keyword, boolean isDeleting) {
         ArrayList<Task> taskToDelete = readTask(keyword, true, "", "", true);
         for (int i = 0; i < data.size(); ++i) {
@@ -63,6 +77,14 @@ public class DataHandler {
         return taskToDelete;
     }
         
+    /**
+     * Updates Task
+     * @param keyword
+     * @param newContent
+     * @param start
+     * @param end
+     * @return Task that are updated
+     */
     public ArrayList<Task> updateTask(String keyword, String newContent, String start, String end) {
         ArrayList<Task> taskToDelete = readTask(keyword, true, "", "", false);
         for (int i = 0; i < data.size(); ++i) {
@@ -93,6 +115,15 @@ public class DataHandler {
         return taskToDelete;
     }
         
+    /**
+     * Get task from database
+     * @param keyword
+     * @param isExact
+     * @param start
+     * @param end
+     * @param isArchivedIncluded
+     * @return Tasks to be read
+     */
     public ArrayList<Task> readTask(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded) {
         ArrayList<Task> result = new ArrayList<Task>();
         for (int i = 0; i < data.size(); ++i) {
@@ -136,11 +167,20 @@ public class DataHandler {
         return result;
     }
     
+    /**
+     * Undo to the previous state
+     * @return status
+     */
     public int undo() {
         restoreFile();
         return 0;
     }
     
+    /**
+     * Write to file with appropriate formatting
+     * @param writer
+     * @throws IOException
+     */
     private void writeToFile(BufferedWriter writer) throws IOException {
         for (int i = 0; i < data.size(); ++i) {
             writer.write("{\n");
@@ -149,6 +189,10 @@ public class DataHandler {
         }
     }
     
+    /**
+     * Get contents of file
+     * @param read
+     */
     private void getData(BufferedReader read) {
         try {
             //while have not reached EOF
@@ -169,6 +213,9 @@ public class DataHandler {
         }
     }
     
+    /**
+     * Create a new file
+     */
     private void createNewFile() {
         File file = new File(fileName);
         try {
@@ -178,6 +225,9 @@ public class DataHandler {
         }
     }
     
+    /**
+     * Backup existing file
+     */
     private void backupFile() {
         previousData = new ArrayList<Task>();
         for (int i = 0; i < data.size(); ++i) {
@@ -185,6 +235,9 @@ public class DataHandler {
         }
     }
     
+    /**
+     * Restore previous file
+     */
     private void restoreFile() {
         data = new ArrayList<Task>();
         for(int i = 0; i < data.size(); ++i) {
@@ -192,6 +245,9 @@ public class DataHandler {
         }
     }
     
+    /**
+     * Save file
+     */
     private void saveFile() {
         try {
             FileWriter fileWriter = new FileWriter(fileName);
@@ -204,6 +260,9 @@ public class DataHandler {
         }
     }
     
+    /**
+     * load file to be read
+     */
     private void loadFile() {
         try {
             FileReader fr = new FileReader(fileName);

@@ -12,10 +12,10 @@ public class Task {
     private boolean isCompleted;
     private boolean isArchived;
     
-    /*public enum TaskType {
-        FLOATING, DEADLINE, TIMED
-    }*/
     
+    /**
+     * Construct a new Task object
+     */
     public Task() {
         this.content = "";
         this.start = "";
@@ -26,7 +26,7 @@ public class Task {
         this.isArchived = false;
     }
     
-    public Task(Task copy) {
+    /*public Task(Task copy) {
         this.content = copy.content;
         this.start = copy.start;
         this.end = copy.end;
@@ -34,8 +34,12 @@ public class Task {
         this.isCompleted = copy.isCompleted;
         this.isArchived = copy.isArchived;
         this.isAllDayTask = copy.isAllDayTask;
-    }
+    }*/
     
+    /* 
+     * Construct string to print contents of Task
+     * @return constructed string
+     */
     public String toString() {
         String result = "";
         String TAB = "    ";
@@ -53,6 +57,10 @@ public class Task {
         return result;
     }
     
+    /**
+     * Construct string to print time of Task
+     * @return 
+     */
     public String getDisplayedString() {
         String result = content;
         if (type.equals(Keyword.TIMED)) {
@@ -77,6 +85,11 @@ public class Task {
         return result;
     }
     
+    /**
+     * Get a particular value in a Task object
+     * @param key
+     * @return
+     */
     public String getValue(Keyword key) {
     	String value = "";
         if (key.equals(Keyword.CONTENT)) {
@@ -97,6 +110,11 @@ public class Task {
         return value;
     }
 
+    /**
+     * Change a particular value in a Task object 
+     * @param key
+     * @param value
+     */
     public void setValue(Keyword key, String value) {
         if (key.equals(Keyword.CONTENT)) {
             content = value;
@@ -115,6 +133,11 @@ public class Task {
         }
     }
     
+    /**
+     * convert formatted string to a Task object
+     * @param toConvert
+     * @return Task
+     */
     public static Task parseTask(String toConvert) {
         Task result = new Task();
         Scanner scanner = new Scanner(toConvert);

@@ -20,8 +20,9 @@ public class EventHandler {
     
     
     /**
+     * Use the parameters and call the appropriate methods
      * @param parameters
-     * @return
+     * @return result
      * @throws Exception
      */
     public ArrayList<String> determineCommand(HashMap<Keyword, String> parameters) throws Exception {
@@ -48,6 +49,7 @@ public class EventHandler {
     }
 
     /**
+     * Creates a new Task and calls the dataHandler to store the information
      * @param parameters
      */
     private void createTask(HashMap<Keyword, String> parameters) {
@@ -73,6 +75,10 @@ public class EventHandler {
         }
     }
 
+    /**
+     * Calls the dataHandler to read/search and store the information obtained into result
+     * @param parameters
+     */
     private void readTask(HashMap<Keyword, String> parameters) {
         boolean isExact = parameters.containsKey(Keyword.EXACT);
         int counter = 0;
@@ -100,6 +106,11 @@ public class EventHandler {
         }
     }
 
+    /**
+     * Calls the dataHandler to delete Task or clear all Tasks
+     * @param parameters
+     * @param clear
+     */
     private void deleteTask(HashMap<Keyword, String> parameters, Boolean clear) {
         int counter = 0;
         ArrayList<Task> queryResult = dataHandler.deleteTask(parameters.get(Keyword.CONTENT), parameters.containsKey(Keyword.FOREVER));
@@ -118,6 +129,10 @@ public class EventHandler {
         }
     }
 
+    /**
+     * Calls the dataHandler to update Task
+     * @param parameters
+     */
     private void updateTask(HashMap<Keyword, String> parameters) {
         int counter = 0;
         String start = "";
@@ -145,6 +160,10 @@ public class EventHandler {
     }
 
 
+    /**
+     * Calls the dataHandler to undo to the previous data
+     * @throws Exception
+     */
     private void undo() throws Exception {
     	 status = dataHandler.undo();
     	 if(status == success){
