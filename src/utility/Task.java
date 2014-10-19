@@ -12,9 +12,9 @@ public class Task {
     private boolean isCompleted;
     private boolean isArchived;
     
-    public enum TaskType {
+    /*public enum TaskType {
         FLOATING, DEADLINE, TIMED
-    }
+    }*/
     
     public Task() {
         this.content = "";

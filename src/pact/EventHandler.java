@@ -18,6 +18,12 @@ public class EventHandler {
     private DataHandler dataHandler = new DataHandler();
     private ArrayList<String> result = new ArrayList<String>();
     
+    
+    /**
+     * @param parameters
+     * @return
+     * @throws Exception
+     */
     public ArrayList<String> determineCommand(HashMap<Keyword, String> parameters) throws Exception {
         String codeString = parameters.get(Keyword.METHOD);
         Keyword code = Keyword.getMeaning(codeString);
@@ -41,6 +47,9 @@ public class EventHandler {
         return result;
     }
 
+    /**
+     * @param parameters
+     */
     private void createTask(HashMap<Keyword, String> parameters) {
         String value;
         Task task = new Task();

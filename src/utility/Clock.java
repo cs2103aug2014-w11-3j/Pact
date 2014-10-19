@@ -17,10 +17,10 @@ public class Clock {
     private static String[] DICTIONARY_DATE = { "ddMMyyyy", "ddMMMMyyyy", "MMMMddyyyy"};
     private static String[] DICTIONARY_TIME = { "HHmm", "hhmma", "hha" };
     
-    private Date guess(String input, String[] dict) throws Exception {
+    private Date guess(String input, String[] dictionary) throws Exception {
         HashSet<Date> result = new HashSet<Date>();
-        for (int i = 0; i < dict.length; ++i) {
-            SimpleDateFormat formatter = new SimpleDateFormat(dict[i]);
+        for (int i = 0; i < dictionary.length; ++i) {
+            SimpleDateFormat formatter = new SimpleDateFormat(dictionary[i]);
             try {
                 Date date = formatter.parse(input);
                 result.add(date);

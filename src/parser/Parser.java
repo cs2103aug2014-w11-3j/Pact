@@ -17,10 +17,10 @@ public class Parser {
 	private static final String UPDATE_DELETE = "Format for delete : delete <taskName>\n";
 	private static final String INVALID_COMMAND = "Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\" \n";
 	
-	public HashMap<Keyword, String> parameters = new HashMap<Keyword, String>();
+	private HashMap<Keyword, String> parameters = new HashMap<Keyword, String>();
     
-    public TimeType startType;
-    public TimeType endType;
+    private TimeType startType;
+    private TimeType endType;
     
     private void setAllDay(boolean isAllDay) {
         parameters.put(Keyword.ALLDAY, Boolean.toString(isAllDay));
@@ -29,7 +29,7 @@ public class Parser {
         parameters.put(Keyword.TYPE, typeOfTask.toString());
     }
     
-    public void configCreate() throws Exception {
+    private void configCreate() throws Exception {
         if (!startType.equals(TimeType.NONE) && !endType.equals(TimeType.NONE)) { 
             //have both start and end  	
             if (!startType.equals(endType)) {
@@ -75,7 +75,7 @@ public class Parser {
 
     }
     
-    public void getParameters(Keyword method, String[] argument) throws Exception {
+    private void getParameters(Keyword method, String[] argument) throws Exception {
         parameters.put(Keyword.METHOD, method.toString().toLowerCase());
         startType = TimeType.NONE;
         endType = TimeType.NONE;

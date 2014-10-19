@@ -33,9 +33,9 @@ public class CommandLineInterface {
         }
     }
     
-    public void printToUser(String message) {
+/*    public void printToUser(String message) {
         System.out.println(message);
-    }
+    }*/
     
     private String getUserCommand() { //get from Scanner or something else
         String command;

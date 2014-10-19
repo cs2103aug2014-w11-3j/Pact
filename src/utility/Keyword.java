@@ -28,18 +28,18 @@ public enum Keyword {
     DEADLINE    (new String[] { "deadline" }),
 
     INVALID     (new String[] {});
-
-    public String[] dict;
+ 
+    private String[] dictionary;
 
     private Keyword(String[] otherOptions) {
-        this.dict = otherOptions;  
+        this.dictionary = otherOptions;  
     }
     
     public static Keyword getMeaning(String code) {
         code = code.toLowerCase().trim();
         for (Keyword command : Keyword.values()) {
             if (command != INVALID) {
-                if (Arrays.asList(command.dict).contains(code)) {
+                if (Arrays.asList(command.dictionary).contains(code)) {
                     return command;
                 }
             }
