@@ -4,13 +4,13 @@ import java.util.Scanner;
 
 public class Task {
     
-    public String content;
-    public String start;
-    public String end;
-    public Keyword type;
-    public boolean isAllDayTask;
-    public boolean isCompleted;
-    public boolean isArchived;
+    private String content;
+    private String start;
+    private String end;
+    private Keyword type;
+    private boolean isAllDayTask;
+    private boolean isCompleted;
+    private boolean isArchived;
     
     public enum TaskType {
         FLOATING, DEADLINE, TIMED

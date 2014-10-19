@@ -13,7 +13,8 @@ public class EventHandler {
     private static final String ANNOUNCEMENT_UPDATE = "Updated Successfully.";
     private static final String ANNOUNCEMENT_UNDO = "Undo Successfully.";
     private static final String ANNOUNCEMENT_CLEAR = "Cleared Successfully.";
-    
+    private static final int success = 0;
+    private static int status;
     private DataHandler dataHandler = new DataHandler();
     private ArrayList<String> result = new ArrayList<String>();
     
@@ -23,9 +24,9 @@ public class EventHandler {
         result.clear();
         
         if (code.equals(Keyword.CREATE)) {
-            addTask(parameters);
+            createTask(parameters);
         } else if (code.equals(Keyword.READ)) {
-            searchTask(parameters);
+            readTask(parameters);
         } else if (code.equals(Keyword.UPDATE)) {
             updateTask(parameters);
         } else if (code.equals(Keyword.DELETE)) {
@@ -40,7 +41,7 @@ public class EventHandler {
         return result;
     }
 
-    private void addTask(HashMap<Keyword, String> parameters) {
+    private void createTask(HashMap<Keyword, String> parameters) {
         String value;
         Task task = new Task();
         for (Keyword key : parameters.keySet()) {
@@ -57,22 +58,30 @@ public class EventHandler {
             	task.setValue(key, value);
             }
         }
-        dataHandler.addTask(task);
-        result.add(ANNOUNCEMENT_CREATE);
+        status = dataHandler.createTask(task);
+        if(status == success){
+        	result.add(ANNOUNCEMENT_CREATE);
+        }
     }
 
-    private void searchTask(HashMap<Keyword, String> parameters) {
+    private void readTask(HashMap<Keyword, String> parameters) {
         boolean isExact = parameters.containsKey(Keyword.EXACT);
         int counter = 0;
         String start = "";
         String end = "";
+        boolean isArchivedIncluded = false; 
+        
         if (parameters.containsKey(Keyword.START)) {
             start = parameters.get(Keyword.START);
         }
         if (parameters.containsKey(Keyword.END)) {
             end = parameters.get(Keyword.END);
         }
-        ArrayList<Task> queryResult = dataHandler.searchTask(parameters.get(Keyword.CONTENT), isExact, start, end, false);
+        if (parameters.containsKey(Keyword.ARCHIVED)) {
+        	isArchivedIncluded = Boolean.valueOf(parameters.get(Keyword.ARCHIVED));
+        }
+        
+        ArrayList<Task> queryResult = dataHandler.readTask(parameters.get(Keyword.CONTENT), isExact, start, end, isArchivedIncluded);
         for (Task i : queryResult) {
             ++counter;
             result.add(Integer.toString(counter) + ". " + i.getDisplayedString());
@@ -128,7 +137,9 @@ public class EventHandler {
 
 
     private void undo() throws Exception {
-    	 dataHandler.undo();
-    	 result.add(ANNOUNCEMENT_UNDO);
+    	 status = dataHandler.undo();
+    	 if(status == success){
+    		 result.add(ANNOUNCEMENT_UNDO);
+    	 }
     }
 }

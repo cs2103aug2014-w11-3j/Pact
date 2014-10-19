@@ -39,21 +39,21 @@ public class DataHandler {
     }
     */
     
-    public int addTask(Task task) {
+    public int createTask(Task task) {
         data.add(task);
         saveFile();
         return 0;
     }
         
     public ArrayList<Task> deleteTask(String keyword, boolean isDeleting) {
-        ArrayList<Task> taskToDelete = searchTask(keyword, true, "", "", true);
+        ArrayList<Task> taskToDelete = readTask(keyword, true, "", "", true);
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
-                if (data.get(i).content.equals(taskToDelete.get(j).content)) {
+                if (data.get(i).getValue(Keyword.CONTENT).equals(taskToDelete.get(j).getValue(Keyword.CONTENT))) {
                     if (isDeleting) {
                         data.remove(i);
                     } else {
-                        data.get(i).isArchived = true;
+                        data.get(i).setValue(Keyword.ARCHIVED, "true");
                     }
                     break;
                 }
@@ -64,24 +64,24 @@ public class DataHandler {
     }
         
     public ArrayList<Task> updateTask(String keyword, String newContent, String start, String end) {
-        ArrayList<Task> taskToDelete = searchTask(keyword, true, "", "", false);
+        ArrayList<Task> taskToDelete = readTask(keyword, true, "", "", false);
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
-                if (data.get(i).content.equals(taskToDelete.get(j).content)) {
+                if (data.get(i).getValue(Keyword.CONTENT).equals(taskToDelete.get(j).getValue(Keyword.CONTENT))) {
 
                     if (!newContent.isEmpty()) {
-                        data.get(i).content = newContent; 
+                        data.get(i).setValue(Keyword.CONTENT, newContent); 
                     }
-                    if (data.get(i).type.equals(Keyword.TIMED)) {
+                    if (data.get(i).getValue(Keyword.TYPE).equals(Keyword.TIMED)) {
                         if (!start.isEmpty()) {
-                            data.get(i).start = start;
+                            data.get(i).setValue(Keyword.START, start);
                         }
                         if (!end.isEmpty()) {
-                            data.get(i).end = end;
+                            data.get(i).setValue(Keyword.END, end);
                         }
-                    } else if (data.get(i).type.equals(Keyword.DEADLINE)) {
+                    } else if (data.get(i).getValue(Keyword.TYPE).equals(Keyword.DEADLINE)) {
                         if (!end.isEmpty()) {
-                            data.get(i).end = end;
+                            data.get(i).setValue(Keyword.END, end);
                         }
                     } 
                     break;
@@ -93,30 +93,30 @@ public class DataHandler {
         return taskToDelete;
     }
         
-    public ArrayList<Task> searchTask(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded) {
+    public ArrayList<Task> readTask(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded) {
         ArrayList<Task> result = new ArrayList<Task>();
         for (int i = 0; i < data.size(); ++i) {
             if (!isArchivedIncluded) {
-                if (data.get(i).isArchived) {
+                if (data.get(i).getValue(Keyword.ARCHIVED).equals("true")) {
                     continue;
                 }
             }
             if (isExact) {
-                if (!data.get(i).content.contentEquals(keyword)) {
+                if (!data.get(i).getValue(Keyword.CONTENT).contentEquals(keyword)) {
                     continue;
                 }
             } else {
-                if (!data.get(i).content.contains(keyword)) {
+                if (!data.get(i).getValue(Keyword.CONTENT).contains(keyword)) {
                     continue;
                 }
             }
             if (!start.isEmpty() || !end.isEmpty()) {
-                String taskStart = data.get(i).start;
-                String taskEnd = data.get(i).end;
-                if (data.get(i).type.equals(Keyword.FLOATING)) {
+                String taskStart = data.get(i).getValue(Keyword.START);
+                String taskEnd = data.get(i).getValue(Keyword.END);
+                if (data.get(i).getValue(Keyword.TYPE).equals(Keyword.FLOATING)) {
                     continue;
                 }
-                if (data.get(i).type.equals(Keyword.DEADLINE)) {
+                if (data.get(i).getValue(Keyword.TYPE).equals(Keyword.DEADLINE)) {
                     taskStart = taskEnd;
                 }
                 Clock clock = new Clock();
@@ -136,8 +136,9 @@ public class DataHandler {
         return result;
     }
     
-    public void undo() {
+    public int undo() {
         restoreFile();
+        return 0;
     }
     
     private void writeToFile(BufferedWriter writer) throws IOException {
