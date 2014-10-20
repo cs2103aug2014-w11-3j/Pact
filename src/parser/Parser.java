@@ -16,7 +16,8 @@ public class Parser {
 	private static final String UPDATE_FORMAT = "Format for update/change : update/change <taskName> --<field> <changeToValue>\n";
 	private static final String UPDATE_DELETE = "Format for delete : delete <taskName>\n";
 	private static final String INVALID_COMMAND = "Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\" \n";
-	
+	private static final String NON_MATCHING_FORMAT = "Start and end time must have the same format\n";
+	private static final String IMPROPER_ARGUMENT = "Argument is invalid";
 	private HashMap<Keyword, String> parameters = new HashMap<Keyword, String>();
     
     private TimeType startType;
@@ -45,7 +46,7 @@ public class Parser {
         if (!startType.equals(TimeType.NONE) && !endType.equals(TimeType.NONE)) { 
             //have both start and end  	
             if (!startType.equals(endType)) {
-                throw new Exception("start and end must have same format");
+                throw new Exception(NON_MATCHING_FORMAT);
             }
             setType(Keyword.TIMED);
             setAllDay(endType.equals(TimeType.DATE));
@@ -121,7 +122,7 @@ public class Parser {
             }
             argType = Keyword.getMeaning(key);
             if (!Keyword.isProperArgument(method, argType)) {
-                throw new Exception("not a proper argument");
+                throw new Exception(IMPROPER_ARGUMENT);
             }
             if (argType.equals(Keyword.START) || argType.equals(Keyword.END)) {
                 value = parseTimeArg(argType, value);
