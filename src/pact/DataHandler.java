@@ -18,6 +18,7 @@ public class DataHandler {
             
     private ArrayList<Task> data;
     private ArrayList<Task> previousData;
+    private ArrayList<Task> temp;
       
     /**
      * Initialize the DataHandler
@@ -48,6 +49,7 @@ public class DataHandler {
      * @return status
      */
     public int createTask(Task task) {
+    	backupFile();
         data.add(task);
         saveFile();
         return 0;
@@ -60,6 +62,7 @@ public class DataHandler {
      * @return Task that are deleted
      */
     public ArrayList<Task> deleteTask(String keyword, boolean isDeleting) {
+    	backupFile();
         ArrayList<Task> taskToDelete = readTask(keyword, true, "", "", true);
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
@@ -86,6 +89,7 @@ public class DataHandler {
      * @return Task that are updated
      */
     public ArrayList<Task> updateTask(String keyword, String newContent, String start, String end) {
+    	backupFile();
         ArrayList<Task> taskToDelete = readTask(keyword, true, "", "", false);
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
@@ -239,10 +243,19 @@ public class DataHandler {
      * Restore previous file
      */
     private void restoreFile() {
-        data = new ArrayList<Task>();
+    	temp = new ArrayList<Task>();
         for(int i = 0; i < data.size(); ++i) {
+            temp.add(data.get(i));
+        }
+        data = new ArrayList<Task>();
+        for(int i = 0; i < previousData.size(); ++i) {
             data.add(previousData.get(i));
         }
+        previousData = new ArrayList<Task>();
+        for(int i = 0; i < temp.size(); ++i) {
+            previousData.add(temp.get(i));
+        }
+        saveFile();
     }
     
     /**
@@ -251,8 +264,7 @@ public class DataHandler {
     private void saveFile() {
         try {
             FileWriter fileWriter = new FileWriter(fileName);
-            BufferedWriter writer = new BufferedWriter(fileWriter);
-            backupFile();
+            BufferedWriter writer = new BufferedWriter(fileWriter);           
             writeToFile(writer);
             writer.close();
         } catch (IOException e) {
