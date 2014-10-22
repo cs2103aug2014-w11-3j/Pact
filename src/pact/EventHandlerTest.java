@@ -1,6 +1,6 @@
 package pact;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -55,7 +55,7 @@ public class EventHandlerTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		assertTrue(result.get(0).equals("Added Successfully."));
+		assertEquals(result.get(0), "Added Successfully.");
 		result.clear();
 		hm.clear();
 	
@@ -68,7 +68,7 @@ public class EventHandlerTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		assertTrue(result.get(0).equals("Added Successfully."));
+		assertEquals(result.get(0), "Added Successfully.");
 
 		result.clear();
 		hm.clear();
@@ -79,7 +79,7 @@ public class EventHandlerTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		assertTrue(result.get(0).equals("Undo Successfully."));
+		assertEquals(result.get(0) , "Undo Successfully.");
 		
 		result.clear();
 		hm.clear();
@@ -90,7 +90,7 @@ public class EventHandlerTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		assertTrue(result.get(0).equals("1. Visit the zoo"));
+		assertEquals(result.get(0), "1. Visit the zoo");
 		
 	}
 
