@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
 
 public class Clock {
     
@@ -15,7 +14,7 @@ public class Clock {
     public static String FORMAT_COMMON = "dd/MM/yyyy HH:mm";
     public static String FORMAT_DATE = "dd/MM/yyyy";
     private static String[] DICTIONARY_DATE = { "ddMMyyyy", "ddMMMMyyyy", "MMMMddyyyy"};
-    private static String[] DICTIONARY_TIME = { "HHmm", "hhmma", "hha" };
+    private static String[] DICTIONARY_TIME = { "hhmma", "hha", "HHmm" };
     
     /**
      * Guess the time from input string using a dictionary_date or dictionary_time
@@ -25,21 +24,16 @@ public class Clock {
      * @throws Exception
      */
     private Date guess(String input, String[] dictionary) throws Exception {
-        HashSet<Date> result = new HashSet<Date>();
         for (int i = 0; i < dictionary.length; ++i) {
             SimpleDateFormat formatter = new SimpleDateFormat(dictionary[i]);
             try {
                 Date date = formatter.parse(input);
-                result.add(date);
+                return date;
             } catch (ParseException e) {
                 //not suitable, don't need to do anything
             }
         }
-        if (result.isEmpty()) {
-            throw new Exception("Cannot guess this time");
-        } else {
-            return result.iterator().next();
-        }
+        throw new Exception("Cannot guess this time");
     }
     
     /**
