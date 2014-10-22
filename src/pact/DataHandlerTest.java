@@ -16,7 +16,8 @@ public class DataHandlerTest {
     
     @Test
     public void test() {
-        dh.deleteTask("",true);
+        dh.deleteTask("",true);     //clear the data first, start the test with empty data
+        
     }
 
 }
