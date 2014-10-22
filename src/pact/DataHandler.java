@@ -63,12 +63,17 @@ public class DataHandler {
      */
     public ArrayList<Task> deleteTask(String keyword, boolean isDeleting) {
     	backupFile();
-        ArrayList<Task> taskToDelete = readTask(keyword, true, "", "", true);
+        ArrayList<Task> taskToDelete = readTask(keyword, false, "", "", true);
+        for (int i = 0; i < taskToDelete.size(); ++i)
+        {
+               System.out.println(taskToDelete.get(i).getValue(Keyword.CONTENT));
+        }
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
                 if (data.get(i).getValue(Keyword.CONTENT).equals(taskToDelete.get(j).getValue(Keyword.CONTENT))) {
                     if (isDeleting) {
                         data.remove(i);
+                        --i;
                     } else {
                         data.get(i).setValue(Keyword.ARCHIVED, "true");
                     }
@@ -90,7 +95,7 @@ public class DataHandler {
      */
     public ArrayList<Task> updateTask(String keyword, String newContent, String start, String end) {
     	backupFile();
-        ArrayList<Task> taskToDelete = readTask(keyword, true, "", "", false);
+        ArrayList<Task> taskToDelete = readTask(keyword, false, "", "", false);
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
                 if (data.get(i).getValue(Keyword.CONTENT).equals(taskToDelete.get(j).getValue(Keyword.CONTENT))) {
