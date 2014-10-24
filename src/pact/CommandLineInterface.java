@@ -31,7 +31,7 @@ public class CommandLineInterface {
                     System.out.println(st);
                 }
             } catch (Exception pe) {
-                System.out.println("Please try again: Invalid command!");
+                System.out.println("You have entered an invalid instruction. Please try again!");
                 System.out.println(pe.getMessage());
             }
         }

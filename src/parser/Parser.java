@@ -10,7 +10,7 @@ public class Parser {
 
 	private static final String MISSING_ENDDATE = "End date required\n";			
 	private static final String NO_ARGUMENTS = "Arguments required\n";
-	private static final String TIMED_TASK_FORMAT = "Format for Time Task : add <taskName> --st <startDate> at <time> --en <endDate>\n at <time>";
+	private static final String TIMED_TASK_FORMAT = "Format for Time Task : add <taskName> --st <startDate> at <time> --en <endDate> at <time>\n";
 	private static final String DEADLINE_TASK_FORMAT = "Format for Deadline Task : add <taskName> --en <endDate> at <time>\n";
 	private static final String FlOATING_TASK_FORMAT = "Format for Floating Task : add <taskName>\n";
 	private static final String UPDATE_FORMAT = "Format for update/change : update/change <taskName> --<field> <changeToValue>\n";
@@ -18,6 +18,7 @@ public class Parser {
 	private static final String INVALID_COMMAND = "Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\" \n";
 	private static final String NON_MATCHING_FORMAT = "Start and end time must have the same format\n";
 	private static final String IMPROPER_ARGUMENT = "Argument is invalid";
+	private static final String INCORRECT_TIME_FORMAT = "Incorrect format to add time\n";
 	private HashMap<Keyword, String> parameters = new HashMap<Keyword, String>();
     
     private TimeType startType;
@@ -76,6 +77,7 @@ public class Parser {
     private String parseTimeArg(Keyword argType, String value) throws Exception {
         if (value.contains("at")) {
             String[] tmp = value.trim().split("at", 2);
+            
             value = new Clock().parse(tmp[0], tmp[1]);
             if (argType.equals(Keyword.START)) {
                 startType = TimeType.TIME;
@@ -83,6 +85,13 @@ public class Parser {
                 endType = TimeType.TIME;
             }
         } else {
+            String delims = "[ ]+";
+            String[] tmp = value.trim().split(delims);
+            if(tmp.length > 3) {
+                throw new Exception(INCORRECT_TIME_FORMAT +TIMED_TASK_FORMAT +DEADLINE_TASK_FORMAT);
+            }
+           
+            
             if (argType.equals(Keyword.START)) {
                 value = new Clock().parse(value, "0000");
                 startType = TimeType.DATE;
@@ -94,6 +103,7 @@ public class Parser {
         return value;
 
     }
+    
     
     /**
      * Process string array to get parameters and put in HashMap
@@ -121,6 +131,7 @@ public class Parser {
                 value = tmp[1].trim();
             }
             argType = Keyword.getMeaning(key);
+            
             if (!Keyword.isProperArgument(method, argType)) {
                 throw new Exception(IMPROPER_ARGUMENT);
             }
