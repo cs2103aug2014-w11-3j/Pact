@@ -10,8 +10,8 @@ public class Parser {
 
 	private static final String MISSING_ENDDATE = "End date required\n";			
 	private static final String NO_ARGUMENTS = "Arguments required\n";
-	private static final String TIMED_TASK_FORMAT = "Format for Time Task : add <taskName> --st <startDate> --en <endDate>\n";
-	private static final String DEADLINE_TASK_FORMAT = "Format for Deadline Task : add <taskName> --en <endDate>\n";
+	private static final String TIMED_TASK_FORMAT = "Format for Time Task : add <taskName> --st <startDate> at <time> --en <endDate>\n at <time>";
+	private static final String DEADLINE_TASK_FORMAT = "Format for Deadline Task : add <taskName> --en <endDate> at <time>\n";
 	private static final String FlOATING_TASK_FORMAT = "Format for Floating Task : add <taskName>\n";
 	private static final String UPDATE_FORMAT = "Format for update/change : update/change <taskName> --<field> <changeToValue>\n";
 	private static final String UPDATE_DELETE = "Format for delete : delete <taskName>\n";
