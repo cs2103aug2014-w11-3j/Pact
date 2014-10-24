@@ -17,7 +17,7 @@ public class Parser {
 	private static final String UPDATE_DELETE = "Format for delete : delete <taskName>\n";
 	private static final String INVALID_COMMAND = "Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\" \n";
 	private static final String NON_MATCHING_FORMAT = "Start and end time must have the same format\n";
-	private static final String IMPROPER_ARGUMENT = "Argument is invalid";
+	private static final String IMPROPER_ARGUMENT = "Argument is invalid\n";
 	private static final String INCORRECT_TIME_FORMAT = "Incorrect format to add time\n";
 	private HashMap<Keyword, String> parameters = new HashMap<Keyword, String>();
     
@@ -77,7 +77,6 @@ public class Parser {
     private String parseTimeArg(Keyword argType, String value) throws Exception {
         if (value.contains("at")) {
             String[] tmp = value.trim().split("at", 2);
-            
             value = new Clock().parse(tmp[0], tmp[1]);
             if (argType.equals(Keyword.START)) {
                 startType = TimeType.TIME;
@@ -87,11 +86,9 @@ public class Parser {
         } else {
             String delims = "[ ]+";
             String[] tmp = value.trim().split(delims);
-            if(tmp.length > 3) {
+            if (tmp.length > 3) {
                 throw new Exception(INCORRECT_TIME_FORMAT +TIMED_TASK_FORMAT +DEADLINE_TASK_FORMAT);
             }
-           
-            
             if (argType.equals(Keyword.START)) {
                 value = new Clock().parse(value, "0000");
                 startType = TimeType.DATE;
