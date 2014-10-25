@@ -8,12 +8,12 @@ import utility.Task;
 public class EventHandler {
     
     private static final String ANNOUNCEMENT_NOT_FOUND = "Sorry, nothing found.";
-    private static final String ANNOUNCEMENT_CREATE = "Added Successfully.";
-    private static final String ANNOUNCEMENT_READ = "Search Successfully.";
-    private static final String ANNOUNCEMENT_DELETE = "Deleted Successfully.";
-    private static final String ANNOUNCEMENT_UPDATE = "Updated Successfully.";
-    private static final String ANNOUNCEMENT_UNDO = "Undo Successfully.";
-    private static final String ANNOUNCEMENT_CLEAR = "Cleared Successfully.";
+    private static final String ANNOUNCEMENT_CREATE = "Task was added successfully.";
+    private static final String ANNOUNCEMENT_READ = "Search was successful.";
+    private static final String ANNOUNCEMENT_DELETE = "Task was deleted successfully.";
+    private static final String ANNOUNCEMENT_UPDATE = "Task was updated successfully.";
+    private static final String ANNOUNCEMENT_UNDO = "Undo was successful.";
+    private static final String ANNOUNCEMENT_CLEAR = "All tasks cleared successfully.";
     private DataHandler dataHandler = new DataHandler();
     private ArrayList<String> result = new ArrayList<String>();
     
