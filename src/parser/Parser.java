@@ -9,21 +9,21 @@ import utility.Keyword;
 public class Parser {
 
 	private static final String MISSING_ENDDATE = "End date required\n";			
-	private static final String NO_ARGUMENTS_ADD = "Arguments required for adding a task\n";
-	private static final String NO_ARGUMENTS_UPDATE = "Arguments required for updating a task\n";
-	private static final String NO_ARGUMENTS_DELETE = "Arguments required for deleting a task\n";
+	private static final String NO_ARGUMENTS_ADD = "Arguments required for adding a task\n\n";
+	private static final String NO_ARGUMENTS_UPDATE = "Arguments required for updating a task\n\n";
+	private static final String NO_ARGUMENTS_DELETE = "Arguments required for deleting a task\n\n";
 	private static final String TIMED_TASK_FORMAT = "Format for Time Task : add <taskName> --st <startDate> at <time> --en <endDate> at <time>\n";
 	private static final String DEADLINE_TASK_FORMAT = "Format for Deadline Task : add <taskName> --en <endDate> at <time>\n";
 	private static final String FlOATING_TASK_FORMAT = "Format for Floating Task : add <taskName>\n";
 	private static final String UPDATE_FORMAT = "Format for update/change : update/change <taskName> --<field> <changeToValue>\n";
 	private static final String DELETE_FORMAT = "Format for delete : delete <taskName>\n";
-	private static final String INVALID_COMMAND = "Invalid Command/n";
+	private static final String INVALID_COMMAND = "Invalid Command\n\n";
 	private static final String AVAILABLE_COMMANDS = "Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\" \n";
 	private static final String NON_MATCHING_FORMAT = "Start and end time must have the same format\n";
 	private static final String IMPROPER_ARGUMENT = "Argument is invalid\n";
 	private static final String INCORRECT_TIME_FORMAT = "Incorrect format to add time\n";
 	private static final String EXCEEDED_CHAR_LIMIT = "Task description has exceeded 30 characters";
-	private static final String HELP = "Valid Formats:/n";
+	private static final String HELP = "Valid Formats:\n";
 	private HashMap<Keyword, String> parameters = new HashMap<Keyword, String>();
     
     private TimeType startType;
@@ -169,7 +169,7 @@ public class Parser {
         userInput = splitString[1].trim();
         String[] argument = userInput.trim().split("--");
         
-        if (userInput.equals("")) {
+        if (userInput.equals("") || (userInput.charAt(0)=='-' && userInput.charAt(1)=='-')) {
         	if (code.equals(Keyword.CREATE)) {
         		throw new Exception(NO_ARGUMENTS_ADD + HELP +FlOATING_TASK_FORMAT +DEADLINE_TASK_FORMAT+ TIMED_TASK_FORMAT );
         	}else if(code.equals(Keyword.UPDATE)){

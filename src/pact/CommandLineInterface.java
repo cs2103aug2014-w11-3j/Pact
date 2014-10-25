@@ -40,9 +40,10 @@ public class CommandLineInterface {
 
 	private void printErrorMessage(String message){
 	    
-	    System.out.println("ERROR!");
+	    System.out.println("\nERROR!");
 	    System.out.println("******************************************************************************************");
 	    System.out.println("Your command could not be processed.Please try again!");
+	    System.out.println("");
 	    System.out.println("Cause of Error:");
 	    System.out.println(message);
 	    System.out.println("******************************************************************************************");
