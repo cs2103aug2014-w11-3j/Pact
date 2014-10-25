@@ -48,11 +48,11 @@ public class DataHandler {
      * @param task
      * @return status
      */
-    public int createTask(Task task) {
+    public void createTask(Task task) {
     	backupFile();
         data.add(task);
         saveFile();
-        return 0;
+      
     }
     
     /**
@@ -176,9 +176,9 @@ public class DataHandler {
      * Undo to the previous state
      * @return status
      */
-    public int undo() {
+    public void undo() {
         restoreFile();
-        return 0;
+       
     }
     
     /**

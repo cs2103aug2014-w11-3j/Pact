@@ -9,12 +9,11 @@ public class EventHandler {
     
     private static final String ANNOUNCEMENT_NOT_FOUND = "Sorry, nothing found.";
     private static final String ANNOUNCEMENT_CREATE = "Added Successfully.";
+    private static final String ANNOUNCEMENT_READ = "Search Successfully.";
     private static final String ANNOUNCEMENT_DELETE = "Deleted Successfully.";
     private static final String ANNOUNCEMENT_UPDATE = "Updated Successfully.";
     private static final String ANNOUNCEMENT_UNDO = "Undo Successfully.";
     private static final String ANNOUNCEMENT_CLEAR = "Cleared Successfully.";
-    private static final int success = 0;
-    private static int status;
     private DataHandler dataHandler = new DataHandler();
     private ArrayList<String> result = new ArrayList<String>();
     
@@ -44,7 +43,7 @@ public class EventHandler {
             undo();
         } else {
 
-        }
+        }       
         return result;
     }
 
@@ -69,10 +68,9 @@ public class EventHandler {
             	task.setValue(key, value);
             }
         }
-        status = dataHandler.createTask(task);
-        if(status == success){
-        	result.add(ANNOUNCEMENT_CREATE);
-        }
+        dataHandler.createTask(task);
+       
+        result.add(ANNOUNCEMENT_CREATE);
     }
 
     /**
@@ -81,7 +79,7 @@ public class EventHandler {
      */
     private void readTask(HashMap<Keyword, String> parameters) {
         boolean isExact = parameters.containsKey(Keyword.EXACT);
-        int counter = 0;
+        //int counter = 0;
         String start = "";
         String end = "";
         boolean isArchivedIncluded = false; 
@@ -97,13 +95,19 @@ public class EventHandler {
         }
         
         ArrayList<Task> queryResult = dataHandler.readTask(parameters.get(Keyword.CONTENT), isExact, start, end, isArchivedIncluded);
-        for (Task i : queryResult) {
-            ++counter;
-            result.add(Integer.toString(counter) + ". " + i.getDisplayedString());
-        }
         if (queryResult.isEmpty()) {
             result.add(ANNOUNCEMENT_NOT_FOUND);
+        }else{
+        	result.add(ANNOUNCEMENT_READ);
         }
+        /*for (Task i : queryResult) {
+            ++counter;
+            result.add(Integer.toString(counter) + ". " + i.getDisplayedString());
+        }*/
+        for (Task i : queryResult) {
+            result.add(i.getDisplayedString());
+        }
+        
     }
 
     /**
@@ -112,7 +116,7 @@ public class EventHandler {
      * @param clear
      */
     private void deleteTask(HashMap<Keyword, String> parameters, Boolean clear) {
-        int counter = 0;
+        //int counter = 0;
         ArrayList<Task> queryResult = dataHandler.deleteTask(parameters.get(Keyword.CONTENT), parameters.containsKey(Keyword.FOREVER));
         if (queryResult.isEmpty()) {
             result.add(ANNOUNCEMENT_NOT_FOUND);
@@ -123,9 +127,12 @@ public class EventHandler {
         } else {
         	result.add(ANNOUNCEMENT_CLEAR);
         }
-        for (Task i : queryResult) {
+      /*  for (Task i : queryResult) {
             ++counter;
             result.add(Integer.toString(counter) + ". " + i.getDisplayedString());
+        }*/
+        for (Task i : queryResult) {
+            result.add(i.getDisplayedString());
         }
     }
 
@@ -134,7 +141,7 @@ public class EventHandler {
      * @param parameters
      */
     private void updateTask(HashMap<Keyword, String> parameters) {
-        int counter = 0;
+        //int counter = 0;
         String start = "";
         String end = "";
         String newContent = "";
@@ -153,9 +160,12 @@ public class EventHandler {
             return;
         }
         result.add(ANNOUNCEMENT_UPDATE);
-        for (Task i : queryResult) {
+       /* for (Task i : queryResult) {
             ++counter;
             result.add(Integer.toString(counter) + ". " + i.getDisplayedString());
+        }*/
+        for (Task i : queryResult) {
+            result.add(i.getDisplayedString());
         }
     }
 
@@ -165,9 +175,8 @@ public class EventHandler {
      * @throws Exception
      */
     private void undo() throws Exception {
-    	 status = dataHandler.undo();
-    	 if(status == success){
-    		 result.add(ANNOUNCEMENT_UNDO);
-    	 }
+    	dataHandler.undo();
+    	result.add(ANNOUNCEMENT_UNDO);
+   
     }
 }

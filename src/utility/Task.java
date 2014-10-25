@@ -58,7 +58,7 @@ public class Task {
     }
     
     /**
-     * Construct string to print time of Task
+     * Construct string to put into result
      * @return 
      */
     public String getDisplayedString() {
@@ -67,18 +67,18 @@ public class Task {
             String[] splitStart = start.split(" ", 2);
             String[] splitEnd = end.split(" ", 2);
             if (!isAllDayTask) {
-                result = result + " from " + splitStart[0] + " at " + splitStart[1];
-                result = result + " to " + splitEnd[0] + " at " + splitEnd[1];
+                result = result + ":" + splitStart[0] + " " + splitStart[1];
+                result = result + " " + splitEnd[0] + " " + splitEnd[1];
             } else {
-                result = result + " from " + splitStart[0];
-                result = result + " to " + splitEnd[0];
+                result = result + ":" + splitStart[0];
+                result = result + " " + splitEnd[0];
             }
         } else if (type.equals(Keyword.DEADLINE)) {
             String[] splitEnd = end.split(" ", 2);
             if (!isAllDayTask) {
-                result = result + " on " + splitEnd[0] + " at " + splitEnd[1];
+                result = result + ":" + splitEnd[0] + " " + splitEnd[1];
             } else {
-                result = result + " on " + splitEnd[0];
+                result = result + ":" + splitEnd[0];
             }
         } else if (type.equals(Keyword.FLOATING)) {
         }
