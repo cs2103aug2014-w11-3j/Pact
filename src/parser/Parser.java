@@ -19,6 +19,7 @@ public class Parser {
 	private static final String NON_MATCHING_FORMAT = "Start and end time must have the same format\n";
 	private static final String IMPROPER_ARGUMENT = "Argument is invalid\n";
 	private static final String INCORRECT_TIME_FORMAT = "Incorrect format to add time\n";
+	private static final String EXCEEDED_CHAR_LIMIT = "Task description has exceeded 30 characters";
 	private HashMap<Keyword, String> parameters = new HashMap<Keyword, String>();
     
     private TimeType startType;
@@ -120,6 +121,9 @@ public class Parser {
             if (i == 0) {
                 key = "content";
                 value = argument[0].trim();
+                if(value.length()>29){
+                    throw new Exception(EXCEEDED_CHAR_LIMIT);
+                }
             
             } else {
                 argument[i] = argument[i].trim() + " ";
