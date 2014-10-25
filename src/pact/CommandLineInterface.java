@@ -38,8 +38,11 @@ public class CommandLineInterface {
 
 	}
 
-	private void printErrorMessage(String message){
-	    
+	/**
+	 * Print error messages to user
+	 * @param message
+	 */
+	private void printErrorMessage(String message) {
 	    System.out.println("\nERROR!");
 	    System.out.println("******************************************************************************************");
 	    System.out.println("Your command could not be processed.Please try again!");
@@ -49,15 +52,7 @@ public class CommandLineInterface {
 	    System.out.println("******************************************************************************************");
 	    
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 	/**
 	 * Construct table for the user
 	 * @param result
