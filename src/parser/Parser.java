@@ -9,17 +9,21 @@ import utility.Keyword;
 public class Parser {
 
 	private static final String MISSING_ENDDATE = "End date required\n";			
-	private static final String NO_ARGUMENTS = "Arguments required\n";
+	private static final String NO_ARGUMENTS_ADD = "Arguments required for adding a task\n";
+	private static final String NO_ARGUMENTS_UPDATE = "Arguments required for updating a task\n";
+	private static final String NO_ARGUMENTS_DELETE = "Arguments required for deleting a task\n";
 	private static final String TIMED_TASK_FORMAT = "Format for Time Task : add <taskName> --st <startDate> at <time> --en <endDate> at <time>\n";
 	private static final String DEADLINE_TASK_FORMAT = "Format for Deadline Task : add <taskName> --en <endDate> at <time>\n";
 	private static final String FlOATING_TASK_FORMAT = "Format for Floating Task : add <taskName>\n";
 	private static final String UPDATE_FORMAT = "Format for update/change : update/change <taskName> --<field> <changeToValue>\n";
-	private static final String UPDATE_DELETE = "Format for delete : delete <taskName>\n";
-	private static final String INVALID_COMMAND = "Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\" \n";
+	private static final String DELETE_FORMAT = "Format for delete : delete <taskName>\n";
+	private static final String INVALID_COMMAND = "Invalid Command/n";
+	private static final String AVAILABLE_COMMANDS = "Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\" \n";
 	private static final String NON_MATCHING_FORMAT = "Start and end time must have the same format\n";
 	private static final String IMPROPER_ARGUMENT = "Argument is invalid\n";
 	private static final String INCORRECT_TIME_FORMAT = "Incorrect format to add time\n";
 	private static final String EXCEEDED_CHAR_LIMIT = "Task description has exceeded 30 characters";
+	private static final String HELP = "Valid Formats:/n";
 	private HashMap<Keyword, String> parameters = new HashMap<Keyword, String>();
     
     private TimeType startType;
@@ -55,7 +59,7 @@ public class Parser {
         } else {
             //don't have start or don't have end
             if (!startType.equals(TimeType.NONE)) {
-                throw new Exception(MISSING_ENDDATE +TIMED_TASK_FORMAT);
+                throw new Exception(MISSING_ENDDATE +HELP +TIMED_TASK_FORMAT);
             }
             if (!endType.equals(TimeType.NONE)) {
                 //have end
@@ -88,7 +92,7 @@ public class Parser {
             String delims = "[ ]+";
             String[] tmp = value.trim().split(delims);
             if (tmp.length > 3) {
-                throw new Exception(INCORRECT_TIME_FORMAT +TIMED_TASK_FORMAT +DEADLINE_TASK_FORMAT);
+                throw new Exception(INCORRECT_TIME_FORMAT +HELP +TIMED_TASK_FORMAT +DEADLINE_TASK_FORMAT);
             }
             if (argType.equals(Keyword.START)) {
                 value = new Clock().parse(value, "0000");
@@ -160,18 +164,18 @@ public class Parser {
        
         Keyword code = Keyword.getMeaning(splitString[0].trim());
         if (!Keyword.isCommand(code)) {
-            throw new Exception(INVALID_COMMAND);
+            throw new Exception(INVALID_COMMAND + AVAILABLE_COMMANDS);
         }
         userInput = splitString[1].trim();
         String[] argument = userInput.trim().split("--");
         
         if (userInput.equals("")) {
         	if (code.equals(Keyword.CREATE)) {
-        		throw new Exception(NO_ARGUMENTS + FlOATING_TASK_FORMAT +DEADLINE_TASK_FORMAT+ TIMED_TASK_FORMAT );
+        		throw new Exception(NO_ARGUMENTS_ADD + HELP +FlOATING_TASK_FORMAT +DEADLINE_TASK_FORMAT+ TIMED_TASK_FORMAT );
         	}else if(code.equals(Keyword.UPDATE)){
-        		throw new Exception(NO_ARGUMENTS + UPDATE_FORMAT);
+        		throw new Exception(NO_ARGUMENTS_UPDATE + HELP + UPDATE_FORMAT);
         	}else if(code.equals(Keyword.DELETE)){
-        		throw new Exception(NO_ARGUMENTS + UPDATE_DELETE);
+        		throw new Exception(NO_ARGUMENTS_DELETE + HELP + DELETE_FORMAT);
         	}
         }
         getParameters(code, argument);

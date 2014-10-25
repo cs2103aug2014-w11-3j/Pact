@@ -23,22 +23,40 @@ public class CommandLineInterface {
 		HashMap<Keyword, String> parsedCommand;
 		ArrayList<String> result;
 		System.out.println("Welome to PACT");
-		System.out
-				.println("Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\"");
+		System.out.println("Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\"");
 		while (true) {
 			try {
 				parsedCommand = commandParser.parse(cli.getUserCommand());
 				result = logic.determineCommand(parsedCommand);
 				cli.contructTable(result);
 			} catch (Exception pe) {
-				System.out.println("Please try again: Invalid command!");
-				System.out.println(pe.getMessage());
+				//System.out.println("Your command could not be processed.Please try again!");
+				cli.printErrorMessage(pe.getMessage());
 			}
 
 		}
 
 	}
 
+	private void printErrorMessage(String message){
+	    
+	    System.out.println("ERROR!");
+	    System.out.println("******************************************************************************************");
+	    System.out.println("Your command could not be processed.Please try again!");
+	    System.out.println("Cause of Error:");
+	    System.out.println(message);
+	    System.out.println("******************************************************************************************");
+	    
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Construct table for the user
 	 * @param result
