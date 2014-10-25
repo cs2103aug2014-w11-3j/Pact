@@ -179,4 +179,5 @@ public class CommandLineInterface {
 		} while (command.isEmpty());
 		return command;
 	}
+
 }
