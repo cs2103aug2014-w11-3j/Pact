@@ -169,7 +169,7 @@ public class Parser {
         userInput = splitString[1].trim();
         String[] argument = userInput.trim().split("--");
         
-        if (code.equals(Keyword.EXIT)) {
+        if (code.equals(Keyword.QEXIT)) {
             throw new Exception("get the hell out of here");
         }
         

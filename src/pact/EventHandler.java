@@ -41,8 +41,8 @@ public class EventHandler {
         	deleteTask(parameters, true);  
         } else if (code.equals(Keyword.UNDO)) {
             undo();
-        } else {
-
+        } else if(code.equals(Keyword.EXIT)){
+        	readTask(parameters);
         }       
         return result;
     }

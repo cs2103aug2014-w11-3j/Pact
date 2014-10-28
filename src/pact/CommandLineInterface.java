@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 
 import jline.ArgumentCompletor;
 import jline.ConsoleReader;
@@ -16,7 +15,6 @@ import utility.Keyword;
 
 public class CommandLineInterface {
 
-	private Scanner scanner = new Scanner(System.in);
 	private String[] commandList = new String[] { "create", "update", "delete", "search", "display", "undo", "exit" };
 
 	/**
@@ -30,13 +28,21 @@ public class CommandLineInterface {
 		EventHandler logic = new EventHandler();
 		HashMap<Keyword, String> parsedCommand;
 		ArrayList<String> result;
+		String userCommand;
 		System.out.println("Welome to PACT");
 		System.out.println("Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\"");
 		while (true) {
 			try {
-				parsedCommand = commandParser.parse(cli.getUserCommand());
+				userCommand = cli.getUserCommand();
+				parsedCommand = commandParser.parse(userCommand);
 				result = logic.determineCommand(parsedCommand);
 				cli.contructTable(result);
+				if(Keyword.getMeaning(userCommand).equals(Keyword.EXIT)){
+					System.out.println("Are you sure you want to exit? Yes/No");
+					if(cli.getUserCommand().equals("Yes")){
+						System.exit(0);
+					}
+				}
 			} catch (Exception pe) {
 				//System.out.println("Your command could not be processed.Please try again!");
 				if (pe.getMessage().equals("get the hell out of here")) {
