@@ -169,6 +169,10 @@ public class Parser {
         userInput = splitString[1].trim();
         String[] argument = userInput.trim().split("--");
         
+        if (code.equals(Keyword.EXIT)) {
+            throw new Exception("get the hell out of here");
+        }
+        
         if (userInput.equals("") || (userInput.charAt(0)=='-' && userInput.charAt(1)=='-')) {
         	if (code.equals(Keyword.CREATE)) {
         		throw new Exception(NO_ARGUMENTS_ADD + HELP +FlOATING_TASK_FORMAT +DEADLINE_TASK_FORMAT+ TIMED_TASK_FORMAT );

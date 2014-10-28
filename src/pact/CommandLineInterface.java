@@ -17,7 +17,7 @@ import utility.Keyword;
 public class CommandLineInterface {
 
 	private Scanner scanner = new Scanner(System.in);
-	private String[] commandList = new String[] { "create", "update", "delete", "search", "display", "undo" };
+	private String[] commandList = new String[] { "create", "update", "delete", "search", "display", "undo", "exit" };
 
 	/**
 	 * main method
@@ -39,7 +39,10 @@ public class CommandLineInterface {
 				cli.contructTable(result);
 			} catch (Exception pe) {
 				//System.out.println("Your command could not be processed.Please try again!");
-				cli.printErrorMessage(pe.getMessage());
+				if (pe.getMessage().equals("get the hell out of here")) {
+				    return;
+				}
+			    cli.printErrorMessage(pe.getMessage());
 			}
 
 		}
