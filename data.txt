@@ -3,6 +3,21 @@
     END: 20/01/2015 23:59
     TYPE: DEADLINE
     COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: false
+}
+{
+    CONTENT: task1
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: task3
+    END: 12/10/2014 12:00
+    TYPE: DEADLINE
+    COMPLETED: false
     ARCHIVED: false
     ALLDAY: true
 }

@@ -190,7 +190,7 @@ public class CommandLineInterface {
 
 	private String readLine(ConsoleReader reader)
             throws IOException {
-        String line = reader.readLine("");
+        String line = reader.readLine(">> ");
         return line.trim();
     }
 	
@@ -210,6 +210,7 @@ public class CommandLineInterface {
         PrintWriter out = new PrintWriter(System.out);
 		
 		do {
+		    //System.out.print(">> ");
 			command = readLine(reader);
 			out.flush();
 		} while (command.isEmpty());
