@@ -63,7 +63,7 @@ public class DataHandler {
      */
     public ArrayList<Task> deleteTask(String keyword, boolean isDeleting) {
     	backupFile();
-        ArrayList<Task> taskToDelete = readTask(keyword, false, "", "", true);
+        ArrayList<Task> taskToDelete = readTask(keyword, false, "", "", false);
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
                 if (data.get(i).getValue(Keyword.CONTENT).equals(taskToDelete.get(j).getValue(Keyword.CONTENT))) {

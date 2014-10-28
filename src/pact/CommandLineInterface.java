@@ -1,15 +1,23 @@
 package pact;
 
-import parser.Parser;
-import utility.Keyword;
-
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
+
+import jline.ArgumentCompletor;
+import jline.ConsoleReader;
+import jline.SimpleCompletor;
+import parser.Parser;
+import utility.Keyword;
 
 public class CommandLineInterface {
 
 	private Scanner scanner = new Scanner(System.in);
+	private String[] commandList = new String[] { "create", "update", "delete", "search", "display", "undo" };
 
 	/**
 	 * main method
@@ -180,16 +188,30 @@ public class CommandLineInterface {
 		System.out.println("****************************************************************************");		
 	}
 
+	private String readLine(ConsoleReader reader)
+            throws IOException {
+        String line = reader.readLine("");
+        return line.trim();
+    }
+	
 	/**
 	 * Get the user's command
 	 * 
 	 * @return command
 	 */
-	private String getUserCommand() { // get from Scanner or something else
+	private String getUserCommand() throws IOException { // get from Scanner or something else
 		String command;
+		
+		ConsoleReader reader = new ConsoleReader();
+        reader.setBellEnabled(false);
+        List<SimpleCompletor> completors = new LinkedList<SimpleCompletor>();
+        completors.add(new SimpleCompletor(commandList));
+        reader.addCompletor(new ArgumentCompletor(completors));
+        PrintWriter out = new PrintWriter(System.out);
+		
 		do {
-			command = scanner.nextLine();
-			command = command.trim();
+			command = readLine(reader);
+			out.flush();
 		} while (command.isEmpty());
 		return command;
 	}
