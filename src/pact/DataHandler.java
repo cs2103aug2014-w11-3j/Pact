@@ -95,18 +95,18 @@ public class DataHandler {
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
                 if (data.get(i).getValue(Keyword.CONTENT).equals(taskToDelete.get(j).getValue(Keyword.CONTENT))) {
-
+                    System.out.println(data.get(i).getValue(Keyword.TYPE));
                     if (!newContent.isEmpty()) {
                         data.get(i).setValue(Keyword.CONTENT, newContent); 
                     }
-                    if (data.get(i).getValue(Keyword.TYPE).equals(Keyword.TIMED)) {
+                    if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.TIMED)) {
                         if (!start.isEmpty()) {
                             data.get(i).setValue(Keyword.START, start);
                         }
                         if (!end.isEmpty()) {
                             data.get(i).setValue(Keyword.END, end);
                         }
-                    } else if (data.get(i).getValue(Keyword.TYPE).equals(Keyword.DEADLINE)) {
+                    } else if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)) {
                         if (!end.isEmpty()) {
                             data.get(i).setValue(Keyword.END, end);
                         }
