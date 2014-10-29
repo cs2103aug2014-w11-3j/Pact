@@ -26,15 +26,15 @@ public class Task {
         this.isArchived = false;
     }
     
-    /*public Task(Task copy) {
-        this.content = copy.content;
-        this.start = copy.start;
-        this.end = copy.end;
-        this.type = copy.type;
-        this.isCompleted = copy.isCompleted;
-        this.isArchived = copy.isArchived;
-        this.isAllDayTask = copy.isAllDayTask;
-    }*/
+    public Task(Task copy) {
+        this.content = copy.getValue(Keyword.CONTENT);
+        this.start = copy.getValue(Keyword.START);
+        this.end = copy.getValue(Keyword.END);
+        this.type = Keyword.getMeaning(copy.getValue(Keyword.TYPE));
+        this.isCompleted = Boolean.parseBoolean(copy.getValue(Keyword.COMPLETED));
+        this.isArchived = Boolean.parseBoolean(copy.getValue(Keyword.ARCHIVED));
+        this.isAllDayTask = Boolean.parseBoolean(copy.getValue(Keyword.ALLDAY));
+    }
     
     /* 
      * Construct string to print contents of Task

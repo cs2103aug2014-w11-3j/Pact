@@ -243,7 +243,8 @@ public class DataHandler {
     private void backupFile() {
         previousData = new ArrayList<Task>();
         for (int i = 0; i < data.size(); ++i) {
-            previousData.add(data.get(i));
+        	Task toAdd = new Task(data.get(i));
+            previousData.add(toAdd);
         }
     }
     
@@ -253,7 +254,8 @@ public class DataHandler {
     private void restoreFile() {
     	temp = new ArrayList<Task>();
         for(int i = 0; i < data.size(); ++i) {
-            temp.add(data.get(i));
+        	Task toAdd = new Task(data.get(i));
+            temp.add(toAdd);
         }
         data = new ArrayList<Task>();
         for(int i = 0; i < previousData.size(); ++i) {
