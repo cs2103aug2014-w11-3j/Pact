@@ -123,15 +123,15 @@ public class CommandLineInterface {
 	 */
 	private void printHeader() {
 		System.out
-				.println("************************************************************************************");
+				.println("***********************************************************************************");
 		System.out
-				.println("|     |                              |       |     Start        |      End         |");
+				.println("|     |                              |      |     Start        |      End         |");
 		System.out
-				.println("| S/N |            TaskName          |  Done --------------------------------------|");
+				.println("| S/N |            TaskName          | Done --------------------------------------|");
 		System.out
-				.println("|     |                              |       | Date      |Time  | Date      |Time  |");
+				.println("|     |                              |      | Date      |Time  | Date      |Time  |");
 		System.out
-				.println("|----------------------------------------------------------------------------------|");
+				.println("|---------------------------------------------------------------------------------|");
 
 	}
 
@@ -173,9 +173,9 @@ public class CommandLineInterface {
 			sb.append("|");
 		}
 		if(splitString[1].equals("false")){
-			sb.append("       |");
+			sb.append("      |");
 		}else{
-			sb.append("   OK  |");
+			sb.append("  OK  |");
 		}
 	}
 
