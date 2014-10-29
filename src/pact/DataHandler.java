@@ -91,7 +91,7 @@ public class DataHandler {
      */
     public ArrayList<Task> updateTask(String keyword, String newContent, String start, String end, String isCompleted) {
     	backupFile();
-        ArrayList<Task> taskToDelete = readTask(keyword, false, "", "", false, false);
+        ArrayList<Task> taskToDelete = readTask(keyword, false, "", "", false, true);
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
                 if (data.get(i).getValue(Keyword.CONTENT).equals(taskToDelete.get(j).getValue(Keyword.CONTENT))) {
