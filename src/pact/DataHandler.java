@@ -95,7 +95,6 @@ public class DataHandler {
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
                 if (data.get(i).getValue(Keyword.CONTENT).equals(taskToDelete.get(j).getValue(Keyword.CONTENT))) {
-                    System.out.println(data.get(i).getValue(Keyword.TYPE));
                     if (!newContent.isEmpty()) {
                         data.get(i).setValue(Keyword.CONTENT, newContent); 
                     }
