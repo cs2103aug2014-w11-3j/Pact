@@ -67,20 +67,22 @@ public class Task {
             String[] splitStart = start.split(" ", 2);
             String[] splitEnd = end.split(" ", 2);
             if (!isAllDayTask) {
-                result = result + ":" + splitStart[0] + " " + splitStart[1];
+                result = result + ":" + String.valueOf(isCompleted) + ":" + splitStart[0] + " " + splitStart[1];
                 result = result + " " + splitEnd[0] + " " + splitEnd[1];
             } else {
-                result = result + ":" + splitStart[0];
+                result = result + ":" + String.valueOf(isCompleted) + ":" + splitStart[0];
                 result = result + " " + splitEnd[0];
             }
         } else if (type.equals(Keyword.DEADLINE)) {
             String[] splitEnd = end.split(" ", 2);
             if (!isAllDayTask) {
-                result = result + ":" + splitEnd[0] + " " + splitEnd[1];
+                result = result + ":" + String.valueOf(isCompleted) + ":" + splitEnd[0] + " " + splitEnd[1];
             } else {
-                result = result + ":" + splitEnd[0];
+                result = result + ":" + String.valueOf(isCompleted) + ":" +splitEnd[0];
             }
         } else if (type.equals(Keyword.FLOATING)) {
+        	
+        	result = result + ":" + String.valueOf(isCompleted) + ":" ;
         }
         return result;
     }

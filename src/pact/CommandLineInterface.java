@@ -94,9 +94,9 @@ public class CommandLineInterface {
 	private void constructContents(ArrayList<String> result) {
 		for (int i = 1; i < result.size(); i++) {
 			StringBuilder sb = new StringBuilder();
-			String[] splitString = result.get(i).split(":", 2);
+			String[] splitString = result.get(i).split(":", 3);
 			addSerialNumber(i, sb);
-			addTaskName(splitString, sb);
+			addTaskNameAndCompleted(splitString, sb);
 			processDateAndTime(splitString, sb);
 			System.out.println(sb.toString());
 		}
@@ -109,10 +109,10 @@ public class CommandLineInterface {
 	 * @param sb
 	 */
 	private void processDateAndTime(String[] splitString, StringBuilder sb) {
-		if (splitString.length == 1) {
+		if (splitString[2].equals("")) {
 			sb.append("-          |-     |-          |-     |");
 		} else {
-			String temp = splitString[1];
+			String temp = splitString[2];
 			splitString = temp.split(" ");
 			addDateAndTime(splitString, sb);
 		}
@@ -123,15 +123,15 @@ public class CommandLineInterface {
 	 */
 	private void printHeader() {
 		System.out
-				.println("****************************************************************************");
+				.println("************************************************************************************");
 		System.out
-				.println("|     |                              |     Start        |      End         |");
+				.println("|     |                              |       |     Start        |      End         |");
 		System.out
-				.println("| S/N |            TaskName          --------------------------------------|");
+				.println("| S/N |            TaskName          |  Done --------------------------------------|");
 		System.out
-				.println("|     |                              | Date      |Time  | Date      |Time  |");
+				.println("|     |                              |       | Date      |Time  | Date      |Time  |");
 		System.out
-				.println("|--------------------------------------------------------------------------|");
+				.println("|----------------------------------------------------------------------------------|");
 
 	}
 
@@ -162,7 +162,7 @@ public class CommandLineInterface {
 	 * @param splitString
 	 * @param sb
 	 */
-	private void addTaskName(String[] splitString, StringBuilder sb) {
+	private void addTaskNameAndCompleted(String[] splitString, StringBuilder sb) {
 		int length = splitString[0].length();
 		if (length < 30) {
 			int numberOfSpaces = 30 - length;
@@ -171,6 +171,11 @@ public class CommandLineInterface {
 				sb.append(" ");
 			}
 			sb.append("|");
+		}
+		if(splitString[1].equals("false")){
+			sb.append("       |");
+		}else{
+			sb.append("   OK  |");
 		}
 	}
 
@@ -194,7 +199,7 @@ public class CommandLineInterface {
 	 * print bottom line of table
 	 */
 	private void printEndLine() {
-		System.out.println("****************************************************************************");		
+		System.out.println("************************************************************************************");		
 	}
 
 	private String readLine(ConsoleReader reader)

@@ -84,9 +84,9 @@ public enum Keyword {
         } else if (method.equals(DELETE)) {
             argList = new Keyword[] { CONTENT, FOREVER };
         } else if (method.equals(UNDO)) {
-            argList = new Keyword[] {CONTENT};
+            argList = new Keyword[] { CONTENT};
         } else if (method.equals(CLEAR)) {
-            argList = new Keyword[] {CONTENT,FOREVER};
+            argList = new Keyword[] { CONTENT,FOREVER};
         } else if (method.equals(EXIT)) {
         	argList = new Keyword[] { CONTENT };
         }
