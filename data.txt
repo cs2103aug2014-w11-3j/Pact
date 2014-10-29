@@ -2,14 +2,14 @@
     CONTENT: task1
     END: 12/12/2014 12:00
     TYPE: DEADLINE
-    COMPLETED: false
+    COMPLETED: true
     ARCHIVED: true
     ALLDAY: false
 }
 {
     CONTENT: task1
     TYPE: FLOATING
-    COMPLETED: false
+    COMPLETED: true
     ARCHIVED: false
     ALLDAY: false
 }

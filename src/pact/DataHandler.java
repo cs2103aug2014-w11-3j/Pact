@@ -63,7 +63,7 @@ public class DataHandler {
      */
     public ArrayList<Task> deleteTask(String keyword, boolean isDeleting) {
     	backupFile();
-        ArrayList<Task> taskToDelete = readTask(keyword, false, "", "", false);
+        ArrayList<Task> taskToDelete = readTask(keyword, false, "", "", false, false);
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
                 if (data.get(i).getValue(Keyword.CONTENT).equals(taskToDelete.get(j).getValue(Keyword.CONTENT))) {
@@ -91,7 +91,7 @@ public class DataHandler {
      */
     public ArrayList<Task> updateTask(String keyword, String newContent, String start, String end, String isCompleted) {
     	backupFile();
-        ArrayList<Task> taskToDelete = readTask(keyword, false, "", "", false);
+        ArrayList<Task> taskToDelete = readTask(keyword, false, "", "", false, false);
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
                 if (data.get(i).getValue(Keyword.CONTENT).equals(taskToDelete.get(j).getValue(Keyword.CONTENT))) {
@@ -131,11 +131,16 @@ public class DataHandler {
      * @param isArchivedIncluded
      * @return Tasks to be read
      */
-    public ArrayList<Task> readTask(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded) {
+    public ArrayList<Task> readTask(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded, boolean isCompletedIncluded) {
         ArrayList<Task> result = new ArrayList<Task>();
         for (int i = 0; i < data.size(); ++i) {
             if (!isArchivedIncluded) {
                 if (data.get(i).getValue(Keyword.ARCHIVED).equals("true")) {
+                    continue;
+                }
+            }
+            if (!isCompletedIncluded) {
+                if (data.get(i).getValue(Keyword.COMPLETED).equals("true")) {
                     continue;
                 }
             }

@@ -52,7 +52,7 @@ public class DataHandlerTest {
     }
     
     public ArrayList<String> getAllData() {
-        ArrayList<Task> data = dh.readTask("", false, "", "", false);
+        ArrayList<Task> data = dh.readTask("", false, "", "", false,false);
         ArrayList<String> result = new ArrayList<String>();
         for (int i = 0; i < data.size(); ++i) {
             result.add(data.get(i).getValue(Keyword.CONTENT));
