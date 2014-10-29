@@ -94,7 +94,7 @@ public class EventHandler {
         	isArchivedIncluded = Boolean.valueOf(parameters.get(Keyword.ARCHIVED));
         }
         
-        ArrayList<Task> queryResult = dataHandler.readTask(parameters.get(Keyword.CONTENT), isExact, start, end, isArchivedIncluded);
+        ArrayList<Task> queryResult = dataHandler.readTask(parameters.get(Keyword.CONTENT), isExact, start, end, isArchivedIncluded, true);
         if (queryResult.isEmpty()) {
             result.add(ANNOUNCEMENT_NOT_FOUND);
         }else{
