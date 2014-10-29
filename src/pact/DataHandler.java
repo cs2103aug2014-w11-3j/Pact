@@ -89,7 +89,7 @@ public class DataHandler {
      * @param end
      * @return Task that are updated
      */
-    public ArrayList<Task> updateTask(String keyword, String newContent, String start, String end) {
+    public ArrayList<Task> updateTask(String keyword, String newContent, String start, String end, String isCompleted) {
     	backupFile();
         ArrayList<Task> taskToDelete = readTask(keyword, false, "", "", false);
         for (int i = 0; i < data.size(); ++i) {
@@ -98,6 +98,9 @@ public class DataHandler {
                     System.out.println(data.get(i).getValue(Keyword.TYPE));
                     if (!newContent.isEmpty()) {
                         data.get(i).setValue(Keyword.CONTENT, newContent); 
+                    }
+                    if(!isCompleted.isEmpty()){
+                    	data.get(i).setValue(Keyword.COMPLETED, isCompleted);
                     }
                     if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.TIMED)) {
                         if (!start.isEmpty()) {

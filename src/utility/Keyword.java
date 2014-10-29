@@ -20,7 +20,7 @@ public enum Keyword {
     EXACT       (new String[] { "exact" }),
     TYPE        (new String[] { "type" }),
     ALLDAY      (new String[] { "allday" }),
-    COMPLETED   (new String[] { "completed" }),
+    COMPLETED   (new String[] { "completed", "complete" }),
     ARCHIVED    (new String[] { "archived" }),
     FOREVER     (new String[] { "forever", "permanent", "force" }),
 
@@ -80,7 +80,7 @@ public enum Keyword {
         } else if (method.equals(READ)) {
             argList = new Keyword[] { CONTENT, EXACT, START, END };
         } else if (method.equals(UPDATE)) {
-            argList = new Keyword[] { CONTENT, NEWCONTENT, START, END, FOREVER };
+            argList = new Keyword[] { CONTENT, NEWCONTENT, START, END, FOREVER, COMPLETED};
         } else if (method.equals(DELETE)) {
             argList = new Keyword[] { CONTENT, FOREVER };
         } else if (method.equals(UNDO)) {

@@ -92,10 +92,10 @@ public class DataHandlerTest {
     }
     
     public void testUpdate() {
-        dh.updateTask(sampleTaskThree.getValue(Keyword.CONTENT),sampleTaskOne.getValue(Keyword.CONTENT),"","");
+        dh.updateTask(sampleTaskThree.getValue(Keyword.CONTENT),sampleTaskOne.getValue(Keyword.CONTENT),"","","");
         assertEquals(getAllData(),ExpectedOutputFour);
         
-        dh.updateTask(sampleTaskOne.getValue(Keyword.CONTENT),"test three","","");
+        dh.updateTask(sampleTaskOne.getValue(Keyword.CONTENT),"test three","","","");
         assertEquals(getAllData(),ExpectedOutputFive);
     }
     

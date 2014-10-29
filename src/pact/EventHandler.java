@@ -145,8 +145,12 @@ public class EventHandler {
         String start = "";
         String end = "";
         String newContent = "";
+        String isCompleted = "";
         if (parameters.containsKey(Keyword.NEWCONTENT)) {
             newContent = parameters.get(Keyword.NEWCONTENT);
+        }
+        if (parameters.containsKey(Keyword.COMPLETED)) {
+        	isCompleted = parameters.get(Keyword.COMPLETED);
         }
         if (parameters.containsKey(Keyword.START)) {
             start = parameters.get(Keyword.START);
@@ -154,7 +158,7 @@ public class EventHandler {
         if (parameters.containsKey(Keyword.END)) {
             end = parameters.get(Keyword.END);
         }
-        ArrayList<Task> queryResult = dataHandler.updateTask(parameters.get(Keyword.CONTENT), newContent, start, end);
+        ArrayList<Task> queryResult = dataHandler.updateTask(parameters.get(Keyword.CONTENT), newContent, start, end, isCompleted);
         if (queryResult.isEmpty()) {
             result.add(ANNOUNCEMENT_NOT_FOUND);
             return;
