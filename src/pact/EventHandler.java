@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import utility.Clock;
 import utility.Keyword;
 import utility.Task;
 
@@ -171,6 +172,12 @@ public class EventHandler {
             result.add(i.getDisplayedString());
         }
     }
+    
+    private void searchEmptySlot(String start, String end) throws Exception
+    {
+        Clock clock = new Clock();
+        
+    }
 
 
     /**
@@ -181,5 +188,10 @@ public class EventHandler {
     	dataHandler.undo();
     	result.add(ANNOUNCEMENT_UNDO);
    
+    }
+    
+    public static void main(String[] args)
+    {
+        
     }
 }

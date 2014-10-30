@@ -28,7 +28,7 @@ public class DataHandler {
         previousData = new ArrayList<Task>();
         loadFile();
     }
-    
+   
     /*
     public static void main(String[] args) {
         Task t = new Task();
@@ -63,7 +63,7 @@ public class DataHandler {
      */
     public ArrayList<Task> deleteTask(String keyword, boolean isDeleting) {
     	backupFile();
-        ArrayList<Task> taskToDelete = readTask(keyword, false, "", "", false, false);
+        ArrayList<Task> taskToDelete = readTask(keyword, false, "", "", false, true);
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
                 if (data.get(i).getValue(Keyword.CONTENT).equals(taskToDelete.get(j).getValue(Keyword.CONTENT))) {
@@ -132,6 +132,8 @@ public class DataHandler {
      * @return Tasks to be read
      */
     public ArrayList<Task> readTask(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded, boolean isCompletedIncluded) {
+        System.out.println("start " + start);
+        System.out.println("end " + end);
         ArrayList<Task> result = new ArrayList<Task>();
         for (int i = 0; i < data.size(); ++i) {
             if (!isArchivedIncluded) {
@@ -156,10 +158,10 @@ public class DataHandler {
             if (!start.isEmpty() || !end.isEmpty()) {
                 String taskStart = data.get(i).getValue(Keyword.START);
                 String taskEnd = data.get(i).getValue(Keyword.END);
-                if (data.get(i).getValue(Keyword.TYPE).equals(Keyword.FLOATING)) {
+                if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.FLOATING)) {
                     continue;
                 }
-                if (data.get(i).getValue(Keyword.TYPE).equals(Keyword.DEADLINE)) {
+                if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)) {
                     taskStart = taskEnd;
                 }
                 Clock clock = new Clock();

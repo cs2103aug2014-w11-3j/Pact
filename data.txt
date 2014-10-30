@@ -52,3 +52,29 @@
     ARCHIVED: false
     ALLDAY: false
 }
+{
+    CONTENT: play pes
+    END: 21/12/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: true
+}
+{
+    CONTENT: play fifa
+    END: 20/12/20140400 23:59
+    START: 20/12/20140200 00:00
+    TYPE: TIMED
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: true
+}
+{
+    CONTENT: play fifa
+    END: 20/12/2014 04:00
+    START: 20/12/2014 02:00
+    TYPE: TIMED
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
