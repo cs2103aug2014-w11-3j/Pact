@@ -68,6 +68,11 @@ public class Clock {
         return new SimpleDateFormat(FORMAT_COMMON).format(result.getTime());
     }
     
+    public String getCurrentTime() {
+        Date date = new Date();
+        return new SimpleDateFormat(FORMAT_COMMON).format(date);
+    }
+    
     /**
      * Parse source into GregorianCalendar format
      * @param source

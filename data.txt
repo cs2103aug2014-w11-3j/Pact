@@ -1,6 +1,6 @@
 {
     CONTENT: task1
-    END: 12/12/2014 12:00
+    END: 20/10/2014 23:59
     TYPE: DEADLINE
     COMPLETED: true
     ARCHIVED: true
@@ -77,4 +77,12 @@
     COMPLETED: false
     ARCHIVED: false
     ALLDAY: false
+}
+{
+    CONTENT: gajah
+    END: 20/10/2013 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: true
 }

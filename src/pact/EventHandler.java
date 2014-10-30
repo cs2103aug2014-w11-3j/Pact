@@ -82,9 +82,12 @@ public class EventHandler {
      */
     private void readTask(HashMap<Keyword, String> parameters) {
         boolean isExact = parameters.containsKey(Keyword.EXACT);
-        String start = "";
+        Clock clock = new Clock();
+        String start = clock.getCurrentTime();
+        System.out.println(start);
         String end = "";
         boolean isArchivedIncluded = false; 
+        boolean isCompletedIncluded = false;
         
         if (parameters.containsKey(Keyword.START)) {
             start = parameters.get(Keyword.START);
@@ -96,7 +99,7 @@ public class EventHandler {
         	isArchivedIncluded = Boolean.valueOf(parameters.get(Keyword.ARCHIVED));
         }
         
-        ArrayList<Task> queryResult = dataHandler.readTask(parameters.get(Keyword.CONTENT), isExact, start, end, isArchivedIncluded, true);
+        ArrayList<Task> queryResult = dataHandler.readTask(parameters.get(Keyword.CONTENT), isExact, start, end, isArchivedIncluded, isCompletedIncluded);
         if (queryResult.isEmpty()) {
             result.add(ANNOUNCEMENT_NOT_FOUND);
         }else{

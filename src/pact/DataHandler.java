@@ -132,8 +132,6 @@ public class DataHandler {
      * @return Tasks to be read
      */
     public ArrayList<Task> readTask(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded, boolean isCompletedIncluded) {
-        System.out.println("start " + start);
-        System.out.println("end " + end);
         ArrayList<Task> result = new ArrayList<Task>();
         for (int i = 0; i < data.size(); ++i) {
             if (!isArchivedIncluded) {
@@ -158,9 +156,11 @@ public class DataHandler {
             if (!start.isEmpty() || !end.isEmpty()) {
                 String taskStart = data.get(i).getValue(Keyword.START);
                 String taskEnd = data.get(i).getValue(Keyword.END);
+                /*
                 if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.FLOATING)) {
                     continue;
                 }
+                */
                 if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)) {
                     taskStart = taskEnd;
                 }
