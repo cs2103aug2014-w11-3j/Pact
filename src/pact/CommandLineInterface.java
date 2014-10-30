@@ -38,8 +38,8 @@ public class CommandLineInterface {
 				result = logic.determineCommand(parsedCommand);
 				cli.contructTable(result);
 				if(Keyword.getMeaning(userCommand).equals(Keyword.EXIT)){
-					System.out.println("Are you sure you want to exit? Yes/No");
-					if(cli.getUserCommand().equals("Yes")){
+					System.out.println("Are you sure you want to exit? [Y/N]");
+					if(cli.getUserCommand().equalsIgnoreCase("Y")){
 						System.exit(0);
 					}
 				}
