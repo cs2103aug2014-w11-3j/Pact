@@ -23,6 +23,7 @@ public class Parser {
 	private static final String IMPROPER_ARGUMENT = "Argument is invalid\n";
 	private static final String INCORRECT_TIME_FORMAT = "Incorrect format to add time\n";
 	private static final String EXCEEDED_CHAR_LIMIT = "Task description has exceeded 30 characters";
+	private static final String INVALID_DATE = "You have entered an invalid date.\n\n";
 	private static final String HELP = "Valid Formats:\n";
 	private HashMap<Keyword, String> parameters = new HashMap<Keyword, String>();
     
@@ -101,6 +102,10 @@ public class Parser {
                 value = new Clock().parse(value, "2359");
                 endType = TimeType.DATE;
             }
+        }
+        String[] check = value.split(" ");
+        if(check[0].length()>10){
+            throw new Exception(INVALID_DATE+ HELP +FlOATING_TASK_FORMAT +DEADLINE_TASK_FORMAT+ TIMED_TASK_FORMAT);
         }
         return value;
 
