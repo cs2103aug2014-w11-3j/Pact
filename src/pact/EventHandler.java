@@ -10,9 +10,9 @@ import utility.Task;
 
 public class EventHandler {
     
-    private static final String ANNOUNCEMENT_NOT_FOUND = "Sorry, nothing found.";
+    private static final String ANNOUNCEMENT_NOT_FOUND = "There are no tasks in your task list";
     private static final String ANNOUNCEMENT_CREATE = "Task was added successfully.";
-    private static final String ANNOUNCEMENT_READ = "Search was successful.";
+    private static final String ANNOUNCEMENT_READ = "You have the following tasks";
     private static final String ANNOUNCEMENT_DELETE = "Task was deleted successfully.";
     private static final String ANNOUNCEMENT_UPDATE = "Task was updated successfully.";
     private static final String ANNOUNCEMENT_UNDO = "Undo was successful.";
