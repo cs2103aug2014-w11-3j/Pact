@@ -1,88 +1,35 @@
 {
-    CONTENT: task1
-    END: 20/10/2014 23:59
-    TYPE: DEADLINE
-    COMPLETED: true
-    ARCHIVED: true
-    ALLDAY: false
-}
-{
-    CONTENT: task1
-    TYPE: FLOATING
-    COMPLETED: true
-    ARCHIVED: false
-    ALLDAY: false
-}
-{
-    CONTENT: assignment
-    END: 13/10/2014 23:59
-    TYPE: DEADLINE
-    COMPLETED: false
-    ARCHIVED: true
-    ALLDAY: true
-}
-{
-    CONTENT: study 2103T
-    END: 07/11/2014 23:59
-    TYPE: DEADLINE
-    COMPLETED: false
-    ARCHIVED: true
-    ALLDAY: true
-}
-{
-    CONTENT: exam cs2103t
-    END: 01/12/2014 15:00
-    START: 01/12/2014 13:00
-    TYPE: TIMED
-    COMPLETED: false
-    ARCHIVED: true
-    ALLDAY: false
-}
-{
-    CONTENT: task3
-    TYPE: FLOATING
-    COMPLETED: false
-    ARCHIVED: false
-    ALLDAY: false
-}
-{
-    CONTENT: assignment
-    TYPE: FLOATING
-    COMPLETED: false
-    ARCHIVED: false
-    ALLDAY: false
-}
-{
-    CONTENT: play pes
-    END: 21/12/2014 23:59
+    CONTENT: play 4
+    END: 20/12/2014 23:59
     TYPE: DEADLINE
     COMPLETED: false
     ARCHIVED: false
     ALLDAY: true
 }
 {
-    CONTENT: play fifa
-    END: 20/12/20140400 23:59
-    START: 20/12/20140200 00:00
-    TYPE: TIMED
-    COMPLETED: false
-    ARCHIVED: true
-    ALLDAY: true
-}
-{
-    CONTENT: play fifa
+    CONTENT: play 3
     END: 20/12/2014 04:00
-    START: 20/12/2014 02:00
+    START: 20/12/2014 03:59
     TYPE: TIMED
     COMPLETED: false
     ARCHIVED: false
     ALLDAY: false
 }
 {
-    CONTENT: gajah
-    END: 20/10/2013 23:59
-    TYPE: DEADLINE
+    CONTENT: play 1
+    END: 20/12/2014 03:00
+    START: 20/12/2014 00:39
+    TYPE: TIMED
     COMPLETED: false
     ARCHIVED: false
-    ALLDAY: true
+    ALLDAY: false
+}
+{
+    CONTENT: play 2
+    END: 20/12/2014 03:59
+    START: 20/12/2014 01:00
+    TYPE: TIMED
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
 }

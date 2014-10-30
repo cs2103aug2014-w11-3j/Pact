@@ -84,7 +84,6 @@ public class EventHandler {
         boolean isExact = parameters.containsKey(Keyword.EXACT);
         Clock clock = new Clock();
         String start = clock.getCurrentTime();
-        System.out.println(start);
         String end = "";
         boolean isArchivedIncluded = false; 
         boolean isCompletedIncluded = false;
@@ -176,10 +175,58 @@ public class EventHandler {
         }
     }
     
+    private void sortTasks(ArrayList<Task> tasksList,Keyword sortKey,boolean isAscending)
+    {
+        for (int i = 0; i < tasksList.size(); ++i) {
+            for (int j = i; j < tasksList.size(); ++j) {
+                if (tasksList.get(i).getValue(sortKey).compareTo(tasksList.get(j).getValue(sortKey)) > 0) {
+                    Collections.swap(tasksList,i,j);
+                }
+            }
+        }
+        if (!isAscending) {
+            Collections.reverse(tasksList);
+        }
+    }
+    
     private void searchEmptySlot(String start, String end) throws Exception
     {
         Clock clock = new Clock();
-        
+        int startDay = clock.getDay(start);
+        for (int i = startDay; ; ++i) {
+            ArrayList<String> resultThisDay = new ArrayList<String>();
+            String startSearch = String.valueOf(i);
+            while (startSearch.length() < 2) {
+                startSearch = '0' + startSearch;
+            }
+            startSearch = startSearch + start.substring(2, start.length());
+            startSearch = clock.normalize(startSearch);
+            if (clock.parseFromCommonFormat(startSearch) > clock.parseFromCommonFormat(end)) {
+                break;
+            }
+            String endSearch = clock.getDate(startSearch) + " 23:59";
+            ArrayList<Task> onThisDay = dataHandler.readTask("", false, startSearch, endSearch, false, false);
+            sortTasks(onThisDay,Keyword.START,true);
+            String freeTimeNow = "00:00";
+            for (int j = 0; j < onThisDay.size(); ++j) {
+                if (onThisDay.get(j).getValue(Keyword.START).equals("")) {
+                    continue;
+                }
+                if (freeTimeNow.compareTo(clock.getTime(onThisDay.get(j).getValue(Keyword.START))) < 0) {
+                    resultThisDay.add("Free from " + freeTimeNow + " to " + clock.getTime(onThisDay.get(j).getValue(Keyword.START)));
+                }
+                if (freeTimeNow.compareTo(clock.getTime(onThisDay.get(j).getValue(Keyword.END))) < 0) {
+                    freeTimeNow = clock.getTime(onThisDay.get(j).getValue(Keyword.END)); 
+                }
+            }
+            if (freeTimeNow.compareTo("23:59") < 0) {
+                resultThisDay.add("Free from " + freeTimeNow + " to 23:59");
+            }
+            result.add("On " + clock.getDate(startSearch));
+            for (int j = 0; j < resultThisDay.size(); ++j) {
+                result.add(String.valueOf(j+1) + ". " + resultThisDay.get(j));
+            }
+        }
     }
 
 
@@ -193,8 +240,9 @@ public class EventHandler {
    
     }
     
-    public static void main(String[] args)
+    /*public static void main(String[] args) throws Exception
     {
-        
-    }
+        EventHandler e = new EventHandler();
+        e.searchEmptySlot("20/12/2014 00:00","21/12/2014 23:59");
+    }*/
 }

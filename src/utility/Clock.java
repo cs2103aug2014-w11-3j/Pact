@@ -73,6 +73,25 @@ public class Clock {
         return new SimpleDateFormat(FORMAT_COMMON).format(date);
     }
     
+    public int getDay(String source) {
+        return Integer.parseInt(source.substring(0,2));
+    }
+    
+    public String normalize(String toNormalize) throws Exception {
+        String array[] = toNormalize.split(" ");
+        return parse(array[0],array[1]);
+    }
+    
+    public String getDate(String toSplit) throws Exception {
+        String array[] = toSplit.split(" ");
+        return array[0];
+    }
+    
+    public String getTime(String toSplit) throws Exception {
+        String array[] = toSplit.split(" ");
+        return array[1];
+    }
+    
     /**
      * Parse source into GregorianCalendar format
      * @param source
