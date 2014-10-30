@@ -23,6 +23,7 @@ public enum Keyword {
     COMPLETED   (new String[] { "completed", "complete" }),
     ARCHIVED    (new String[] { "archived" }),
     FOREVER     (new String[] { "forever", "permanent", "force" }),
+    SORT		(new String[] { "sort", "organise" }),
 
     FLOATING    (new String[] { "floating" }),
     TIMED       (new String[] { "timed" }),
@@ -78,7 +79,7 @@ public enum Keyword {
         if (method.equals(CREATE)) {
             argList = new Keyword[] { CONTENT, START, END };
         } else if (method.equals(READ)) {
-            argList = new Keyword[] { CONTENT, EXACT, START, END };
+            argList = new Keyword[] { CONTENT, EXACT, START, END ,SORT};
         } else if (method.equals(UPDATE)) {
             argList = new Keyword[] { CONTENT, NEWCONTENT, START, END, FOREVER, COMPLETED};
         } else if (method.equals(DELETE)) {

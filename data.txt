@@ -45,3 +45,10 @@
     ARCHIVED: false
     ALLDAY: false
 }
+{
+    CONTENT: assignment
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}

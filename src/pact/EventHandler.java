@@ -1,7 +1,9 @@
 package pact;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+
 import utility.Keyword;
 import utility.Task;
 
@@ -79,7 +81,6 @@ public class EventHandler {
      */
     private void readTask(HashMap<Keyword, String> parameters) {
         boolean isExact = parameters.containsKey(Keyword.EXACT);
-        //int counter = 0;
         String start = "";
         String end = "";
         boolean isArchivedIncluded = false; 
@@ -100,12 +101,16 @@ public class EventHandler {
         }else{
         	result.add(ANNOUNCEMENT_READ);
         }
-        /*for (Task i : queryResult) {
-            ++counter;
-            result.add(Integer.toString(counter) + ". " + i.getDisplayedString());
-        }*/
+        ArrayList<String> unsorted = new ArrayList<String>();
+       
         for (Task i : queryResult) {
-            result.add(i.getDisplayedString());
+                 unsorted.add(i.getDisplayedString());
+        }
+        if((parameters.containsKey(Keyword.SORT))){
+        	 Collections.sort(unsorted);
+    	}
+        for (int i = 0; i <unsorted.size(); i++) {
+            result.add(unsorted.get(i));
         }
         
     }
@@ -127,10 +132,7 @@ public class EventHandler {
         } else {
         	result.add(ANNOUNCEMENT_CLEAR);
         }
-      /*  for (Task i : queryResult) {
-            ++counter;
-            result.add(Integer.toString(counter) + ". " + i.getDisplayedString());
-        }*/
+
         for (Task i : queryResult) {
             result.add(i.getDisplayedString());
         }
@@ -164,10 +166,7 @@ public class EventHandler {
             return;
         }
         result.add(ANNOUNCEMENT_UPDATE);
-       /* for (Task i : queryResult) {
-            ++counter;
-            result.add(Integer.toString(counter) + ". " + i.getDisplayedString());
-        }*/
+
         for (Task i : queryResult) {
             result.add(i.getDisplayedString());
         }
