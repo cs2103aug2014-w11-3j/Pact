@@ -133,16 +133,13 @@ public class Parser {
                 argument[i] = argument[i].trim() + " ";
                 String[] tmp = argument[i].split(" ", 2);
                 key = tmp[0].trim();
-                System.out.println("key:" + key);
                 value = tmp[1].trim();
-                System.out.println("value:" + value);
             }
             argType = Keyword.getMeaning(key);
             
             if (!Keyword.isProperArgument(method, argType)) {
                 throw new Exception(IMPROPER_ARGUMENT);
             }
-            System.out.println("2");
             if (argType.equals(Keyword.START) || argType.equals(Keyword.END)) {
                 value = parseTimeArg(argType, value);
             }
