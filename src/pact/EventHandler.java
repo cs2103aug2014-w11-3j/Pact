@@ -97,7 +97,9 @@ public class EventHandler {
         if (parameters.containsKey(Keyword.ARCHIVED)) {
         	isArchivedIncluded = Boolean.valueOf(parameters.get(Keyword.ARCHIVED));
         }
-        
+        if (parameters.containsKey(Keyword.COMPLETED)) {
+        	isCompletedIncluded  = true;
+        }
         ArrayList<Task> queryResult = dataHandler.readTask(parameters.get(Keyword.CONTENT), isExact, start, end, isArchivedIncluded, isCompletedIncluded);
         if (queryResult.isEmpty()) {
             result.add(ANNOUNCEMENT_NOT_FOUND);

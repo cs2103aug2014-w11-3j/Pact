@@ -79,7 +79,7 @@ public enum Keyword {
         if (method.equals(CREATE)) {
             argList = new Keyword[] { CONTENT, START, END };
         } else if (method.equals(READ)) {
-            argList = new Keyword[] { CONTENT, EXACT, START, END ,SORT};
+            argList = new Keyword[] { CONTENT, EXACT, START, END ,SORT , COMPLETED};
         } else if (method.equals(UPDATE)) {
             argList = new Keyword[] { CONTENT, NEWCONTENT, START, END, FOREVER, COMPLETED};
         } else if (method.equals(DELETE)) {

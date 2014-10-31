@@ -20,7 +20,7 @@
     END: 20/12/2014 03:00
     START: 20/12/2014 00:39
     TYPE: TIMED
-    COMPLETED: false
+    COMPLETED: true
     ARCHIVED: false
     ALLDAY: false
 }
