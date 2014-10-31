@@ -135,7 +135,6 @@ public class EventHandler {
      * @param clear
      */
     private void deleteTask(HashMap<Keyword, String> parameters, Boolean clear) {
-        //int counter = 0;
         ArrayList<Task> queryResult = dataHandler.deleteTask(parameters.get(Keyword.CONTENT), parameters.containsKey(Keyword.FOREVER));
         if (queryResult.isEmpty()) {
             result.add(ANNOUNCEMENT_NOT_FOUND);
@@ -234,7 +233,9 @@ public class EventHandler {
             if (freeTimeNow.compareTo("23:59") < 0) {
                 resultThisDay.add("Free from " + freeTimeNow + " to 23:59");
             }
-            result.add("On " + clock.getDate(startSearch));
+            //result.add("On " + clock.getDate(startSearch) );
+            String[] array = new String[]{ "","Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}; 
+            result.add("On " + clock.getDate(startSearch) +" "+ array[clock.getDayOfTheWeek(clock.getDate(startSearch))]);
             for (int j = 0; j < resultThisDay.size(); ++j) {
                 result.add(String.valueOf(j+1) + ". " + resultThisDay.get(j));
             }

@@ -11,6 +11,7 @@ import jline.ArgumentCompletor;
 import jline.ConsoleReader;
 import jline.SimpleCompletor;
 import parser.Parser;
+import utility.Clock;
 import utility.Keyword;
 
 public class CommandLineInterface {
@@ -65,7 +66,7 @@ public class CommandLineInterface {
 	private boolean printTable(String userCommand) {
 		String[] arr;
 		arr = userCommand.split(" ", 2);
-		if(!arr[0].equals(Keyword.EMPTYSLOT)){
+		if(!Keyword.getMeaning(arr[0]).equals(Keyword.EMPTYSLOT)){
 			return true;
 		}
 		return false;
@@ -126,11 +127,15 @@ public class CommandLineInterface {
 	 */
 	private void processDateAndTime(String[] splitString, StringBuilder sb) {
 		if (splitString[2].equals("")) {
-			sb.append("-          |-     |-          |-     |");
+			sb.append("-          |-     |-   |-          |-     |-   |");
 		} else {
 			String temp = splitString[2];
 			splitString = temp.split(" ");
-			addDateAndTime(splitString, sb);
+			try {
+				addDateAndTime(splitString, sb);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -139,15 +144,15 @@ public class CommandLineInterface {
 	 */
 	private void printHeader() {
 		System.out
-				.println("***********************************************************************************");
+				.println("*********************************************************************************************");
 		System.out
-				.println("|     |                              |      |     Start        |      End         |");
+				.println("|     |                              |      |     Start             |      End              |");
 		System.out
-				.println("| S/N |            TaskName          | Done --------------------------------------|");
+				.println("| S/N |            TaskName          | Done ------------------------------------------------|");
 		System.out
-				.println("|     |                              |      | Date      |Time  | Date      |Time  |");
+				.println("|     |                              |      | Date      |Time  |Day | Date      |Time  |Day |");
 		System.out
-				.println("|---------------------------------------------------------------------------------|");
+				.println("|-------------------------------------------------------------------------------------------|");
 
 	}
 
@@ -155,21 +160,24 @@ public class CommandLineInterface {
 	 * construct Date and Time component of the table
 	 * @param splitString
 	 * @param sb
+	 * @throws Exception 
 	 */
-	private void addDateAndTime(String[] splitString, StringBuilder sb) {
+	private void addDateAndTime(String[] splitString, StringBuilder sb) throws Exception {
+		Clock clock = new Clock();
+		String[] array = new String[]{ "","Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"}; 
 		if (splitString.length == 1) {
-			sb.append("-          |-     |" + splitString[0] + " |-     |");
+			sb.append("-          |-     |-   |" + splitString[0] + " |-     |" + array[clock.getDayOfTheWeek(splitString[0])] + " |");
 		} else if (splitString.length == 2) {
 			if (splitString[1].length() == 10) {
-				sb.append(splitString[0] + " |-     |" + splitString[1]
-						+ " |-     |");
+				sb.append(splitString[0] + " |-     |" + array[clock.getDayOfTheWeek(splitString[0])] + " |" + splitString[1]
+						+ " |-     |"+ array[clock.getDayOfTheWeek(splitString[1])] + " |");
 			} else {
 				sb.append("-          |-     |" + splitString[0] + " |"
 						+ splitString[1] + " |");
 			}
 		} else if (splitString.length == 4) {
-			sb.append(splitString[0] + " |" + splitString[1] + " |"
-					+ splitString[2] + " |" + splitString[3] + " |");
+			sb.append(splitString[0] + " |" + splitString[1] + " |"+ array[clock.getDayOfTheWeek(splitString[0])] + " |"
+					+ splitString[2] + " |" + splitString[3] + " |"+ array[clock.getDayOfTheWeek(splitString[2])] + " |");
 		}
 	}
 
@@ -215,7 +223,7 @@ public class CommandLineInterface {
 	 * print bottom line of table
 	 */
 	private void printEndLine() {
-		System.out.println("***********************************************************************************");		
+		System.out.println("*********************************************************************************************");		
 	}
 
 	private String readLine(ConsoleReader reader)

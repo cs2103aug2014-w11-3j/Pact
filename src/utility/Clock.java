@@ -91,6 +91,13 @@ public class Clock {
         String array[] = toSplit.split(" ");
         return array[1];
     }
+    public int getDayOfTheWeek(String dateString)throws Exception {
+    	 GregorianCalendar tmp = new GregorianCalendar();
+    	 dateString = dateString.replace("/", "");
+    	 Date date = guess(dateString, DICTIONARY_DATE);
+    	 tmp.setTime(date); 
+    	 return tmp.get(GregorianCalendar.DAY_OF_WEEK);
+    }
     
     /**
      * Parse source into GregorianCalendar format

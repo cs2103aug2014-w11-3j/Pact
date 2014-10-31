@@ -33,3 +33,21 @@
     ARCHIVED: false
     ALLDAY: false
 }
+{
+    CONTENT: assignment
+    END: 20/11/0015 23:59
+    START: 31/10/0015 00:00
+    TYPE: TIMED
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: true
+}
+{
+    CONTENT: assignment
+    END: 05/12/2014 23:59
+    START: 03/12/2014 00:00
+    TYPE: TIMED
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: true
+}
