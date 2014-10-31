@@ -30,7 +30,7 @@ public class CommandLineInterface {
 		ArrayList<String> result;
 		String userCommand;
 		System.out.println("Welome to PACT");
-		System.out.println("Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\"");
+		System.out.println("Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\", \"completed\", \"exit\" ");
 		while (true) {
 			try {
 				userCommand = cli.getUserCommand();
@@ -45,7 +45,7 @@ public class CommandLineInterface {
 				}
 			} catch (Exception pe) {
 				//System.out.println("Your command could not be processed.Please try again!");
-				if (pe.getMessage().equals("get the hell out of here")) {
+				if (pe.getMessage().equals("exit from program")) {
 				    return;
 				}
 			    cli.printErrorMessage(pe.getMessage());

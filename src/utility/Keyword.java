@@ -11,7 +11,9 @@ public enum Keyword {
     QEXIT       (new String[] { "qexit", "qe", "halt" }),
     UNDO        (new String[] { "undo", "cancel" }),
     CLEAR       (new String[] { "clear", "deleteAll", "removeAll" }),
+    COMPLETED   (new String[] { "completed", "complete", "finished", "done" }),
     
+   
     METHOD      (new String[] { "method" }), 
     CONTENT     (new String[] { "content"}), 
     NEWCONTENT  (new String[] { "description", "name", "task" }), 
@@ -20,11 +22,11 @@ public enum Keyword {
     EXACT       (new String[] { "exact" }),
     TYPE        (new String[] { "type" }),
     ALLDAY      (new String[] { "allday" }),
-    COMPLETED   (new String[] { "completed", "complete" }),
     ARCHIVED    (new String[] { "archived" }),
     FOREVER     (new String[] { "forever", "permanent", "force" }),
     SORT		(new String[] { "sort", "organise" }),
-
+    ALL         (new String[] { "all" , "everything" }),
+    
     FLOATING    (new String[] { "floating" }),
     TIMED       (new String[] { "timed" }),
     DEADLINE    (new String[] { "deadline" }),
@@ -64,7 +66,7 @@ public enum Keyword {
      * @return boolean
      */
     public static boolean isCommand(Keyword input) {
-        Keyword[] commandList = {CREATE, READ, DELETE, UPDATE, EXIT, QEXIT, UNDO, CLEAR};
+        Keyword[] commandList = {CREATE, READ, DELETE, UPDATE, EXIT, QEXIT, UNDO, CLEAR, COMPLETED};
         return Arrays.asList(commandList).contains(input);
     }
     
@@ -79,15 +81,13 @@ public enum Keyword {
         if (method.equals(CREATE)) {
             argList = new Keyword[] { CONTENT, START, END };
         } else if (method.equals(READ)) {
-<<<<<<< HEAD
-            argList = new Keyword[] { CONTENT, EXACT, START, END ,SORT,COMPLETED,ARCHIVED};
-=======
-            argList = new Keyword[] { CONTENT, EXACT, START, END ,SORT , COMPLETED};
->>>>>>> effc81f7fa8edeeac6ecbd6941bae376fccf94a3
+            argList = new Keyword[] { CONTENT, EXACT, START, END , SORT ,COMPLETED, ARCHIVED};
         } else if (method.equals(UPDATE)) {
-            argList = new Keyword[] { CONTENT, NEWCONTENT, START, END, FOREVER, COMPLETED};
+            argList = new Keyword[] { CONTENT, NEWCONTENT, START, END, FOREVER , COMPLETED};
         } else if (method.equals(DELETE)) {
             argList = new Keyword[] { CONTENT, FOREVER };
+        } else if(method.equals(COMPLETED)){
+            argList = new Keyword[] { CONTENT, ALL };
         } else if (method.equals(UNDO)) {
             argList = new Keyword[] { CONTENT};
         } else if (method.equals(CLEAR)) {

@@ -12,13 +12,16 @@ public class Parser {
 	private static final String NO_ARGUMENTS_ADD = "Arguments required for adding a task\n\n";
 	private static final String NO_ARGUMENTS_UPDATE = "Arguments required for updating a task\n\n";
 	private static final String NO_ARGUMENTS_DELETE = "Arguments required for deleting a task\n\n";
+	private static final String NO_ARGUMENTS_COMPLETED = "Arguments are required for completing tasks\n\n ";
+	private static final String COMPLETED_TASK_FORMAT = "Format for complete task : completed <taskName>\n";
+	private static final String COMPLETED_ALL_FORMAT = "Format for complete all tasks : completed --all\n";
 	private static final String TIMED_TASK_FORMAT = "Format for Time Task : add <taskName> --st <startDate> at <time> --en <endDate> at <time>\n";
 	private static final String DEADLINE_TASK_FORMAT = "Format for Deadline Task : add <taskName> --en <endDate> at <time>\n";
 	private static final String FlOATING_TASK_FORMAT = "Format for Floating Task : add <taskName>\n";
 	private static final String UPDATE_FORMAT = "Format for update/change : update/change <taskName> --<field> <changeToValue>\n";
 	private static final String DELETE_FORMAT = "Format for delete : delete <taskName>\n";
 	private static final String INVALID_COMMAND = "Invalid Command\n\n";
-	private static final String AVAILABLE_COMMANDS = "Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\" \n";
+	private static final String AVAILABLE_COMMANDS = "Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\", \"completed\", \"exit\",\"qexit\" \n";
 	private static final String NON_MATCHING_FORMAT = "Start and end time must have the same format\n";
 	private static final String IMPROPER_ARGUMENT = "Argument is invalid\n";
 	private static final String INCORRECT_TIME_FORMAT = "Incorrect format to add time\n";
@@ -175,7 +178,17 @@ public class Parser {
         String[] argument = userInput.trim().split("--");
         
         if (code.equals(Keyword.QEXIT)) {
-            throw new Exception("get the hell out of here");
+            throw new Exception("exit from program");
+        }
+        
+        if(code.equals(Keyword.COMPLETED)){
+            if(userInput.equals("")){
+                throw new Exception(NO_ARGUMENTS_COMPLETED + HELP + COMPLETED_TASK_FORMAT + COMPLETED_ALL_FORMAT);
+            }
+            
+            if(!(Keyword.getMeaning(argument[1]).equals(Keyword.ALL))){
+                throw new Exception(IMPROPER_ARGUMENT + HELP + COMPLETED_ALL_FORMAT);
+            }
         }
         
         if (userInput.equals("") || (userInput.charAt(0)=='-' && userInput.charAt(1)=='-')) {
@@ -190,5 +203,5 @@ public class Parser {
         getParameters(code, argument);
         return parameters;
     }
-    
-}
+   } 
+
