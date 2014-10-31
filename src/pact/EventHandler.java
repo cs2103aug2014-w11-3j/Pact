@@ -31,7 +31,6 @@ public class EventHandler {
         String codeString = parameters.get(Keyword.METHOD);
         Keyword code = Keyword.getMeaning(codeString);
         result.clear();
-        
         if (code.equals(Keyword.CREATE)) {
             createTask(parameters);
         } else if (code.equals(Keyword.READ)) {
@@ -46,11 +45,20 @@ public class EventHandler {
             undo();
         } else if(code.equals(Keyword.EXIT)){
         	readTask(parameters);
-        }       
+        } else if(code.equals(Keyword.COMPLETED)){
+        	completeTask(parameters);
+        }else if(code.equals(Keyword.EMPTYSLOT)){
+        	searchEmptySlot(parameters);
+        }
         return result;
     }
 
-    /**
+    private void completeTask(HashMap<Keyword, String> parameters) {
+		parameters.put(Keyword.COMPLETED, "true");
+		updateTask(parameters);
+	}
+
+	/**
      * Creates a new Task and calls the dataHandler to store the information
      * @param parameters
      */
@@ -96,6 +104,9 @@ public class EventHandler {
         }
         if (parameters.containsKey(Keyword.ARCHIVED)) {
         	isArchivedIncluded = Boolean.valueOf(parameters.get(Keyword.ARCHIVED));
+        }
+        if (parameters.containsKey(Keyword.COMPLETED)) {
+        	isCompletedIncluded = true;
         }
         
         ArrayList<Task> queryResult = dataHandler.readTask(parameters.get(Keyword.CONTENT), isExact, start, end, isArchivedIncluded, isCompletedIncluded);
@@ -146,7 +157,6 @@ public class EventHandler {
      * @param parameters
      */
     private void updateTask(HashMap<Keyword, String> parameters) {
-        //int counter = 0;
         String start = "";
         String end = "";
         String newContent = "";
@@ -189,8 +199,10 @@ public class EventHandler {
         }
     }
     
-    private void searchEmptySlot(String start, String end) throws Exception
-    {
+    private void searchEmptySlot(HashMap<Keyword, String> parameters) throws Exception
+    {	
+    	String start = parameters.get(Keyword.START);
+    	String end = parameters.get(Keyword.END);
         Clock clock = new Clock();
         int startDay = clock.getDay(start);
         for (int i = startDay; ; ++i) {

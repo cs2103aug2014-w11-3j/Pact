@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public enum Keyword {
     CREATE      (new String[] { "add", "create", "new" }),
-    READ        (new String[] { "show", "display", "search", "find", "read" }),
+    READ        (new String[] { "show", "display", "search", "read" }),
     UPDATE      (new String[] { "update", "change" }), 
     DELETE      (new String[] { "delete", "remove" }), 
     EXIT        (new String[] { "exit", "quit", "logout" }), 
@@ -12,6 +12,7 @@ public enum Keyword {
     UNDO        (new String[] { "undo", "cancel" }),
     CLEAR       (new String[] { "clear", "deleteAll", "removeAll" }),
     COMPLETED   (new String[] { "completed", "complete", "finished", "done" }),
+    EMPTYSLOT   (new String[] { "emptyslot", "find", "findempty", "fes", "findslot"}),
     
    
     METHOD      (new String[] { "method" }), 
@@ -66,7 +67,7 @@ public enum Keyword {
      * @return boolean
      */
     public static boolean isCommand(Keyword input) {
-        Keyword[] commandList = {CREATE, READ, DELETE, UPDATE, EXIT, QEXIT, UNDO, CLEAR, COMPLETED};
+        Keyword[] commandList = {CREATE, READ, DELETE, UPDATE, EXIT, QEXIT, UNDO, CLEAR, COMPLETED, EMPTYSLOT};
         return Arrays.asList(commandList).contains(input);
     }
     
@@ -94,6 +95,8 @@ public enum Keyword {
             argList = new Keyword[] { CONTENT,FOREVER};
         } else if (method.equals(EXIT)) {
         	argList = new Keyword[] { CONTENT };
+        } else if (method.equals(EMPTYSLOT)) {
+        	argList = new Keyword[] { CONTENT, START, END };
         }
         return Arrays.asList(argList).contains(key);
     }

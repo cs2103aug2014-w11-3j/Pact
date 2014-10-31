@@ -36,7 +36,14 @@ public class CommandLineInterface {
 				userCommand = cli.getUserCommand();
 				parsedCommand = commandParser.parse(userCommand);
 				result = logic.determineCommand(parsedCommand);
-				cli.contructTable(result);
+				if(cli.printTable(userCommand)){
+					cli.constructTable(result);
+				}else{
+					for (int i = 0; i <result.size(); i++) {
+						System.out.println(result.get(i));
+					}
+				}
+				
 				if(Keyword.getMeaning(userCommand).equals(Keyword.EXIT)){
 					System.out.println("Are you sure you want to exit? [Y/N]");
 					if(cli.getUserCommand().equalsIgnoreCase("Y")){
@@ -53,6 +60,15 @@ public class CommandLineInterface {
 
 		}
 
+	}
+
+	private boolean printTable(String userCommand) {
+		String[] arr;
+		arr = userCommand.split(" ", 2);
+		if(!arr[0].equals(Keyword.EMPTYSLOT)){
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -74,7 +90,7 @@ public class CommandLineInterface {
 	 * Construct table for the user
 	 * @param result
 	 */
-	private void contructTable(ArrayList<String> result) {
+	private void constructTable(ArrayList<String> result) {
 
 		if (result.size() >= 2) {
 			System.out.println(result.get(0));
