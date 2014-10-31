@@ -2,7 +2,7 @@
     CONTENT: play 4
     END: 20/12/2014 23:59
     TYPE: DEADLINE
-    COMPLETED: false
+    COMPLETED: true
     ARCHIVED: false
     ALLDAY: true
 }
