@@ -180,8 +180,8 @@ public class CommandLineInterface {
 				sb.append(splitString[0] + " |-     |" + array[clock.getDayOfTheWeek(splitString[0])] + " |" + splitString[1]
 						+ " |-     |"+ array[clock.getDayOfTheWeek(splitString[1])] + " |");
 			} else {
-				sb.append("-          |-     |" + splitString[0] + " |"
-						+ splitString[1] + " |");
+				sb.append("-          |-     |-   |" + splitString[0] + " |"
+						+ splitString[1] + " |"+ array[clock.getDayOfTheWeek(splitString[0])] + " |");
 			}
 		} else if (splitString.length == 4) {
 			sb.append(splitString[0] + " |" + splitString[1] + " |"+ array[clock.getDayOfTheWeek(splitString[0])] + " |"
