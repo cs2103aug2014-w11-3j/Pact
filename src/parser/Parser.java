@@ -15,7 +15,7 @@ public class Parser {
 	private static final String NO_ARGUMENTS_COMPLETED = "Arguments are required for completing tasks\n\n ";
 	private static final String NO_ARGUMENTS_INCOMPLETE = "Arguments are required for incomplete task command\n\n ";
 	private static final String COMPLETED_TASK_FORMAT = "Format for complete task : completed <taskName>\n";
-	   private static final String INCOMPLETE_TASK_FORMAT = "Format for incomplete task : incomplete <taskName>\n";
+	private static final String INCOMPLETE_TASK_FORMAT = "Format for incomplete task : incomplete <taskName>\n";
 	private static final String TIMED_TASK_FORMAT = "Format for Time Task : add <taskName> --st <startDate> at <time> --en <endDate> at <time>\n";
 	private static final String DEADLINE_TASK_FORMAT = "Format for Deadline Task : add <taskName> --en <endDate> at <time>\n";
 	private static final String FlOATING_TASK_FORMAT = "Format for Floating Task : add <taskName>\n";
@@ -158,6 +158,27 @@ public class Parser {
         }
     }
 
+    private void checkExceptions(Keyword userCode, String values) throws Exception{
+        if (!Keyword.isCommand(userCode)) {
+            throw new Exception(INVALID_COMMAND + AVAILABLE_COMMANDS);
+        }
+        if (!Keyword.isCommand(userCode)) {
+            throw new Exception(INVALID_COMMAND + AVAILABLE_COMMANDS);
+        }
+        if (values.equals("") || (values.charAt(0)=='-' && values.charAt(1)=='-')) {
+            if (userCode.equals(Keyword.CREATE)) {
+                throw new Exception(NO_ARGUMENTS_ADD + HELP +FlOATING_TASK_FORMAT +DEADLINE_TASK_FORMAT+ TIMED_TASK_FORMAT );
+            }else if(userCode.equals(Keyword.UPDATE)){
+                throw new Exception(NO_ARGUMENTS_UPDATE + HELP + UPDATE_FORMAT);
+            }else if(userCode.equals(Keyword.DELETE)){
+                throw new Exception(NO_ARGUMENTS_DELETE + HELP + DELETE_FORMAT);
+            }else if(userCode.equals(Keyword.COMPLETED)){
+                throw new Exception(NO_ARGUMENTS_COMPLETED + HELP + COMPLETED_TASK_FORMAT);
+            }else if(userCode.equals(Keyword.INCOMPLETE)){
+                throw new Exception(NO_ARGUMENTS_INCOMPLETE + HELP + INCOMPLETE_TASK_FORMAT);
+            }
+        }    
+    }
     /**
      * Parse the userInput and calls appropriate methods
      * @param userInput
@@ -170,29 +191,9 @@ public class Parser {
         userInput = userInput + " ";
         String[] splitString = userInput.split(" ", 2);
         Keyword code = Keyword.getMeaning(splitString[0].trim());
-        if (!Keyword.isCommand(code)) {
-            throw new Exception(INVALID_COMMAND + AVAILABLE_COMMANDS);
-        }
         userInput = splitString[1].trim();
+        checkExceptions(code,userInput);
         String[] argument = userInput.trim().split("--");
-        
-        if (code.equals(Keyword.QEXIT)) {
-            throw new Exception("exit from program");
-        }
-        
-        if (userInput.equals("") || (userInput.charAt(0)=='-' && userInput.charAt(1)=='-')) {
-        	if (code.equals(Keyword.CREATE)) {
-        		throw new Exception(NO_ARGUMENTS_ADD + HELP +FlOATING_TASK_FORMAT +DEADLINE_TASK_FORMAT+ TIMED_TASK_FORMAT );
-        	}else if(code.equals(Keyword.UPDATE)){
-        		throw new Exception(NO_ARGUMENTS_UPDATE + HELP + UPDATE_FORMAT);
-        	}else if(code.equals(Keyword.DELETE)){
-        		throw new Exception(NO_ARGUMENTS_DELETE + HELP + DELETE_FORMAT);
-        	}else if(code.equals(Keyword.COMPLETED)){
-        		throw new Exception(NO_ARGUMENTS_COMPLETED + HELP + COMPLETED_TASK_FORMAT);
-        	}else if(code.equals(Keyword.INCOMPLETE)){
-                throw new Exception(NO_ARGUMENTS_INCOMPLETE + HELP + INCOMPLETE_TASK_FORMAT);
-            }
-        }
         getParameters(code, argument);
         return parameters;
     }

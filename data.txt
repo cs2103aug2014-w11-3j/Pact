@@ -11,7 +11,7 @@
     END: 20/12/2014 04:00
     START: 20/12/2014 03:59
     TYPE: TIMED
-    COMPLETED: false
+    COMPLETED: true
     ARCHIVED: false
     ALLDAY: false
 }
@@ -50,4 +50,36 @@
     COMPLETED: false
     ARCHIVED: false
     ALLDAY: true
+}
+{
+    CONTENT: task7
+    END: 31/10/0015 12:00
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: task
+    END: 03/12/2014 12:00
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: holday work
+    END: 11/12/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: true
+}
+{
+    CONTENT: task check
+    END: 12/12/2014 13:00
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
 }
