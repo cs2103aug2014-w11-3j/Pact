@@ -46,15 +46,17 @@ public class EventHandler {
         } else if(code.equals(Keyword.EXIT)){
         	readTask(parameters);
         } else if(code.equals(Keyword.COMPLETED)){
-        	completeTask(parameters);
+        	completeTask(parameters, "true");
+        }else if(code.equals(Keyword.INCOMPLETE)){
+        	completeTask(parameters, "false");
         }else if(code.equals(Keyword.EMPTYSLOT)){
         	searchEmptySlot(parameters);
         }
         return result;
     }
 
-    private void completeTask(HashMap<Keyword, String> parameters) {
-		parameters.put(Keyword.COMPLETED, "true");
+    private void completeTask(HashMap<Keyword, String> parameters, String done) {
+		parameters.put(Keyword.COMPLETED, done);
 		updateTask(parameters);
 	}
 
