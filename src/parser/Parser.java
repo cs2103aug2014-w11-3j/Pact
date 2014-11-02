@@ -162,8 +162,8 @@ public class Parser {
         if (!Keyword.isCommand(userCode)) {
             throw new Exception(INVALID_COMMAND + AVAILABLE_COMMANDS);
         }
-        if (!Keyword.isCommand(userCode)) {
-            throw new Exception(INVALID_COMMAND + AVAILABLE_COMMANDS);
+        if (userCode.equals(Keyword.QEXIT)) {
+            throw new Exception("exit from program");
         }
         if (values.equals("") || (values.charAt(0)=='-' && values.charAt(1)=='-')) {
             if (userCode.equals(Keyword.CREATE)) {
