@@ -3,7 +3,7 @@
     END: 20/12/2014 23:59
     TYPE: DEADLINE
     COMPLETED: true
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: true
 }
 {
@@ -12,7 +12,7 @@
     START: 20/12/2014 03:59
     TYPE: TIMED
     COMPLETED: true
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: false
 }
 {
@@ -21,7 +21,7 @@
     START: 20/12/2014 00:39
     TYPE: TIMED
     COMPLETED: true
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: false
 }
 {
@@ -30,7 +30,7 @@
     START: 20/12/2014 01:00
     TYPE: TIMED
     COMPLETED: false
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: false
 }
 {
@@ -39,7 +39,7 @@
     START: 31/10/0015 00:00
     TYPE: TIMED
     COMPLETED: false
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: true
 }
 {
@@ -48,7 +48,7 @@
     START: 03/12/2014 00:00
     TYPE: TIMED
     COMPLETED: false
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: true
 }
 {
@@ -56,7 +56,7 @@
     END: 31/10/0015 12:00
     TYPE: DEADLINE
     COMPLETED: false
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: false
 }
 {
@@ -64,7 +64,7 @@
     END: 03/12/2014 12:00
     TYPE: DEADLINE
     COMPLETED: false
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: false
 }
 {
@@ -72,7 +72,7 @@
     END: 11/12/2014 23:59
     TYPE: DEADLINE
     COMPLETED: false
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: true
 }
 {
@@ -80,6 +80,31 @@
     END: 12/12/2014 13:00
     TYPE: DEADLINE
     COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: false
+}
+{
+    CONTENT: task4
+    END: 12/12/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: true
+}
+{
+    CONTENT: task5
+    END: 12/11/2014 13:00
+    TYPE: DEADLINE
+    COMPLETED: false
     ARCHIVED: false
     ALLDAY: false
+}
+{
+    CONTENT: task7
+    END: 13/12/2014 23:59
+    START: 12/12/2014 00:00
+    TYPE: TIMED
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: true
 }
