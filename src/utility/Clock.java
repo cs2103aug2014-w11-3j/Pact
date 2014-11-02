@@ -12,6 +12,7 @@ public class Clock {
     };
     
     public static String FORMAT_COMMON = "dd/MM/yyyy HH:mm";
+    public static String FORMAT_HOUR = "HH";
     public static String FORMAT_DATE = "dd/MM/yyyy";
     private static String[] DICTIONARY_DATE = { "ddMMyyyy", "ddMMMMyyyy", "MMMMddyyyy"};
     private static String[] DICTIONARY_TIME = { "hhmma", "hha", "HHmm" };
@@ -68,11 +69,40 @@ public class Clock {
         return new SimpleDateFormat(FORMAT_COMMON).format(result.getTime());
     }
     
-    public String getCurrentTime() {
+    public String getCurrentDateAndTime() {
         Date date = new Date();
         return new SimpleDateFormat(FORMAT_COMMON).format(date);
     }
-    
+    public String getCurrentHour() {
+        Date date = new Date();
+        return new SimpleDateFormat(FORMAT_HOUR).format(date);
+    }
+    public String getGreeting(String hour) {
+        int time = Integer.parseInt(hour);
+        if(time >= 0  && time < 12){
+        	return "Good Morning and ";
+        }else if(time >=12 && time < 17){
+        	return "Good Afternoon and ";
+        }else if(time >=17 && time < 19){
+        	return "Good Evening and ";
+        }else{     	
+        	return "";
+    	}
+	}
+    public String getExitGreeting(String hour) {
+        int time = Integer.parseInt(hour);
+        if(time >= 0  && time < 12){
+        	return "Have an awesome day ahead. All the best!";
+        }else if(time >=12 && time < 17){
+        	return "Have a pleasant afternoon!";
+        }else if(time >=17 && time < 19){
+        	return "Have a sweet evening!";
+        }else if(time >= 20 && time < 24){     	
+        	return "Good Night!";
+    	}else{
+    		return "";
+    	}
+	}
     public int getDay(String source) {
         return Integer.parseInt(source.substring(0,2));
     }
@@ -98,6 +128,7 @@ public class Clock {
     	 tmp.setTime(date); 
     	 return tmp.get(GregorianCalendar.DAY_OF_WEEK);
     }
+
     
     /**
      * Parse source into GregorianCalendar format

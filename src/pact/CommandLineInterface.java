@@ -15,7 +15,7 @@ import utility.Clock;
 import utility.Keyword;
 
 public class CommandLineInterface {
-
+	public static String[] fullDays = new String[]{ "","Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}; 
 	private String[] commandList = new String[] { "create", "update", "delete", "search", "display", "undo", "exit" };
 
 	/**
@@ -27,11 +27,17 @@ public class CommandLineInterface {
 		CommandLineInterface cli = new CommandLineInterface();
 		Parser commandParser = new Parser();
 		EventHandler logic = new EventHandler();
+		Clock clock = new Clock();
 		HashMap<Keyword, String> parsedCommand;
 		ArrayList<String> result;
+		
 		String userCommand;
-		System.out.println("Welome to PACT");
-		System.out.println("Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\", \"completed\", \"exit\" ");
+		try {
+			System.out.println(clock.getGreeting(clock.getCurrentHour()) +"Welome to PACT. The date today is " +clock.getDate(clock.getCurrentDateAndTime()) + " " 
+					+ fullDays[clock.getDayOfTheWeek(clock.getDate(clock.getCurrentDateAndTime()))]  + " and the time now is "+ clock.getTime(clock.getCurrentDateAndTime()) + ".");
+			System.out.println("Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\", \"complete\", \"exit\" ");
+		} catch (Exception e) {
+		}
 		while (true) {
 			try {
 				userCommand = cli.getUserCommand();
@@ -48,12 +54,14 @@ public class CommandLineInterface {
 				if(Keyword.getMeaning(userCommand).equals(Keyword.EXIT)){
 					System.out.println("Are you sure you want to exit? [Y/N]");
 					if(cli.getUserCommand().equalsIgnoreCase("Y")){
+						System.out.println(clock.getExitGreeting(clock.getCurrentHour()));
 						System.exit(0);
 					}
 				}
 			} catch (Exception pe) {
 				//System.out.println("Your command could not be processed.Please try again!");
 				if (pe.getMessage().equals("exit from program")) {
+					System.out.println(clock.getExitGreeting(clock.getCurrentHour()));
 				    return;
 				}
 			    cli.printErrorMessage(pe.getMessage());

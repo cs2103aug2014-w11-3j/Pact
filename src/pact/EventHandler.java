@@ -91,7 +91,7 @@ public class EventHandler {
     private void readTask(HashMap<Keyword, String> parameters) {
         boolean isExact = parameters.containsKey(Keyword.EXACT);
         Clock clock = new Clock();
-        String start = clock.getCurrentTime();
+        String start = clock.getCurrentDateAndTime();
         String end = "";
         boolean isArchivedIncluded = false; 
         boolean isCompletedIncluded = false;
