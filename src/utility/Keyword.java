@@ -12,6 +12,7 @@ public enum Keyword {
     UNDO        (new String[] { "undo", "cancel" }),
     CLEAR       (new String[] { "clear", "deleteAll", "removeAll" }),
     COMPLETED   (new String[] { "completed", "complete", "finished", "done" }),
+    INCOMPLETE (new String[]  { "incomplete", "not complete", "unfinished","not done" }),
     EMPTYSLOT   (new String[] { "emptyslot", "find", "findempty", "fes", "findslot"}),
     
    
@@ -67,7 +68,7 @@ public enum Keyword {
      * @return boolean
      */
     public static boolean isCommand(Keyword input) {
-        Keyword[] commandList = {CREATE, READ, DELETE, UPDATE, EXIT, QEXIT, UNDO, CLEAR, COMPLETED, EMPTYSLOT};
+        Keyword[] commandList = {CREATE, READ, DELETE, UPDATE, EXIT, QEXIT, UNDO, CLEAR, COMPLETED, INCOMPLETE, EMPTYSLOT};
         return Arrays.asList(commandList).contains(input);
     }
     
@@ -88,8 +89,10 @@ public enum Keyword {
         } else if (method.equals(DELETE)) {
             argList = new Keyword[] { CONTENT, FOREVER };
         } else if(method.equals(COMPLETED)){
-            argList = new Keyword[] { CONTENT, ALL };
-        } else if (method.equals(UNDO)) {
+            argList = new Keyword[] { CONTENT};
+        } else if(method.equals(INCOMPLETE)){
+            argList = new Keyword[] { CONTENT};
+        }else if (method.equals(UNDO)) {
             argList = new Keyword[] { CONTENT};
         } else if (method.equals(CLEAR)) {
             argList = new Keyword[] { CONTENT,FOREVER};

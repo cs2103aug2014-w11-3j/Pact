@@ -13,7 +13,9 @@ public class Parser {
 	private static final String NO_ARGUMENTS_UPDATE = "Arguments required for updating a task\n\n";
 	private static final String NO_ARGUMENTS_DELETE = "Arguments required for deleting a task\n\n";
 	private static final String NO_ARGUMENTS_COMPLETED = "Arguments are required for completing tasks\n\n ";
+	private static final String NO_ARGUMENTS_INCOMPLETE = "Arguments are required for incomplete task command\n\n ";
 	private static final String COMPLETED_TASK_FORMAT = "Format for complete task : completed <taskName>\n";
+	   private static final String INCOMPLETE_TASK_FORMAT = "Format for incomplete task : incomplete <taskName>\n";
 	private static final String TIMED_TASK_FORMAT = "Format for Time Task : add <taskName> --st <startDate> at <time> --en <endDate> at <time>\n";
 	private static final String DEADLINE_TASK_FORMAT = "Format for Deadline Task : add <taskName> --en <endDate> at <time>\n";
 	private static final String FlOATING_TASK_FORMAT = "Format for Floating Task : add <taskName>\n";
@@ -187,7 +189,9 @@ public class Parser {
         		throw new Exception(NO_ARGUMENTS_DELETE + HELP + DELETE_FORMAT);
         	}else if(code.equals(Keyword.COMPLETED)){
         		throw new Exception(NO_ARGUMENTS_COMPLETED + HELP + COMPLETED_TASK_FORMAT);
-        	}
+        	}else if(code.equals(Keyword.INCOMPLETE)){
+                throw new Exception(NO_ARGUMENTS_INCOMPLETE + HELP + INCOMPLETE_TASK_FORMAT);
+            }
         }
         getParameters(code, argument);
         return parameters;
