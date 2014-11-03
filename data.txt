@@ -53,8 +53,9 @@
 }
 {
     CONTENT: task7
-    END: 31/10/0015 12:00
-    TYPE: DEADLINE
+    END: 13/12/2014 08:00
+    START: 06/12/2014 00:00
+    TYPE: TIMED
     COMPLETED: false
     ARCHIVED: true
     ALLDAY: false
@@ -86,7 +87,8 @@
 {
     CONTENT: task4
     END: 12/12/2014 23:59
-    TYPE: DEADLINE
+    START: 06/12/2014 15:00
+    TYPE: TIMED
     COMPLETED: false
     ARCHIVED: false
     ALLDAY: true
@@ -94,17 +96,35 @@
 {
     CONTENT: task5
     END: 12/11/2014 13:00
-    TYPE: DEADLINE
+    START: 06/12/2014 06:00
+    TYPE: TIMED
     COMPLETED: false
     ARCHIVED: false
     ALLDAY: false
 }
 {
     CONTENT: task7
-    END: 13/12/2014 23:59
-    START: 12/12/2014 00:00
+    END: 13/12/2014 08:00
+    START: 06/12/2014 00:00
     TYPE: TIMED
     COMPLETED: false
     ARCHIVED: false
     ALLDAY: true
+}
+{
+    CONTENT: task3
+    END: 12/12/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: task1
+    END: 02/11/2014 23:59
+    START: 06/12/2014 00:00
+    TYPE: TIMED
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
 }

@@ -181,7 +181,15 @@ public class CommandLineInterface {
 						+ " |-     |"+ array[clock.getDayOfTheWeek(splitString[1])] + " |");
 			} else {
 				sb.append("-          |-     |-   |" + splitString[0] + " |"
-						+ splitString[1] + " |"+ array[clock.getDayOfTheWeek(splitString[0])] + " |");
+						+ splitString[1] + " |" + array[clock.getDayOfTheWeek(splitString[0])] + " |" );
+			}
+		} else if(splitString.length == 3) {
+			if(splitString[1].length() == 10){
+				sb.append(splitString[0] + " |-     |"+ array[clock.getDayOfTheWeek(splitString[0])] + " |"
+					+ splitString[1] + " |" + splitString[2] + " |"+ array[clock.getDayOfTheWeek(splitString[1])] + " |");
+			} else {
+				sb.append(splitString[0] + " |" + splitString[1] + " |"+ array[clock.getDayOfTheWeek(splitString[0])] + " |"
+						+splitString[2] + " |-     |" + array[clock.getDayOfTheWeek(splitString[2])]+  " |");
 			}
 		} else if (splitString.length == 4) {
 			sb.append(splitString[0] + " |" + splitString[1] + " |"+ array[clock.getDayOfTheWeek(splitString[0])] + " |"

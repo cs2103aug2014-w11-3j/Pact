@@ -108,6 +108,7 @@ public class Parser {
             }
         }
         String[] check = value.split(" ");
+        System.out.println(check[0]);
         if(check[0].length()>10){
             throw new Exception(INVALID_DATE+ HELP +FlOATING_TASK_FORMAT +DEADLINE_TASK_FORMAT+ TIMED_TASK_FORMAT);
         }

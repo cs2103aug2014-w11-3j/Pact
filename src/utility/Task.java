@@ -61,7 +61,7 @@ public class Task {
      * Construct string to put into result
      * @return 
      */
-    public String getDisplayedString() {
+   /* public String getDisplayedString() {
         String result = content;
         if (type.equals(Keyword.TIMED)) {
             String[] splitStart = start.split(" ", 2);
@@ -83,6 +83,49 @@ public class Task {
         } else if (type.equals(Keyword.FLOATING)) {
         	
         	result = result + ":" + String.valueOf(isCompleted) + ":" ;
+        }
+        return result;
+    }*/
+    
+    public String getDisplayedString() {
+        String result = content;
+        result = result + ":" + String.valueOf(isCompleted); 
+        if (type.equals(Keyword.TIMED)) {
+            String[] splitStart = start.split(" ", 2);
+            String[] splitEnd = end.split(" ", 2);  
+            System.out.println(splitStart[0] + splitStart[1]);
+            System.out.println(splitEnd[0] + splitEnd[1]);
+            if (splitEnd[1].equals("23:59") && splitStart[1].equals("00:00")) {
+            	System.out.println("1");
+            	result = result +":" + splitStart[0];
+                result = result + " " + splitEnd[0]; 
+            }else{
+            	result = result + ":" + splitStart[0] + " " + splitStart[1];
+                result = result + " " + splitEnd[0] + " " + splitEnd[1];
+            } /*else if(!splitEnd[1].equals("23:59") && !splitStart[1].equals("00:00")){
+            	System.out.println("2");
+            	result = result + ":" + splitStart[0] + " " + splitStart[1];
+                result = result + " " + splitEnd[0] + " " + splitEnd[1];
+            } else if(splitStart[1].equals("00:00")){
+            	System.out.println("3");
+            	result = result + ":" + splitStart[0];
+                result = result + " " + splitEnd[0] + " " + splitEnd[1];
+            }else{     
+            	System.out.println("4");              
+                result = result + ":" + splitStart[0] + " " + splitStart[1];
+                result = result + " " + splitEnd[0];
+            }
+            */
+        } else if (type.equals(Keyword.DEADLINE)) {
+            String[] splitEnd = end.split(" ", 2);
+            if (!splitEnd[1].equals("23:59")) {
+                result = result + ":" + splitEnd[0] + " " + splitEnd[1];
+            } else {
+                result = result + ":" +splitEnd[0];
+            }
+        } else if (type.equals(Keyword.FLOATING)) {
+        	
+        	result = result + ":" ;
         }
         return result;
     }

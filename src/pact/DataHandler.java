@@ -101,7 +101,7 @@ public class DataHandler {
                     if(!isCompleted.isEmpty()){
                     	data.get(i).setValue(Keyword.COMPLETED, isCompleted);
                     }
-                    if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.TIMED)) {
+                    /*if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.TIMED)) {
                         if (!start.isEmpty()) {
                             data.get(i).setValue(Keyword.START, start);
                         }
@@ -112,7 +112,25 @@ public class DataHandler {
                         if (!end.isEmpty()) {
                             data.get(i).setValue(Keyword.END, end);
                         }
-                    } 
+                    } */
+                    	if(!start.isEmpty() && !end.isEmpty()){
+                    		if (!Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.TIMED)){
+                    			data.get(i).setValue(Keyword.TYPE, "TIMED");
+                    		}
+                    		data.get(i).setValue(Keyword.START, start);
+                    		data.get(i).setValue(Keyword.END, end);
+                    	}else if (!start.isEmpty()) {
+                        	if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)) {
+                        		data.get(i).setValue(Keyword.TYPE, "TIMED");
+                        	}
+                        		data.get(i).setValue(Keyword.START, start);
+                        	
+                        }else if (!end.isEmpty()) {
+                        	if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.FLOATING)){
+                        		data.get(i).setValue(Keyword.TYPE, "DEADLINE");
+                        	}
+                        		data.get(i).setValue(Keyword.END, end);
+                        }       
                     break;
 
                 }
