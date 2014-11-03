@@ -14,11 +14,13 @@ public class Parser {
 	private static final String NO_ARGUMENTS_DELETE = "Arguments required for deleting a task\n\n";
 	private static final String NO_ARGUMENTS_COMPLETED = "Arguments are required for completing tasks\n\n ";
 	private static final String NO_ARGUMENTS_INCOMPLETE = "Arguments are required for incomplete task command\n\n ";
+	private static final String NO_ARGUMENTS_EMPTYSLOT = "Arguments are required to search for empty slots\n\n";
 	private static final String COMPLETED_TASK_FORMAT = "Format for complete task : completed <taskName>\n";
 	private static final String INCOMPLETE_TASK_FORMAT = "Format for incomplete task : incomplete <taskName>\n";
 	private static final String TIMED_TASK_FORMAT = "Format for Time Task : add <taskName> --st <startDate> at <time> --en <endDate> at <time>\n";
 	private static final String DEADLINE_TASK_FORMAT = "Format for Deadline Task : add <taskName> --en <endDate> at <time>\n";
 	private static final String FlOATING_TASK_FORMAT = "Format for Floating Task : add <taskName>\n";
+	private static final String EMPTYSLOT_TASK_FORMAT ="Format for EmptySlot : emptyslot --after <startDate> --before <endDate>\n";
 	private static final String UPDATE_FORMAT = "Format for update/change : update/change <taskName> --<field> <changeToValue>\n";
 	private static final String DELETE_FORMAT = "Format for delete : delete <taskName>\n";
 	private static final String INVALID_COMMAND = "Invalid Command\n\n";
@@ -28,6 +30,7 @@ public class Parser {
 	private static final String INCORRECT_TIME_FORMAT = "Incorrect format to add time\n";
 	private static final String EXCEEDED_CHAR_LIMIT = "Task description has exceeded 30 characters";
 	private static final String INVALID_DATE = "You have entered an invalid date.\n\n";
+	private static final String EXCEED_DATE_LIMIT ="Maximum search period for emptyslot is 7 days\n\n";
 	private static final String HELP = "Valid Formats:\n";
 	private HashMap<Keyword, String> parameters = new HashMap<Keyword, String>();
     
@@ -178,8 +181,24 @@ public class Parser {
             }else if(userCode.equals(Keyword.INCOMPLETE)){
                 throw new Exception(NO_ARGUMENTS_INCOMPLETE + HELP + INCOMPLETE_TASK_FORMAT);
             }
-        }    
+        }
+             
+           if(userCode.equals(Keyword.EMPTYSLOT) && values.charAt(0)!='-'){
+                throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + EMPTYSLOT_TASK_FORMAT);
+           }
+         
+             
+            
     }
+    public void checkDateLimit() throws Exception{
+       
+        if(!(new Clock().getDateDifference(parameters))){
+           throw new Exception(EXCEED_DATE_LIMIT);
+       }
+    }
+    
+    
+    
     /**
      * Parse the userInput and calls appropriate methods
      * @param userInput
@@ -196,6 +215,9 @@ public class Parser {
         checkExceptions(code,userInput);
         String[] argument = userInput.trim().split("--");
         getParameters(code, argument);
+        if(code.equals(Keyword.EMPTYSLOT)){
+            checkDateLimit();
+        }
         return parameters;
     }
    } 

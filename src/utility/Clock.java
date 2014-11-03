@@ -1,9 +1,12 @@
 package utility;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 public class Clock {
     
@@ -143,5 +146,33 @@ public class Clock {
         }
         return result.getTimeInMillis();
     }
-    
+    public boolean getDateDifference(HashMap<Keyword,String> parameters){
+        String start = parameters.get(Keyword.START);
+        String end = parameters.get(Keyword.END);
+        String[] starts = start.split("/");
+        String[] ends = end.split("/");
+        String[] checkStartYear = starts[2].split(" ");
+        String[] checkEndYear = ends[2].split(" ");
+        int startDay = Integer.parseInt(starts[0]);
+        int startMonth = Integer.parseInt(starts[1]);
+        
+        int startYear = Integer.parseInt(checkStartYear[0]);
+        
+        int endDay = Integer.parseInt(ends[0]);
+        int endMonth = Integer.parseInt(ends[1]);
+        int endYear = Integer.parseInt(checkEndYear[0]);
+        
+        Calendar cal1 = new GregorianCalendar();
+        Calendar cal2 = new GregorianCalendar();
+        cal1.set(startYear,startMonth,startDay);
+        cal2.set(endYear,endMonth,endDay);
+        
+        double days =(double) (cal2.getTime().getTime() - cal1.getTime().getTime()) / (1000 * 60 * 60 * 24);
+      
+        if(days<=7){
+            return true;
+        }
+       
+        return false;
+    } 
 }
