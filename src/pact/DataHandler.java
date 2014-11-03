@@ -113,24 +113,27 @@ public class DataHandler {
                             data.get(i).setValue(Keyword.END, end);
                         }
                     } */
-                    	if(!start.isEmpty() && !end.isEmpty()){
-                    		if (!Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.TIMED)){
-                    			data.get(i).setValue(Keyword.TYPE, "TIMED");
-                    		}
-                    		data.get(i).setValue(Keyword.START, start);
-                    		data.get(i).setValue(Keyword.END, end);
-                    	}else if (!start.isEmpty()) {
-                        	if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)) {
-                        		data.get(i).setValue(Keyword.TYPE, "TIMED");
-                        	}
-                        		data.get(i).setValue(Keyword.START, start);
-                        	
-                        }else if (!end.isEmpty()) {
-                        	if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.FLOATING)){
-                        		data.get(i).setValue(Keyword.TYPE, "DEADLINE");
-                        	}
-                        		data.get(i).setValue(Keyword.END, end);
-                        }       
+                    if(!start.isEmpty() && !end.isEmpty()){
+                    	if (!Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)){
+                    		data.get(i).setValue(Keyword.TYPE, String.valueOf(Keyword.DEADLINE));
+                   		}
+                   		data.get(i).setValue(Keyword.START, start);
+                   		data.get(i).setValue(Keyword.END, end);
+                   	}else if (!start.isEmpty()) {
+                       	if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)) {
+                       		data.get(i).setValue(Keyword.TYPE, String.valueOf(Keyword.TIMED));
+                       	}
+                       	data.get(i).setValue(Keyword.START, start);
+                   	}else if (!end.isEmpty()) {
+                       	if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.FLOATING)){
+                       		data.get(i).setValue(Keyword.TYPE, String.valueOf(Keyword.DEADLINE));
+                       	}
+                       	data.get(i).setValue(Keyword.END, end);
+                    }else {
+                        if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)){
+                            data.get(i).setValue(Keyword.TYPE, String.valueOf(Keyword.FLOATING));
+                        }
+                    }
                     break;
 
                 }
