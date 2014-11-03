@@ -102,20 +102,7 @@ public class Task {
             }else{
             	result = result + ":" + splitStart[0] + " " + splitStart[1];
                 result = result + " " + splitEnd[0] + " " + splitEnd[1];
-            } /*else if(!splitEnd[1].equals("23:59") && !splitStart[1].equals("00:00")){
-            	System.out.println("2");
-            	result = result + ":" + splitStart[0] + " " + splitStart[1];
-                result = result + " " + splitEnd[0] + " " + splitEnd[1];
-            } else if(splitStart[1].equals("00:00")){
-            	System.out.println("3");
-            	result = result + ":" + splitStart[0];
-                result = result + " " + splitEnd[0] + " " + splitEnd[1];
-            }else{     
-            	System.out.println("4");              
-                result = result + ":" + splitStart[0] + " " + splitStart[1];
-                result = result + " " + splitEnd[0];
             }
-            */
         } else if (type.equals(Keyword.DEADLINE)) {
             String[] splitEnd = end.split(" ", 2);
             if (!splitEnd[1].equals("23:59")) {
