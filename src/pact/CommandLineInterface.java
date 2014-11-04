@@ -33,7 +33,7 @@ public class CommandLineInterface {
 		
 		String userCommand;
 		try {
-			System.out.println(clock.getGreeting(clock.getCurrentHour()) +"Welome to PACT. The date today is " +clock.getDate(clock.getCurrentDateAndTime()) + " " 
+			System.out.println(clock.getGreeting(clock.getCurrentHour()) +"Welcome to PACT. The date today is " +clock.getDate(clock.getCurrentDateAndTime()) + " " 
 					+ fullDays[clock.getDayOfTheWeek(clock.getDate(clock.getCurrentDateAndTime()))]  + " and the time now is "+ clock.getTime(clock.getCurrentDateAndTime()) + ".");
 			System.out.println("Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\", \"complete\", \"exit\" ");
 		} catch (Exception e) {
