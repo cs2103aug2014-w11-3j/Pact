@@ -93,10 +93,7 @@ public class Task {
         if (type.equals(Keyword.TIMED)) {
             String[] splitStart = start.split(" ", 2);
             String[] splitEnd = end.split(" ", 2);  
-            System.out.println(splitStart[0] + splitStart[1]);
-            System.out.println(splitEnd[0] + splitEnd[1]);
             if (splitEnd[1].equals("23:59") && splitStart[1].equals("00:00")) {
-            	System.out.println("1");
             	result = result +":" + splitStart[0];
                 result = result + " " + splitEnd[0]; 
             }else{

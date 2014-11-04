@@ -1,31 +1,8 @@
 {
-    CONTENT: task 4
-    END: 13/12/2014 12:00
-    START: 12/12/2014 12:00
+    CONTENT: cs2103t meeting
+    END: 05/11/2014 15:00
+    START: 05/11/2014 13:00
     TYPE: TIMED
-    COMPLETED: false
-    ARCHIVED: false
-    ALLDAY: false
-}
-{
-    CONTENT: task1
-    TYPE: FLOATING
-    COMPLETED: false
-    ARCHIVED: false
-    ALLDAY: false
-}
-{
-    CONTENT: task5
-    END: 12/12/2014 23:59
-    TYPE: DEADLINE
-    COMPLETED: false
-    ARCHIVED: false
-    ALLDAY: true
-}
-{
-    CONTENT: task 7
-    END: 12/12/2014 23:59
-    TYPE: DEADLINE
     COMPLETED: false
     ARCHIVED: false
     ALLDAY: false
