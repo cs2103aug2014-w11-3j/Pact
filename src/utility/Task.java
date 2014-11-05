@@ -81,8 +81,8 @@ public class Task {
                 result = result + ":" + String.valueOf(isCompleted) + ":" +splitEnd[0];
             }
         } else if (type.equals(Keyword.FLOATING)) {
-        	
-        	result = result + ":" + String.valueOf(isCompleted) + ":" ;
+            
+            result = result + ":" + String.valueOf(isCompleted) + ":" ;
         }
         return result;
     }*/
@@ -94,10 +94,10 @@ public class Task {
             String[] splitStart = start.split(" ", 2);
             String[] splitEnd = end.split(" ", 2);  
             if (splitEnd[1].equals("23:59") && splitStart[1].equals("00:00")) {
-            	result = result +":" + splitStart[0];
+                result = result +":" + splitStart[0];
                 result = result + " " + splitEnd[0]; 
-            }else{
-            	result = result + ":" + splitStart[0] + " " + splitStart[1];
+            } else {
+                result = result + ":" + splitStart[0] + " " + splitStart[1];
                 result = result + " " + splitEnd[0] + " " + splitEnd[1];
             }
         } else if (type.equals(Keyword.DEADLINE)) {
@@ -108,8 +108,8 @@ public class Task {
                 result = result + ":" +splitEnd[0];
             }
         } else if (type.equals(Keyword.FLOATING)) {
-        	
-        	result = result + ":" ;
+            
+            result = result + ":" ;
         }
         return result;
     }
@@ -120,11 +120,11 @@ public class Task {
      * @return
      */
     public String getValue(Keyword key) {
-    	String value = "";
+        String value = "";
         if (key.equals(Keyword.CONTENT)) {
             value = content;
         } else if (key.equals(Keyword.START)) {
-        	value = start;
+            value = start;
         } else if (key.equals(Keyword.END)) {
             value = end;
         } else if (key.equals(Keyword.TYPE)) {
@@ -132,9 +132,9 @@ public class Task {
         } else if (key.equals(Keyword.COMPLETED)) {
             value = String.valueOf(isCompleted);
         } else if (key.equals(Keyword.ARCHIVED)) {
-        	value = String.valueOf(isArchived);
+            value = String.valueOf(isArchived);
         } else if (key.equals(Keyword.ALLDAY)) {
-        	value = String.valueOf(isAllDayTask);
+            value = String.valueOf(isAllDayTask);
         }
         return value;
     }

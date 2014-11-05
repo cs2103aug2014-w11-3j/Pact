@@ -26,7 +26,7 @@ public enum Keyword {
     ALLDAY      (new String[] { "allday" }),
     ARCHIVED    (new String[] { "archived" }),
     FOREVER     (new String[] { "forever", "permanent", "force" }),
-    SORT		(new String[] { "sort", "organise" }),
+    SORT        (new String[] { "sort", "organise" }),
     ALL         (new String[] { "all" , "everything" }),
     
     FLOATING    (new String[] { "floating" }),
@@ -83,23 +83,23 @@ public enum Keyword {
         if (method.equals(CREATE)) {
             argList = new Keyword[] { CONTENT, START, END };
         } else if (method.equals(READ)) {
-            argList = new Keyword[] { CONTENT, EXACT, START, END , SORT ,COMPLETED, ARCHIVED};
+            argList = new Keyword[] { CONTENT, EXACT, START, END , SORT ,COMPLETED, ARCHIVED };
         } else if (method.equals(UPDATE)) {
-            argList = new Keyword[] { CONTENT, NEWCONTENT, START, END, FOREVER , COMPLETED};
+            argList = new Keyword[] { CONTENT, NEWCONTENT, START, END, FOREVER , COMPLETED };
         } else if (method.equals(DELETE)) {
             argList = new Keyword[] { CONTENT, FOREVER };
-        } else if(method.equals(COMPLETED)){
-            argList = new Keyword[] { CONTENT};
-        } else if(method.equals(INCOMPLETE)){
-            argList = new Keyword[] { CONTENT};
-        }else if (method.equals(UNDO)) {
-            argList = new Keyword[] { CONTENT};
+        } else if (method.equals(COMPLETED)) {
+            argList = new Keyword[] { CONTENT };
+        } else if (method.equals(INCOMPLETE)) {
+            argList = new Keyword[] { CONTENT };
+        } else if (method.equals(UNDO)) {
+            argList = new Keyword[] { CONTENT };
         } else if (method.equals(CLEAR)) {
-            argList = new Keyword[] { CONTENT,FOREVER};
+            argList = new Keyword[] { CONTENT,FOREVER };
         } else if (method.equals(EXIT)) {
-        	argList = new Keyword[] { CONTENT };
+            argList = new Keyword[] { CONTENT };
         } else if (method.equals(EMPTYSLOT)) {
-        	argList = new Keyword[] { CONTENT, START, END };
+            argList = new Keyword[] { CONTENT, START, END };
         }
         return Arrays.asList(argList).contains(key);
     }

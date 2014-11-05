@@ -81,30 +81,30 @@ public class Clock {
     }
     public String getGreeting(String hour) {
         int time = Integer.parseInt(hour);
-        if(time >= 0  && time < 12){
-        	return "Good Morning";
-        }else if(time >=12 && time < 17){
-        	return "Good Afternoon";
-        }else if(time >=17 && time < 19){
-        	return "Good Evening";
-        }else{     	
-        	return "";
-    	}
-	}
+        if (time >= 0  && time < 12) {
+            return "Good Morning";
+        } else if (time >=12 && time < 17) {
+            return "Good Afternoon";
+        } else if (time >=17 && time < 19) {
+            return "Good Evening";
+        } else {        
+            return "";
+        }
+    }
     public String getExitGreeting(String hour) {
         int time = Integer.parseInt(hour);
-        if(time >= 0  && time < 12){
-        	return "Have an awesome day ahead. All the best!";
-        }else if(time >=12 && time < 17){
-        	return "Have a pleasant afternoon!";
-        }else if(time >=17 && time < 19){
-        	return "Have a sweet evening!";
-        }else if(time >= 20 && time < 24){     	
-        	return "Good Night!";
-    	}else{
-    		return "";
-    	}
-	}
+        if (time >= 0  && time < 12) {
+            return "Have an awesome day ahead. All the best!";
+        } else if (time >=12 && time < 17) {
+            return "Have a pleasant afternoon!";
+        } else if (time >=17 && time < 19) {
+            return "Have a sweet evening!";
+        } else if (time >= 20 && time < 24) {       
+            return "Good Night!";
+        } else {
+            return "";
+        }
+    }
     public int getDay(String source) {
         return Integer.parseInt(source.substring(0,2));
     }
@@ -122,12 +122,12 @@ public class Clock {
         return array[0];
     }
     public String getMonth(String dateString)throws Exception {
-    	GregorianCalendar tmp = new GregorianCalendar();
-   	 	dateString = dateString.replace("/", "");
-   	 	Date date = guess(dateString, DICTIONARY_DATE);
-   	 	tmp.setTime(date); 
-   	 	String[] monthArray = new String[]{"JAN", "FEB", "MAY","APR", "MAY", "JUN", "JUL", "AUG","SEP", "OCT", "NOV", "DEC"};
-   	 	return monthArray[tmp.get(GregorianCalendar.MONTH)];
+        GregorianCalendar tmp = new GregorianCalendar();
+        dateString = dateString.replace("/", "");
+        Date date = guess(dateString, DICTIONARY_DATE);
+        tmp.setTime(date); 
+        String[] monthArray = new String[]{"JAN", "FEB", "MAY","APR", "MAY", "JUN", "JUL", "AUG","SEP", "OCT", "NOV", "DEC"};
+        return monthArray[tmp.get(GregorianCalendar.MONTH)];
     }
     
     public String getTime(String toSplit) throws Exception {
@@ -135,11 +135,11 @@ public class Clock {
         return array[1];
     }
     public int getDayOfTheWeek(String dateString)throws Exception {
-    	 GregorianCalendar tmp = new GregorianCalendar();
-    	 dateString = dateString.replace("/", "");
-    	 Date date = guess(dateString, DICTIONARY_DATE);
-    	 tmp.setTime(date); 
-    	 return tmp.get(GregorianCalendar.DAY_OF_WEEK);
+         GregorianCalendar tmp = new GregorianCalendar();
+         dateString = dateString.replace("/", "");
+         Date date = guess(dateString, DICTIONARY_DATE);
+         tmp.setTime(date); 
+         return tmp.get(GregorianCalendar.DAY_OF_WEEK);
     }
 
     
@@ -156,7 +156,7 @@ public class Clock {
         }
         return result.getTimeInMillis();
     }
-    public boolean getDateDifference(HashMap<Keyword,String> parameters){
+    public boolean getDateDifference(HashMap<Keyword,String> parameters) {
         String start = parameters.get(Keyword.START);
         String end = parameters.get(Keyword.END);
         String[] starts = start.split("/");
@@ -179,7 +179,7 @@ public class Clock {
         
         double days =(double) (cal2.getTime().getTime() - cal1.getTime().getTime()) / (1000 * 60 * 60 * 24);
       
-        if(days<=7){
+        if (days <= 7) {
             return true;
         }
        
