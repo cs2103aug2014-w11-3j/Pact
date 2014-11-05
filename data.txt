@@ -33,3 +33,10 @@
     ARCHIVED: false
     ALLDAY: false
 }
+{
+    CONTENT: kambing
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}

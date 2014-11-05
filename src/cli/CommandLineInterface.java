@@ -24,14 +24,16 @@ public class CommandLineInterface {
      * 
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         CommandLineInterface cli = new CommandLineInterface();
         Parser commandParser = new Parser();
         EventHandler logic = new EventHandler();
+        ConsoleReader reader = new ConsoleReader();
         Clock clock = new Clock();
         HashMap<Keyword, String> parsedCommand;
         ArrayList<String> result;
         
+        reader.clearScreen();
         String userCommand;
         try {
             System.out.println("WELCOME TO PERSONAL ASSISTANT COORDINATOR TOOL(PACT)!\n");
@@ -43,6 +45,10 @@ public class CommandLineInterface {
         while (true) {
             try {
                 userCommand = cli.getUserCommand();
+                if (userCommand.equals("cls")) {
+                    reader.clearScreen();
+                    continue;
+                }
                 parsedCommand = commandParser.parse(userCommand);
                 result = logic.determineCommand(parsedCommand);
                 if (cli.printTable(userCommand)) {
@@ -70,7 +76,7 @@ public class CommandLineInterface {
             }
 
         }
-
+        
     }
 
     private boolean printTable(String userCommand) {
