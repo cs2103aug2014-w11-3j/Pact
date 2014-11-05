@@ -82,11 +82,11 @@ public class Clock {
     public String getGreeting(String hour) {
         int time = Integer.parseInt(hour);
         if(time >= 0  && time < 12){
-        	return "Good Morning and ";
+        	return "Good Morning";
         }else if(time >=12 && time < 17){
-        	return "Good Afternoon and ";
+        	return "Good Afternoon";
         }else if(time >=17 && time < 19){
-        	return "Good Evening and ";
+        	return "Good Evening";
         }else{     	
         	return "";
     	}
@@ -108,6 +108,9 @@ public class Clock {
     public int getDay(String source) {
         return Integer.parseInt(source.substring(0,2));
     }
+    public int getYear(String source) {
+        return Integer.parseInt(source.substring(6,10));
+    }
     
     public String normalize(String toNormalize) throws Exception {
         String array[] = toNormalize.split(" ");
@@ -123,7 +126,7 @@ public class Clock {
    	 	dateString = dateString.replace("/", "");
    	 	Date date = guess(dateString, DICTIONARY_DATE);
    	 	tmp.setTime(date); 
-   	 	String[] monthArray = new String[]{"Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug","Sep", "Oct", "Nov", "Dec"};
+   	 	String[] monthArray = new String[]{"JAN", "FEB", "MAY","APR", "MAY", "JUN", "JUL", "AUG","SEP", "OCT", "NOV", "DEC"};
    	 	return monthArray[tmp.get(GregorianCalendar.MONTH)];
     }
     

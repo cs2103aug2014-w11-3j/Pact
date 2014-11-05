@@ -33,9 +33,10 @@ public class CommandLineInterface {
 		
 		String userCommand;
 		try {
-			System.out.println(clock.getGreeting(clock.getCurrentHour()) +"Welcome to PACT. The date today is " +clock.getDate(clock.getCurrentDateAndTime()) + " " 
-					+ fullDays[clock.getDayOfTheWeek(clock.getDate(clock.getCurrentDateAndTime()))]  + " and the time now is "+ clock.getTime(clock.getCurrentDateAndTime()) + ".");
-			System.out.println("Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\", \"complete\", \"exit\" ");
+			System.out.println("WELCOME TO PERSONAL ASSISTANT COORDINATOR TOOL(PACT)!\n");
+			System.out.println(clock.getGreeting(clock.getCurrentHour())+"!\n" +"Date: " +clock.getDay(clock.getCurrentDateAndTime()) + " "+ clock.getMonth(clock.getCurrentDateAndTime()) + " " +clock.getYear(clock.getCurrentDateAndTime())+", " 
+					+ fullDays[clock.getDayOfTheWeek(clock.getDate(clock.getCurrentDateAndTime()))]  + "\nTime: "+ clock.getTime(clock.getCurrentDateAndTime())+ "\n");
+			System.out.println("Commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\", \"complete\", \"exit\" ");
 		} catch (Exception e) {
 		}
 		while (true) {
