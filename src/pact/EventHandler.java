@@ -40,27 +40,27 @@ public class EventHandler {
         } else if (code.equals(Keyword.DELETE)) {
             deleteTask(parameters, false);
         } else if (code.equals(Keyword.CLEAR)) {
-        	deleteTask(parameters, true);  
+            deleteTask(parameters, true);  
         } else if (code.equals(Keyword.UNDO)) {
             undo();
-        } else if(code.equals(Keyword.EXIT)){
-        	readTask(parameters);
-        } else if(code.equals(Keyword.COMPLETED)){
-        	completeTask(parameters, "true");
-        }else if(code.equals(Keyword.INCOMPLETE)){
-        	completeTask(parameters, "false");
-        }else if(code.equals(Keyword.EMPTYSLOT)){
-        	searchEmptySlot(parameters);
+        } else if (code.equals(Keyword.EXIT)) {
+            readTask(parameters);
+        } else if (code.equals(Keyword.COMPLETED)) {
+            completeTask(parameters, "true");
+        } else if (code.equals(Keyword.INCOMPLETE)) {
+            completeTask(parameters, "false");
+        } else if (code.equals(Keyword.EMPTYSLOT)) {
+            searchEmptySlot(parameters);
         }
         return result;
     }
     //@Hui Yi A0101331H
     private void completeTask(HashMap<Keyword, String> parameters, String done) {
-		parameters.put(Keyword.COMPLETED, done);
-		updateTask(parameters);
-	}
+        parameters.put(Keyword.COMPLETED, done);
+        updateTask(parameters);
+    }
     //@Hui Yi A0101331H
-	/**
+    /**
      * Creates a new Task and calls the dataHandler to store the information
      * @param parameters
      */
@@ -72,13 +72,13 @@ public class EventHandler {
             if (key.equals(Keyword.CONTENT)) {
                 task.setValue(key, value);
             } else if (key.equals(Keyword.START)) {
-            	task.setValue(key, value);
+                task.setValue(key, value);
             } else if (key.equals(Keyword.END)) {
-            	task.setValue(key, value);
+                task.setValue(key, value);
             } else if (key.equals(Keyword.ALLDAY)) {
-            	task.setValue(key, value);
+                task.setValue(key, value);
             } else if (key.equals(Keyword.TYPE)) {
-            	task.setValue(key, value);
+                task.setValue(key, value);
             }
         }
         dataHandler.createTask(task);
@@ -97,7 +97,7 @@ public class EventHandler {
      * @param parameters
      */
     private void readTask(HashMap<Keyword, String> parameters) {
-    	//for (Keyword key : parameters.keySet()) {
+        //for (Keyword key : parameters.keySet()) {
             //System.out.println(key + " " + parameters.get(key));
        // }
         boolean isExact = parameters.containsKey(Keyword.EXACT);
@@ -114,27 +114,27 @@ public class EventHandler {
             end = parameters.get(Keyword.END);
         }
         if (parameters.containsKey(Keyword.ARCHIVED)) {
-        	isArchivedIncluded = Boolean.valueOf(parameters.get(Keyword.ARCHIVED));
+            isArchivedIncluded = Boolean.valueOf(parameters.get(Keyword.ARCHIVED));
         }
         if (parameters.containsKey(Keyword.COMPLETED)) {
-        	isCompletedIncluded = true;
+            isCompletedIncluded = true;
         }
         
         ArrayList<Task> queryResult = dataHandler.readTask(parameters.get(Keyword.CONTENT), isExact, start, end, isArchivedIncluded, isCompletedIncluded);
         if (queryResult.isEmpty()) {
             result.add(ANNOUNCEMENT_NOT_FOUND);
-        }else{
-        	result.add(ANNOUNCEMENT_READ);
+        } else {
+            result.add(ANNOUNCEMENT_READ);
         }
         ArrayList<String> unsorted = new ArrayList<String>();
        
         for (Task i : queryResult) {
                  unsorted.add(i.getDisplayedString());
         }
-        if((parameters.containsKey(Keyword.SORT))){
-        	 Collections.sort(unsorted);
-    	}
-        for (int i = 0; i <unsorted.size(); i++) {
+        if ((parameters.containsKey(Keyword.SORT))) {
+             Collections.sort(unsorted);
+        }
+        for (int i = 0; i < unsorted.size(); i++) {
             result.add(unsorted.get(i));
         }
         
@@ -152,9 +152,9 @@ public class EventHandler {
             return;
         }
         if (clear == false) {
-        	result.add(ANNOUNCEMENT_DELETE);
+            result.add(ANNOUNCEMENT_DELETE);
         } else {
-        	result.add(ANNOUNCEMENT_CLEAR);
+            result.add(ANNOUNCEMENT_CLEAR);
         }
 
         for (Task i : queryResult) {
@@ -175,7 +175,7 @@ public class EventHandler {
             newContent = parameters.get(Keyword.NEWCONTENT);
         }
         if (parameters.containsKey(Keyword.COMPLETED)) {
-        	isCompleted = parameters.get(Keyword.COMPLETED);
+            isCompleted = parameters.get(Keyword.COMPLETED);
         }
         if (parameters.containsKey(Keyword.START)) {
             start = parameters.get(Keyword.START);
@@ -195,12 +195,11 @@ public class EventHandler {
         }
     }
     //@Hui Yi A0101331H
-    private void sortTasks(ArrayList<Task> tasksList,Keyword sortKey,boolean isAscending)
-    {
+    private void sortTasks(ArrayList<Task> tasksList,Keyword sortKey,boolean isAscending) {
         for (int i = 0; i < tasksList.size(); ++i) {
             for (int j = i; j < tasksList.size(); ++j) {
                 if (tasksList.get(i).getValue(sortKey).compareTo(tasksList.get(j).getValue(sortKey)) > 0) {
-                    Collections.swap(tasksList,i,j);
+                    Collections.swap(tasksList, i, j);
                 }
             }
         }
@@ -209,10 +208,9 @@ public class EventHandler {
         }
     }
     
-    private void searchEmptySlot(HashMap<Keyword, String> parameters) throws Exception
-    {	
-    	String start = parameters.get(Keyword.START);
-    	String end = parameters.get(Keyword.END);
+    private void searchEmptySlot(HashMap<Keyword, String> parameters) throws Exception {   
+        String start = parameters.get(Keyword.START);
+        String end = parameters.get(Keyword.END);
         Clock clock = new Clock();
         int startDay = clock.getDay(start);
         for (int i = startDay; ; ++i) {
@@ -228,7 +226,7 @@ public class EventHandler {
             }
             String endSearch = clock.getDate(startSearch) + " 23:59";
             ArrayList<Task> onThisDay = dataHandler.readTask("", false, startSearch, endSearch, false, false);
-            sortTasks(onThisDay,Keyword.START,true);
+            sortTasks(onThisDay,Keyword.START, true);
             String freeTimeNow = "00:00";
             for (int j = 0; j < onThisDay.size(); ++j) {
                 if (onThisDay.get(j).getValue(Keyword.START).equals("")) {
@@ -246,9 +244,9 @@ public class EventHandler {
             }
             //result.add("On " + clock.getDate(startSearch) );
             String[] array = new String[]{ "","Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}; 
-            result.add("\nOn " + array[clock.getDayOfTheWeek(clock.getDate(startSearch))] +" " +clock.getDay(startSearch) + " " + clock.getMonth(clock.getDate(startSearch)) + " free from:" );
+            result.add("\nOn " + array[clock.getDayOfTheWeek(clock.getDate(startSearch))] + " " + clock.getDay(startSearch) + " " + clock.getMonth(clock.getDate(startSearch)) + " free from:" );
             for (int j = 0; j < resultThisDay.size(); ++j) {
-                result.add(String.valueOf(j+1) + ". " + resultThisDay.get(j));
+                result.add(String.valueOf(j + 1) + ". " + resultThisDay.get(j));
             }
             
         }
@@ -260,13 +258,11 @@ public class EventHandler {
      * @throws Exception
      */
     private void undo() throws Exception {
-    	dataHandler.undo();
-    	result.add(ANNOUNCEMENT_UNDO);
-   
+        dataHandler.undo();
+        result.add(ANNOUNCEMENT_UNDO);
     }
     
-    /*public static void main(String[] args) throws Exception
-    {
+    /*public static void main(String[] args) throws Exception {
         EventHandler e = new EventHandler();
         e.searchEmptySlot("20/12/2014 00:00","21/12/2014 23:59");
     }*/

@@ -49,7 +49,7 @@ public class DataHandler {
      * @return status
      */
     public void createTask(Task task) {
-    	backupFile();
+        backupFile();
         data.add(task);
         saveFile();
       
@@ -62,7 +62,7 @@ public class DataHandler {
      * @return Task that are deleted
      */
     public ArrayList<Task> deleteTask(String keyword, boolean isDeleting) {
-    	backupFile();
+        backupFile();
         ArrayList<Task> taskToDelete = readTask(keyword, false, "", "", false, true);
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
@@ -90,7 +90,7 @@ public class DataHandler {
      * @return Task that are updated
      */
     public ArrayList<Task> updateTask(String keyword, String newContent, String start, String end, String isCompleted) {
-    	backupFile();
+        backupFile();
         ArrayList<Task> taskToDelete = readTask(keyword, false, "", "", false, true);
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
@@ -98,8 +98,8 @@ public class DataHandler {
                     if (!newContent.isEmpty()) {
                         data.get(i).setValue(Keyword.CONTENT, newContent); 
                     }
-                    if(!isCompleted.isEmpty()){
-                    	data.get(i).setValue(Keyword.COMPLETED, isCompleted);
+                    if (!isCompleted.isEmpty()) {
+                        data.get(i).setValue(Keyword.COMPLETED, isCompleted);
                     }
                     /*if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.TIMED)) {
                         if (!start.isEmpty()) {
@@ -113,24 +113,24 @@ public class DataHandler {
                             data.get(i).setValue(Keyword.END, end);
                         }
                     } */
-                    if(!start.isEmpty() && !end.isEmpty()){
-                    	if (!Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)){
-                    		data.get(i).setValue(Keyword.TYPE, String.valueOf(Keyword.DEADLINE));
-                   		}
-                   		data.get(i).setValue(Keyword.START, start);
-                   		data.get(i).setValue(Keyword.END, end);
-                   	}else if (!start.isEmpty()) {
-                       	if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)) {
-                       		data.get(i).setValue(Keyword.TYPE, String.valueOf(Keyword.TIMED));
-                       	}
-                       	data.get(i).setValue(Keyword.START, start);
-                   	}else if (!end.isEmpty()) {
-                       	if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.FLOATING)){
-                       		data.get(i).setValue(Keyword.TYPE, String.valueOf(Keyword.DEADLINE));
-                       	}
-                       	data.get(i).setValue(Keyword.END, end);
-                    }else {
-                        if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)){
+                    if (!start.isEmpty() && !end.isEmpty()) {
+                        if (!Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)) {
+                            data.get(i).setValue(Keyword.TYPE, String.valueOf(Keyword.DEADLINE));
+                        }
+                        data.get(i).setValue(Keyword.START, start);
+                        data.get(i).setValue(Keyword.END, end);
+                    } else if (!start.isEmpty()) {
+                        if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)) {
+                            data.get(i).setValue(Keyword.TYPE, String.valueOf(Keyword.TIMED));
+                        }
+                        data.get(i).setValue(Keyword.START, start);
+                    } else if (!end.isEmpty()) {
+                        if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.FLOATING)) {
+                            data.get(i).setValue(Keyword.TYPE, String.valueOf(Keyword.DEADLINE));
+                        }
+                        data.get(i).setValue(Keyword.END, end);
+                    } else {
+                        if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)) {
                             data.get(i).setValue(Keyword.TYPE, String.valueOf(Keyword.FLOATING));
                         }
                     }
@@ -266,7 +266,7 @@ public class DataHandler {
     private void backupFile() {
         previousData = new ArrayList<Task>();
         for (int i = 0; i < data.size(); ++i) {
-        	Task toAdd = new Task(data.get(i));
+            Task toAdd = new Task(data.get(i));
             previousData.add(toAdd);
         }
     }
@@ -275,9 +275,9 @@ public class DataHandler {
      * Restore previous file
      */
     private void restoreFile() {
-    	temp = new ArrayList<Task>();
+        temp = new ArrayList<Task>();
         for(int i = 0; i < data.size(); ++i) {
-        	Task toAdd = new Task(data.get(i));
+            Task toAdd = new Task(data.get(i));
             temp.add(toAdd);
         }
         data = new ArrayList<Task>();
