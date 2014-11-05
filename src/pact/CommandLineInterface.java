@@ -34,7 +34,7 @@ public class CommandLineInterface {
 		String userCommand;
 		try {
 			System.out.println("WELCOME TO PERSONAL ASSISTANT COORDINATOR TOOL(PACT)!\n");
-			System.out.println(clock.getGreeting(clock.getCurrentHour())+"!\n" +"Date: " +clock.getDay(clock.getCurrentDateAndTime()) + " "+ clock.getMonth(clock.getCurrentDateAndTime()) + " " +clock.getYear(clock.getCurrentDateAndTime())+", " 
+			System.out.println(clock.getGreeting(clock.getCurrentHour())+"Date: " +clock.getDay(clock.getCurrentDateAndTime()) + " "+ clock.getMonth(clock.getCurrentDateAndTime()) + " " +clock.getYear(clock.getCurrentDateAndTime())+", " 
 					+ fullDays[clock.getDayOfTheWeek(clock.getDate(clock.getCurrentDateAndTime()))]  + "\nTime: "+ clock.getTime(clock.getCurrentDateAndTime())+ "\n");
 			System.out.println("Commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\", \"complete\", \"exit\" ");
 		} catch (Exception e) {
@@ -124,9 +124,23 @@ public class CommandLineInterface {
 			addSerialNumber(i, sb);
 			addTaskNameAndCompleted(splitString, sb);
 			processDateAndTime(splitString, sb);
+			
 			System.out.println(sb.toString());
 		}
 
+	}
+
+	private String addNoOfDaysLeft(String date) throws Exception {
+		Clock clock = new Clock();
+		StringBuilder sb1 = new StringBuilder();
+		String day = clock.getDateDifference(clock.getCurrentDateAndTime(), date);
+		int spaces = 6 - day.length();
+		sb1.append(day);
+		for(int i = 0; i < spaces; i++){
+			sb1.append(" ");
+		}
+		return sb1.toString();
+		
 	}
 
 	/**
@@ -136,7 +150,7 @@ public class CommandLineInterface {
 	 */
 	private void processDateAndTime(String[] splitString, StringBuilder sb) {
 		if (splitString[2].equals("")) {
-			sb.append("-          |-     |-   |-          |-     |-   |");
+			sb.append("-          |-     |-   |-          |-     |-   |      |");
 		} else {
 			String temp = splitString[2];
 			splitString = temp.split(" ");
@@ -153,15 +167,15 @@ public class CommandLineInterface {
 	 */
 	private void printHeader() {
 		System.out
-				.println("*********************************************************************************************");
+				.println("****************************************************************************************************");
 		System.out
-				.println("|     |                              |      |     Start             |      End              |");
+				.println("|     |                              |      |     Start             |      End              | No of|");
 		System.out
-				.println("| S/N |            TaskName          | Done ------------------------------------------------|");
+				.println("| S/N |            TaskName          | Done ------------------------------------------------| Days |");
 		System.out
-				.println("|     |                              |      | Date      |Time  |Day | Date      |Time  |Day |");
+				.println("|     |                              |      | Date      |Time  |Day | Date      |Time  |Day | Left |");
 		System.out
-				.println("|-------------------------------------------------------------------------------------------|");
+				.println("|--------------------------------------------------------------------------------------------------|");
 
 	}
 
@@ -173,21 +187,22 @@ public class CommandLineInterface {
 	 */
 	private void addDateAndTime(String[] splitString, StringBuilder sb) throws Exception {
 		Clock clock = new Clock();
+		
 		String[] array = new String[]{ "","Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"}; 
 		if (splitString.length == 1) {
-			sb.append("-          |-     |-   |" + splitString[0] + " |-     |" + array[clock.getDayOfTheWeek(splitString[0])] + " |");
+			sb.append("-          |-     |-   |" + splitString[0] + " |-     |" + array[clock.getDayOfTheWeek(splitString[0])] + " |" + addNoOfDaysLeft(splitString[0] + " 23:59") + "|");
 		} else if (splitString.length == 2) {
 			if (splitString[1].length() == 10) {
 				sb.append(splitString[0] + " |-     |" + array[clock.getDayOfTheWeek(splitString[0])] + " |" + splitString[1]
-						+ " |-     |"+ array[clock.getDayOfTheWeek(splitString[1])] + " |");
+						+ " |-     |"+ array[clock.getDayOfTheWeek(splitString[1])] + " |"+ addNoOfDaysLeft(splitString[1] + " 23:59") + "|");
 			} else {
 				sb.append("-          |-     |-   |" + splitString[0] + " |"
-						+ splitString[1] + " |" + array[clock.getDayOfTheWeek(splitString[0])] + " |" );
+						+ splitString[1] + " |" + array[clock.getDayOfTheWeek(splitString[0])] + " |"+ addNoOfDaysLeft(splitString[0] + " "+ splitString[1]) + "|" );
 			}
 
 		} else if (splitString.length == 4) {
 			sb.append(splitString[0] + " |" + splitString[1] + " |"+ array[clock.getDayOfTheWeek(splitString[0])] + " |"
-					+ splitString[2] + " |" + splitString[3] + " |"+ array[clock.getDayOfTheWeek(splitString[2])] + " |");
+					+ splitString[2] + " |" + splitString[3] + " |"+ array[clock.getDayOfTheWeek(splitString[2])] + " |"+ addNoOfDaysLeft(splitString[2] + " "+ splitString[3] ) + "|");
 		}
 	}
 
@@ -233,7 +248,7 @@ public class CommandLineInterface {
 	 * print bottom line of table
 	 */
 	private void printEndLine() {
-		System.out.println("*********************************************************************************************");		
+		System.out.println("****************************************************************************************************");		
 	}
 
 	private String readLine(ConsoleReader reader)

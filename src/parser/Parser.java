@@ -191,8 +191,10 @@ public class Parser {
             
     }
     public void checkDateLimit() throws Exception{
-       
-        if(!(new Clock().getDateDifference(parameters))){
+       Clock clock = new Clock();
+    	String st = parameters.get(Keyword.START);
+    	String en = parameters.get(Keyword.END);
+        if(Integer.parseInt(clock.getDateDifference(st, en)) >7){
            throw new Exception(EXCEED_DATE_LIMIT);
        }
     }

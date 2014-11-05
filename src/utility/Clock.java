@@ -1,11 +1,13 @@
 package utility;
 
+//import java.math.BigDecimal;
+//import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+//import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 
 public class Clock {
     
@@ -82,11 +84,11 @@ public class Clock {
     public String getGreeting(String hour) {
         int time = Integer.parseInt(hour);
         if(time >= 0  && time < 12){
-        	return "Good Morning";
+        	return "Good Morning!\n";
         }else if(time >=12 && time < 17){
-        	return "Good Afternoon";
+        	return "Good Afternoon!\n";
         }else if(time >=17 && time < 19){
-        	return "Good Evening";
+        	return "Good Evening\n!";
         }else{     	
         	return "";
     	}
@@ -156,9 +158,8 @@ public class Clock {
         }
         return result.getTimeInMillis();
     }
-    public boolean getDateDifference(HashMap<Keyword,String> parameters){
-        String start = parameters.get(Keyword.START);
-        String end = parameters.get(Keyword.END);
+/*    public int getDateDifference(String start,String end){
+       
         String[] starts = start.split("/");
         String[] ends = end.split("/");
         String[] checkStartYear = starts[2].split(" ");
@@ -177,12 +178,34 @@ public class Clock {
         cal1.set(startYear,startMonth,startDay);
         cal2.set(endYear,endMonth,endDay);
         
-        double days =(double) (cal2.getTime().getTime() - cal1.getTime().getTime()) / (1000 * 60 * 60 * 24);
-      
+        double days = (int) (cal2.getTime().getTime() - cal1.getTime().getTime()) / (1000 * 60 * 60 * 24);
+        
         if(days<=7){
             return true;
         }
+        BigDecimal bd = new BigDecimal(days).setScale(2, RoundingMode.DOWN);
+        int day = bd.intValue();
        
-        return false;
-    } 
+        return day;
+    } */
+    public String getDateDifference(String start,String end)throws Exception{
+        
+    	SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_COMMON);
+    	Date startDate = null;
+    	Date endDate = null;
+		try {
+			startDate = formatter.parse(start);
+			endDate = formatter.parse(end);
+		} catch (ParseException e) {
+			throw new Exception("error in getting date difference");
+		}
+  
+        double days = (double) ((endDate.getTime() - startDate.getTime()) /(1000.0* 60.0 * 60.0 * 24.0));
+        DecimalFormat df = new DecimalFormat("#.##");
+        String dateDifference = df.format(days);
+        if(days > 365 ){
+        	dateDifference = "";
+        }
+        return dateDifference;
+    }
 }
