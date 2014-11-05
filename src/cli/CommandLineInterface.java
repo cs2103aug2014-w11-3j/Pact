@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import jline.ArgumentCompletor;
 import jline.ConsoleReader;
@@ -17,7 +18,8 @@ import utility.Keyword;
 
 public class CommandLineInterface {
     public static String[] fullDays = new String[] { "", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }; 
-    private String[] commandList = new String[] { "create", "update", "delete", "search", "display", "undo", "exit" };
+    //private String[] commandList = new String[] { "create", "update", "delete", "search", "display", "undo", "exit" };
+    private String[] HAHA = new String[] { "aaaaa","bbbb","cccc"};
 
     /**
      * main method
@@ -253,7 +255,9 @@ public class CommandLineInterface {
         ConsoleReader reader = new ConsoleReader();
         reader.setBellEnabled(false);
         List<SimpleCompletor> completors = new LinkedList<SimpleCompletor>();
-        completors.add(new SimpleCompletor(commandList));
+        completors.add(new SimpleCompletor(Keyword.listAllCommands()));
+        completors.add(new SimpleCompletor(getAllTasksName()));
+        
         reader.addCompletor(new ArgumentCompletor(completors));
         PrintWriter out = new PrintWriter(System.out);
         
@@ -264,5 +268,29 @@ public class CommandLineInterface {
         } while (command.isEmpty());
         return command;
     }
+    
+    private String[] getAllTasksName() {
+        ArrayList<String> taskNames = new ArrayList<String>();
+        try
+        {
+            Parser commandParser = new Parser();
+            EventHandler logic = new EventHandler();
+            HashMap<Keyword,String> command = commandParser.parse("display");
+            ArrayList<String> result = logic.determineCommand(command);
+            for (int i = 1; i < result.size(); ++i) {
+                String[] splitString = result.get(i).split(":", 3);
+                taskNames.add(splitString[0]);
+            }
+        } catch (Exception e) {
+            
+        }
+        String[] finalResult = new String[taskNames.size()];
+        taskNames.toArray(finalResult);
+        return finalResult;
+    }
 
 }
+
+
+
+

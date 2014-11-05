@@ -1,5 +1,6 @@
 package utility;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public enum Keyword {
@@ -104,4 +105,31 @@ public enum Keyword {
         return Arrays.asList(argList).contains(key);
     }
     
+    public static String[] listDictionary(Keyword method) {
+        return method.dictionary;
+    }
+    
+    public static String[] listAllCommands() {
+        ArrayList<String> mergedResult = new ArrayList<String>();
+        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.CREATE))));
+        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.READ))));
+        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.UPDATE))));
+        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.DELETE))));
+        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.EXIT))));
+        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.QEXIT))));
+        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.UNDO))));
+        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.CLEAR))));
+        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.COMPLETED))));
+        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.INCOMPLETE))));
+        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.EMPTYSLOT))));
+        
+        String[] finalResult = new String[mergedResult.size()];
+        mergedResult.toArray(finalResult);
+        return finalResult;
+    }
+    
 }
+
+
+
+
