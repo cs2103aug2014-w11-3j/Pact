@@ -97,9 +97,7 @@ public class EventHandler {
      * @param parameters
      */
     private void readTask(HashMap<Keyword, String> parameters) {
-        //for (Keyword key : parameters.keySet()) {
-            //System.out.println(key + " " + parameters.get(key));
-       // }
+  
         boolean isExact = parameters.containsKey(Keyword.EXACT);
         Clock clock = new Clock();
         String start = clock.getCurrentDateAndTime();
@@ -121,21 +119,19 @@ public class EventHandler {
         }
         
         ArrayList<Task> queryResult = dataHandler.readTask(parameters.get(Keyword.CONTENT), isExact, start, end, isArchivedIncluded, isCompletedIncluded);
+        
         if (queryResult.isEmpty()) {
             result.add(ANNOUNCEMENT_NOT_FOUND);
         } else {
             result.add(ANNOUNCEMENT_READ);
         }
-        ArrayList<String> unsorted = new ArrayList<String>();
-       
-        for (Task i : queryResult) {
-                 unsorted.add(i.getDisplayedString());
-        }
+     
         if ((parameters.containsKey(Keyword.SORT))) {
-             Collections.sort(unsorted);
+        	Keyword sortKey = Keyword.getMeaning(parameters.get(Keyword.SORT));
+        	sortTasks(queryResult, sortKey, true);
         }
-        for (int i = 0; i < unsorted.size(); i++) {
-            result.add(unsorted.get(i));
+        for (int i = 0; i < queryResult.size(); i++) {
+            result.add(queryResult.get(i).getDisplayedString());
         }
         
     }
@@ -194,7 +190,6 @@ public class EventHandler {
             result.add(i.getDisplayedString());
         }
     }
-    //@Hui Yi A0101331H
     private void sortTasks(ArrayList<Task> tasksList,Keyword sortKey,boolean isAscending) {
         for (int i = 0; i < tasksList.size(); ++i) {
             for (int j = i; j < tasksList.size(); ++j) {
