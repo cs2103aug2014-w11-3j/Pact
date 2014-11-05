@@ -20,7 +20,7 @@ public class EventHandler {
     private DataHandler dataHandler = new DataHandler();
     private ArrayList<String> result = new ArrayList<String>();
     
-    
+    //@Hui Yi A0101331H
     /**
      * Use the parameters and call the appropriate methods
      * @param parameters
@@ -54,12 +54,12 @@ public class EventHandler {
         }
         return result;
     }
-
+    //@Hui Yi A0101331H
     private void completeTask(HashMap<Keyword, String> parameters, String done) {
 		parameters.put(Keyword.COMPLETED, done);
 		updateTask(parameters);
 	}
-
+    //@Hui Yi A0101331H
 	/**
      * Creates a new Task and calls the dataHandler to store the information
      * @param parameters
@@ -84,13 +84,22 @@ public class EventHandler {
         dataHandler.createTask(task);
        
         result.add(ANNOUNCEMENT_CREATE);
+        parameters.clear();
+        parameters.put(Keyword.CONTENT, "");
+        ArrayList<Task> queryResult = dataHandler.readTask(parameters.get(Keyword.CONTENT), false, "", "", false, false);
+        for (Task i : queryResult) {
+            result.add(i.getDisplayedString());
+        }
     }
-
+    //@Hui Yi A0101331H
     /**
      * Calls the dataHandler to read/search and store the information obtained into result
      * @param parameters
      */
     private void readTask(HashMap<Keyword, String> parameters) {
+    	for (Keyword key : parameters.keySet()) {
+            System.out.println(key + " " + parameters.get(key));
+        }
         boolean isExact = parameters.containsKey(Keyword.EXACT);
         Clock clock = new Clock();
         String start = clock.getCurrentDateAndTime();
@@ -130,7 +139,7 @@ public class EventHandler {
         }
         
     }
-
+    //@Hui Yi A0101331H
     /**
      * Calls the dataHandler to delete Task or clear all Tasks
      * @param parameters
@@ -152,7 +161,7 @@ public class EventHandler {
             result.add(i.getDisplayedString());
         }
     }
-
+    //@Hui Yi A0101331H
     /**
      * Calls the dataHandler to update Task
      * @param parameters
@@ -185,7 +194,7 @@ public class EventHandler {
             result.add(i.getDisplayedString());
         }
     }
-    
+    //@Hui Yi A0101331H
     private void sortTasks(ArrayList<Task> tasksList,Keyword sortKey,boolean isAscending)
     {
         for (int i = 0; i < tasksList.size(); ++i) {
@@ -244,7 +253,7 @@ public class EventHandler {
         }
     }
 
-
+    //@Hui Yi A0101331H
     /**
      * Calls the dataHandler to undo to the previous data
      * @throws Exception
