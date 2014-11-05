@@ -37,7 +37,7 @@
     END: 11/11/2014 01:00
     START: 11/11/2014 12:00
     TYPE: TIMED
-    COMPLETED: false
+    COMPLETED: true
     ARCHIVED: false
     ALLDAY: false
 }
@@ -47,7 +47,7 @@
     START: 12/11/2014 18:30
     TYPE: TIMED
     COMPLETED: false
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: false
 }
 {
@@ -63,7 +63,7 @@
     END: 19/12/2014 23:59
     TYPE: DEADLINE
     COMPLETED: false
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: true
 }
 {
@@ -79,7 +79,7 @@
     END: 12/11/2014 23:59
     TYPE: DEADLINE
     COMPLETED: false
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: true
 }
 {

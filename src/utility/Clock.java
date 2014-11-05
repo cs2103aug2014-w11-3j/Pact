@@ -114,9 +114,17 @@ public class Clock {
         return parse(array[0],array[1]);
     }
     
-    public String getDate(String toSplit) throws Exception {
-        String array[] = toSplit.split(" ");
+    public String getDate(String dateAndTime) throws Exception {
+        String array[] = dateAndTime.split(" ");
         return array[0];
+    }
+    public String getMonth(String dateString)throws Exception {
+    	GregorianCalendar tmp = new GregorianCalendar();
+   	 	dateString = dateString.replace("/", "");
+   	 	Date date = guess(dateString, DICTIONARY_DATE);
+   	 	tmp.setTime(date); 
+   	 	String[] monthArray = new String[]{"Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug","Sep", "Oct", "Nov", "Dec"};
+   	 	return monthArray[tmp.get(GregorianCalendar.MONTH)];
     }
     
     public String getTime(String toSplit) throws Exception {

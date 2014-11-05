@@ -12,7 +12,7 @@ public enum Keyword {
     UNDO        (new String[] { "undo", "cancel" }),
     CLEAR       (new String[] { "clear", "deleteAll", "removeAll" }),
     COMPLETED   (new String[] { "completed", "complete", "finished", "done" }),
-    INCOMPLETE  (new String[] { "incomplete", "not complete", "unfinished","not done", "uncomplete"}),
+    INCOMPLETE  (new String[] { "incomplete", "not complete","not done", "uncomplete"}),
     EMPTYSLOT   (new String[] { "emptyslot", "find", "findempty", "fes", "findslot"}),
     
    

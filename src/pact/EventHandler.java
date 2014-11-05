@@ -235,21 +235,22 @@ public class EventHandler {
                     continue;
                 }
                 if (freeTimeNow.compareTo(clock.getTime(onThisDay.get(j).getValue(Keyword.START))) < 0) {
-                    resultThisDay.add("Free from " + freeTimeNow + " to " + clock.getTime(onThisDay.get(j).getValue(Keyword.START)));
+                    resultThisDay.add(freeTimeNow + " to " + clock.getTime(onThisDay.get(j).getValue(Keyword.START)));
                 }
                 if (freeTimeNow.compareTo(clock.getTime(onThisDay.get(j).getValue(Keyword.END))) < 0) {
                     freeTimeNow = clock.getTime(onThisDay.get(j).getValue(Keyword.END)); 
                 }
             }
             if (freeTimeNow.compareTo("23:59") < 0) {
-                resultThisDay.add("Free from " + freeTimeNow + " to 23:59");
+                resultThisDay.add(freeTimeNow + " to 23:59");
             }
             //result.add("On " + clock.getDate(startSearch) );
             String[] array = new String[]{ "","Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}; 
-            result.add("On " + clock.getDate(startSearch) +" "+ array[clock.getDayOfTheWeek(clock.getDate(startSearch))]);
+            result.add("\nOn " + array[clock.getDayOfTheWeek(clock.getDate(startSearch))] +" " +clock.getDay(startSearch) + " " + clock.getMonth(clock.getDate(startSearch)) + " free from:" );
             for (int j = 0; j < resultThisDay.size(); ++j) {
                 result.add(String.valueOf(j+1) + ". " + resultThisDay.get(j));
             }
+            
         }
     }
 
