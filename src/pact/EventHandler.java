@@ -97,9 +97,9 @@ public class EventHandler {
      * @param parameters
      */
     private void readTask(HashMap<Keyword, String> parameters) {
-    	for (Keyword key : parameters.keySet()) {
-            System.out.println(key + " " + parameters.get(key));
-        }
+    	//for (Keyword key : parameters.keySet()) {
+            //System.out.println(key + " " + parameters.get(key));
+       // }
         boolean isExact = parameters.containsKey(Keyword.EXACT);
         Clock clock = new Clock();
         String start = clock.getCurrentDateAndTime();

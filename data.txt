@@ -7,3 +7,99 @@
     ARCHIVED: false
     ALLDAY: false
 }
+{
+    CONTENT: CS2101 Developer Guide
+    END: 09/11/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: CS2103T demo
+    END: 12/11/2014 06:00
+    START: 12/11/2014 05:30
+    TYPE: TIMED
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: CS3101 Written Assignment
+    END: 06/11/2014 12:00
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: LSM2101 CA2
+    END: 11/11/2014 01:00
+    START: 11/11/2014 12:00
+    TYPE: TIMED
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: CS3103 lab quiz
+    END: 12/11/2014 19:30
+    START: 12/11/2014 18:30
+    TYPE: TIMED
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: CS2220 Project Presentation
+    END: 13/12/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: true
+}
+{
+    CONTENT: CS3103 programming assignment
+    END: 19/12/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: true
+}
+{
+    CONTENT: study for lsm2101 ca2
+    END: 11/12/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: true
+}
+{
+    CONTENT: CS3103L lab quiz
+    END: 12/11/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: true
+}
+{
+    CONTENT: CS2101 Software Demo
+    TYPE: FLOATING
+    COMPLETED: true
+    ARCHIVED: false
+    ALLDAY: true
+}
+{
+    CONTENT: presentation slides C2220
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: CS2103T V0.5
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
