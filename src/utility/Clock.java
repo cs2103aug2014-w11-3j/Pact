@@ -174,15 +174,14 @@ public class Clock {
         
         Calendar cal1 = new GregorianCalendar();
         Calendar cal2 = new GregorianCalendar();
-        cal1.set(startYear,startMonth,startDay);
-        cal2.set(endYear,endMonth,endDay);
+        cal1.set(startYear, startMonth, startDay);
+        cal2.set(endYear, endMonth, endDay);
         
-        double days =(double) (cal2.getTime().getTime() - cal1.getTime().getTime()) / (1000 * 60 * 60 * 24);
-      
+        double days = (double) (cal2.getTime().getTime() - cal1.getTime().getTime()) / (1000 * 60 * 60 * 24);
+
         if (days <= 7) {
             return true;
         }
-       
         return false;
     } 
 }

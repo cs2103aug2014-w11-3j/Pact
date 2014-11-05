@@ -12,12 +12,12 @@ public enum Keyword {
     UNDO        (new String[] { "undo", "cancel" }),
     CLEAR       (new String[] { "clear", "deleteAll", "removeAll" }),
     COMPLETED   (new String[] { "completed", "complete", "finished", "done" }),
-    INCOMPLETE  (new String[] { "incomplete", "not complete","not done", "uncomplete"}),
-    EMPTYSLOT   (new String[] { "emptyslot", "find", "findempty", "fes", "findslot"}),
+    INCOMPLETE  (new String[] { "incomplete", "not complete","not done", "uncomplete" }),
+    EMPTYSLOT   (new String[] { "emptyslot", "find", "findempty", "fes", "findslot" }),
     
    
     METHOD      (new String[] { "method" }), 
-    CONTENT     (new String[] { "content"}), 
+    CONTENT     (new String[] { "content" }), 
     NEWCONTENT  (new String[] { "description", "name", "task" }), 
     START       (new String[] { "start", "begin", "from", "after", "st" }), 
     END         (new String[] { "end", "due", "finish", "to", "until", "on", "before", "en" }), 
@@ -68,7 +68,7 @@ public enum Keyword {
      * @return boolean
      */
     public static boolean isCommand(Keyword input) {
-        Keyword[] commandList = {CREATE, READ, DELETE, UPDATE, EXIT, QEXIT, UNDO, CLEAR, COMPLETED, INCOMPLETE, EMPTYSLOT};
+        Keyword[] commandList = { CREATE, READ, DELETE, UPDATE, EXIT, QEXIT, UNDO, CLEAR, COMPLETED, INCOMPLETE, EMPTYSLOT };
         return Arrays.asList(commandList).contains(input);
     }
     

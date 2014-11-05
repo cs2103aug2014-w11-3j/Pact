@@ -134,7 +134,7 @@ public class EventHandler {
         if ((parameters.containsKey(Keyword.SORT))) {
              Collections.sort(unsorted);
         }
-        for (int i = 0; i <unsorted.size(); i++) {
+        for (int i = 0; i < unsorted.size(); i++) {
             result.add(unsorted.get(i));
         }
         
@@ -195,12 +195,11 @@ public class EventHandler {
         }
     }
     //@Hui Yi A0101331H
-    private void sortTasks(ArrayList<Task> tasksList,Keyword sortKey,boolean isAscending)
-    {
+    private void sortTasks(ArrayList<Task> tasksList,Keyword sortKey,boolean isAscending) {
         for (int i = 0; i < tasksList.size(); ++i) {
             for (int j = i; j < tasksList.size(); ++j) {
                 if (tasksList.get(i).getValue(sortKey).compareTo(tasksList.get(j).getValue(sortKey)) > 0) {
-                    Collections.swap(tasksList,i,j);
+                    Collections.swap(tasksList, i, j);
                 }
             }
         }
@@ -209,8 +208,7 @@ public class EventHandler {
         }
     }
     
-    private void searchEmptySlot(HashMap<Keyword, String> parameters) throws Exception
-    {   
+    private void searchEmptySlot(HashMap<Keyword, String> parameters) throws Exception {   
         String start = parameters.get(Keyword.START);
         String end = parameters.get(Keyword.END);
         Clock clock = new Clock();
@@ -228,7 +226,7 @@ public class EventHandler {
             }
             String endSearch = clock.getDate(startSearch) + " 23:59";
             ArrayList<Task> onThisDay = dataHandler.readTask("", false, startSearch, endSearch, false, false);
-            sortTasks(onThisDay,Keyword.START,true);
+            sortTasks(onThisDay,Keyword.START, true);
             String freeTimeNow = "00:00";
             for (int j = 0; j < onThisDay.size(); ++j) {
                 if (onThisDay.get(j).getValue(Keyword.START).equals("")) {
@@ -246,9 +244,9 @@ public class EventHandler {
             }
             //result.add("On " + clock.getDate(startSearch) );
             String[] array = new String[]{ "","Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}; 
-            result.add("\nOn " + array[clock.getDayOfTheWeek(clock.getDate(startSearch))] +" " +clock.getDay(startSearch) + " " + clock.getMonth(clock.getDate(startSearch)) + " free from:" );
+            result.add("\nOn " + array[clock.getDayOfTheWeek(clock.getDate(startSearch))] + " " + clock.getDay(startSearch) + " " + clock.getMonth(clock.getDate(startSearch)) + " free from:" );
             for (int j = 0; j < resultThisDay.size(); ++j) {
-                result.add(String.valueOf(j+1) + ". " + resultThisDay.get(j));
+                result.add(String.valueOf(j + 1) + ". " + resultThisDay.get(j));
             }
             
         }
@@ -262,11 +260,9 @@ public class EventHandler {
     private void undo() throws Exception {
         dataHandler.undo();
         result.add(ANNOUNCEMENT_UNDO);
-   
     }
     
-    /*public static void main(String[] args) throws Exception
-    {
+    /*public static void main(String[] args) throws Exception {
         EventHandler e = new EventHandler();
         e.searchEmptySlot("20/12/2014 00:00","21/12/2014 23:59");
     }*/

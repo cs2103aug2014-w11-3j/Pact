@@ -16,7 +16,7 @@ import utility.Clock;
 import utility.Keyword;
 
 public class CommandLineInterface {
-    public static String[] fullDays = new String[] { "","Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}; 
+    public static String[] fullDays = new String[] { "", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }; 
     private String[] commandList = new String[] { "create", "update", "delete", "search", "display", "undo", "exit" };
 
     /**
@@ -35,8 +35,8 @@ public class CommandLineInterface {
         String userCommand;
         try {
             System.out.println("WELCOME TO PERSONAL ASSISTANT COORDINATOR TOOL(PACT)!\n");
-            System.out.println(clock.getGreeting(clock.getCurrentHour())+"!\n" +"Date: " +clock.getDay(clock.getCurrentDateAndTime()) + " "+ clock.getMonth(clock.getCurrentDateAndTime()) + " " +clock.getYear(clock.getCurrentDateAndTime())+", " 
-                    + fullDays[clock.getDayOfTheWeek(clock.getDate(clock.getCurrentDateAndTime()))]  + "\nTime: "+ clock.getTime(clock.getCurrentDateAndTime())+ "\n");
+            System.out.println(clock.getGreeting(clock.getCurrentHour()) + "!\n" + "Date: " + clock.getDay(clock.getCurrentDateAndTime()) + " " + clock.getMonth(clock.getCurrentDateAndTime()) + " " + clock.getYear(clock.getCurrentDateAndTime()) + ", " 
+                    + fullDays[clock.getDayOfTheWeek(clock.getDate(clock.getCurrentDateAndTime()))] + "\nTime: " + clock.getTime(clock.getCurrentDateAndTime()) + "\n");
             System.out.println("Commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\", \"complete\", \"exit\" ");
         } catch (Exception e) {
         }
@@ -48,7 +48,7 @@ public class CommandLineInterface {
                 if (cli.printTable(userCommand)) {
                     cli.constructTable(result);
                 } else {
-                    for (int i = 0; i <result.size(); i++) {
+                    for (int i = 0; i < result.size(); i++) {
                         System.out.println(result.get(i));
                     }
                 }
@@ -174,21 +174,21 @@ public class CommandLineInterface {
      */
     private void addDateAndTime(String[] splitString, StringBuilder sb) throws Exception {
         Clock clock = new Clock();
-        String[] array = new String[]{ "","Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"}; 
+        String[] array = new String[]{ "","Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" }; 
         if (splitString.length == 1) {
             sb.append("-          |-     |-   |" + splitString[0] + " |-     |" + array[clock.getDayOfTheWeek(splitString[0])] + " |");
         } else if (splitString.length == 2) {
             if (splitString[1].length() == 10) {
                 sb.append(splitString[0] + " |-     |" + array[clock.getDayOfTheWeek(splitString[0])] + " |" + splitString[1]
-                        + " |-     |"+ array[clock.getDayOfTheWeek(splitString[1])] + " |");
+                        + " |-     |" + array[clock.getDayOfTheWeek(splitString[1])] + " |");
             } else {
                 sb.append("-          |-     |-   |" + splitString[0] + " |"
-                        + splitString[1] + " |" + array[clock.getDayOfTheWeek(splitString[0])] + " |" );
+                        + splitString[1] + " |" + array[clock.getDayOfTheWeek(splitString[0])] + " |");
             }
 
         } else if (splitString.length == 4) {
-            sb.append(splitString[0] + " |" + splitString[1] + " |"+ array[clock.getDayOfTheWeek(splitString[0])] + " |"
-                    + splitString[2] + " |" + splitString[3] + " |"+ array[clock.getDayOfTheWeek(splitString[2])] + " |");
+            sb.append(splitString[0] + " |" + splitString[1] + " |" + array[clock.getDayOfTheWeek(splitString[0])] + " |"
+                    + splitString[2] + " |" + splitString[3] + " |" + array[clock.getDayOfTheWeek(splitString[2])] + " |");
         }
     }
 
@@ -237,8 +237,7 @@ public class CommandLineInterface {
         System.out.println("*********************************************************************************************");        
     }
 
-    private String readLine(ConsoleReader reader)
-            throws IOException {
+    private String readLine(ConsoleReader reader) throws IOException {
         String line = reader.readLine(">> ");
         return line.trim();
     }
