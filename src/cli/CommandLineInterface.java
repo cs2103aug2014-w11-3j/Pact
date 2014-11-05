@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import jline.ArgumentCompletor;
 import jline.ConsoleReader;
@@ -19,7 +18,6 @@ import utility.Keyword;
 public class CommandLineInterface {
     public static String[] fullDays = new String[] { "", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }; 
     //private String[] commandList = new String[] { "create", "update", "delete", "search", "display", "undo", "exit" };
-    private String[] HAHA = new String[] { "aaaaa","bbbb","cccc"};
 
     /**
      * main method
@@ -257,6 +255,7 @@ public class CommandLineInterface {
         List<SimpleCompletor> completors = new LinkedList<SimpleCompletor>();
         completors.add(new SimpleCompletor(Keyword.listAllCommands()));
         completors.add(new SimpleCompletor(getAllTasksName()));
+        completors.add(new SimpleCompletor(Keyword.listAllArguments()));
         
         reader.addCompletor(new ArgumentCompletor(completors));
         PrintWriter out = new PrintWriter(System.out);

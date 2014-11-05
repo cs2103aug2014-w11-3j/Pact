@@ -110,18 +110,27 @@ public enum Keyword {
     }
     
     public static String[] listAllCommands() {
+        Keyword[] commandList = { CREATE, READ, DELETE, UPDATE, EXIT, QEXIT, UNDO, CLEAR, COMPLETED, INCOMPLETE, EMPTYSLOT };
         ArrayList<String> mergedResult = new ArrayList<String>();
-        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.CREATE))));
-        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.READ))));
-        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.UPDATE))));
-        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.DELETE))));
-        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.EXIT))));
-        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.QEXIT))));
-        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.UNDO))));
-        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.CLEAR))));
-        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.COMPLETED))));
-        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.INCOMPLETE))));
-        mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(Keyword.EMPTYSLOT))));
+        for (int i = 0; i < commandList.length; ++i) {
+            mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(commandList[i]))));
+        }
+        
+        String[] finalResult = new String[mergedResult.size()];
+        mergedResult.toArray(finalResult);
+        return finalResult;
+    }
+    
+    public static String[] listAllArguments() {
+        Keyword[] argumentList = { METHOD, CONTENT, NEWCONTENT, START, END, EXACT, TYPE, ALLDAY, ARCHIVED, FOREVER, SORT, ALL };
+        ArrayList<String> mergedResult = new ArrayList<String>();
+        for (int i = 0; i < argumentList.length; ++i) {
+            ArrayList<String> dictionary = new ArrayList<String>(Arrays.asList(listDictionary(argumentList[i])));
+            for (int j = 0; j < dictionary.size(); ++j) {
+                dictionary.set(j,"--" + dictionary.get(j));
+            }
+            mergedResult.addAll(dictionary);
+        }
         
         String[] finalResult = new String[mergedResult.size()];
         mergedResult.toArray(finalResult);
