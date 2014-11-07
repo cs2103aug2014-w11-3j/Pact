@@ -253,7 +253,7 @@ public class CommandLineInterface {
      * print bottom line of table
      */
     private void printEndLine() {
-        System.out.println("*****************************************************************************************************");        
+        System.out.println("****************************************************************************************************");        
     }
 
     private String readLine(ConsoleReader reader) throws IOException {
