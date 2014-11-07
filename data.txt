@@ -40,3 +40,18 @@
     ARCHIVED: false
     ALLDAY: false
 }
+{
+    CONTENT: month
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: fruit
+    END: 12/12/2014 14:00
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
