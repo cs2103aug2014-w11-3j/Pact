@@ -33,7 +33,7 @@ public class CommandLineInterface {
         HashMap<Keyword, String> parsedCommand;
         ArrayList<String> result;
         
-        reader.clearScreen();
+        //reader.clearScreen();
         String userCommand;
         try {
             System.out.println("WELCOME TO PERSONAL ASSISTANT COORDINATOR TOOL(PACT)!\n");
