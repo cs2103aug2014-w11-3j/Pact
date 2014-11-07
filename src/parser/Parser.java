@@ -182,10 +182,13 @@ public class Parser {
             }
         }
 
-       if (userCode.equals(Keyword.EMPTYSLOT) && values.charAt(0) != '-') {
-            throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + EMPTYSLOT_TASK_FORMAT);
-       }
-
+        if(userCode.equals(Keyword.EMPTYSLOT)){
+            String[] check = values.split("--");
+             if(values.equals("")||values.charAt(0) != '-'){
+                 throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + EMPTYSLOT_TASK_FORMAT);
+             }
+        }
+         
     }
 
     public void checkDateLimit() throws Exception{
