@@ -1,11 +1,19 @@
 package cli;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import jline.ArgumentCompletor;
 import jline.ConsoleReader;
@@ -17,6 +25,7 @@ import utility.Keyword;
 
 public class CommandLineInterface {
     public static String[] fullDays = new String[] { "", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }; 
+    private static final Logger logger = Logger.getLogger(CommandLineInterface.class.getName());
     //private String[] commandList = new String[] { "create", "update", "delete", "search", "display", "undo", "exit" };
 
     /**
@@ -25,13 +34,23 @@ public class CommandLineInterface {
      * @param args
      */
     public static void main(String[] args) throws Exception{
+        Handler fh = new FileHandler("test.log", false);
+        fh.setFormatter(new SimpleFormatter());
+        logger.addHandler(fh);
+        logger.setLevel(Level.FINE);
         CommandLineInterface cli = new CommandLineInterface();
         Parser commandParser = new Parser();
         EventHandler logic = new EventHandler();
-        ConsoleReader reader = new ConsoleReader();
         Clock clock = new Clock();
         HashMap<Keyword, String> parsedCommand;
         ArrayList<String> result;
+        PrintStream outPS =new PrintStream(new BufferedOutputStream (new FileOutputStream("test.log", true)));  // append is true
+                System.setErr(outPS);    // redirect System.err
+               
+        
+        
+        
+        
         
         //reader.clearScreen();
         String userCommand;
@@ -41,14 +60,13 @@ public class CommandLineInterface {
                     + fullDays[clock.getDayOfTheWeek(clock.getDate(clock.getCurrentDateAndTime()))] + "\nTime: " + clock.getTime(clock.getCurrentDateAndTime()) + "\n");
             System.out.println("Commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\", \"complete\", \"exit\" ");
         } catch (Exception e) {
+            logger.info("Logging from first try-catch begins"); 
+            logger.log(Level.SEVERE, e.getMessage(), e);
+            logger.info("Logging from first try-catch ends "); 
         }
         while (true) {
             try {
                 userCommand = cli.getUserCommand();
-                if (userCommand.equals("cls")) {
-                    reader.clearScreen();
-                    continue;
-                }
                 parsedCommand = commandParser.parse(userCommand);
                 result = logic.determineCommand(parsedCommand);
                 if (cli.printTable(userCommand)) {
@@ -72,9 +90,14 @@ public class CommandLineInterface {
                     System.out.println(clock.getExitGreeting(clock.getCurrentHour()));
                     return;
                 }
+                logger.info("Logging from second try-catch begins"); 
+                logger.log(Level.SEVERE, pe.getMessage(), pe);
+                logger.info("Logging from second try-catch ends "); 
                 cli.printErrorMessage(pe.getMessage());
+               
             }
 
+            
         }
         
     }
