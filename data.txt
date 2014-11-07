@@ -41,6 +41,7 @@
     ALLDAY: false
 }
 {
+<<<<<<< HEAD
     CONTENT: gajah terbang cabe ijo
     TYPE: FLOATING
     COMPLETED: false
@@ -88,10 +89,16 @@
     END: 08/11/2014 10:52
     TYPE: DEADLINE
     COMPLETED: false
+=======
+    CONTENT: month
+    TYPE: FLOATING
+    COMPLETED: false
+>>>>>>> 963e7500aac3ba5cdf1c8a7aaa5225dcf6c1b5fb
     ARCHIVED: false
     ALLDAY: false
 }
 {
+<<<<<<< HEAD
     CONTENT: hahah hihih
     TYPE: FLOATING
     COMPLETED: false
@@ -115,6 +122,11 @@
 {
     CONTENT: haha #test
     TYPE: FLOATING
+=======
+    CONTENT: fruit
+    END: 12/12/2014 14:00
+    TYPE: DEADLINE
+>>>>>>> 963e7500aac3ba5cdf1c8a7aaa5225dcf6c1b5fb
     COMPLETED: false
     ARCHIVED: false
     ALLDAY: false
