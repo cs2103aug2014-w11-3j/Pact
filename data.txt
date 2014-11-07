@@ -30,11 +30,90 @@
     CONTENT: gajah
     TYPE: FLOATING
     COMPLETED: false
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: false
 }
 {
     CONTENT: kambing
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: gajah terbang cabe ijo
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: false
+}
+{
+    CONTENT: gajahterbangcabeijo
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: false
+}
+{
+    CONTENT: gajah #gajah
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: false
+}
+{
+    CONTENT: haha hihi
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: false
+}
+{
+    CONTENT: haha hehe
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: false
+}
+{
+    CONTENT: submit
+    END: 21/12/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: true
+}
+{
+    CONTENT: mwahaha
+    END: 08/11/2014 10:52
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: hahah hihih
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: hahah heheh
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: test #test
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: haha #test
     TYPE: FLOATING
     COMPLETED: false
     ARCHIVED: false

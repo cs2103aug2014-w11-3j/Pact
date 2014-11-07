@@ -273,8 +273,7 @@ public class CommandLineInterface {
         reader.setBellEnabled(false);
         List<SimpleCompletor> completors = new LinkedList<SimpleCompletor>();
         completors.add(new SimpleCompletor(Keyword.listAllCommands()));
-        completors.add(new SimpleCompletor(getAllTasksName()));
-        completors.add(new SimpleCompletor(Keyword.listAllArguments()));
+        completors.add(new SimpleCompletor(getAllHashTags()));
         
         reader.addCompletor(new ArgumentCompletor(completors));
         PrintWriter out = new PrintWriter(System.out);
@@ -287,8 +286,8 @@ public class CommandLineInterface {
         return command;
     }
     
-    private String[] getAllTasksName() {
-        ArrayList<String> taskNames = new ArrayList<String>();
+    private String[] getAllHashTags() {
+        ArrayList<String> hashTags = new ArrayList<String>();
         try
         {
             Parser commandParser = new Parser();
@@ -297,13 +296,19 @@ public class CommandLineInterface {
             ArrayList<String> result = logic.determineCommand(command);
             for (int i = 1; i < result.size(); ++i) {
                 String[] splitString = result.get(i).split(":", 3);
-                taskNames.add(splitString[0]);
+                String taskName = splitString[0];
+                String[] splitWords = taskName.split(" ");
+                for (int j = 0; j < splitWords.length; ++j) {
+                    if (splitWords[j].charAt(0) == '#' && !hashTags.contains(splitWords[j])) {
+                        hashTags.add(splitWords[j]);
+                    }
+                }
             }
         } catch (Exception e) {
             
         }
-        String[] finalResult = new String[taskNames.size()];
-        taskNames.toArray(finalResult);
+        String[] finalResult = new String[hashTags.size()];
+        hashTags.toArray(finalResult);
         return finalResult;
     }
 
