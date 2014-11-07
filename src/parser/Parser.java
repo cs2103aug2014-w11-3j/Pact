@@ -79,6 +79,15 @@ public class Parser {
             }
         }
     }
+    private void configEmptySlot() throws Exception {
+        if (startType.equals(TimeType.NONE)) { 
+            throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + EMPTYSLOT_TASK_FORMAT);
+        }
+        if(endType.equals(TimeType.NONE)){
+            throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + EMPTYSLOT_TASK_FORMAT);
+        }
+        
+    }
     
     /**
      * Parse the string and set the TIMETYPE for the Task
@@ -159,7 +168,13 @@ public class Parser {
         if (method.equals(Keyword.CREATE)) {
             configCreate();
         }
+        if (method.equals(Keyword.EMPTYSLOT)) {
+            configEmptySlot();
+        }
     }
+    
+    
+    
 
     private void checkExceptions(Keyword userCode, String values) throws Exception {
         if (!Keyword.isCommand(userCode)) {
@@ -182,11 +197,20 @@ public class Parser {
             }
         }
 
+        
         if(userCode.equals(Keyword.EMPTYSLOT)){
-            String[] check = values.split("--");
-             if(values.equals("")||values.charAt(0) != '-'){
+            
+            String[] check = values.trim().split("--");
+           
+            
+            if(values.equals("")||values.charAt(0) != '-'){
                  throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + EMPTYSLOT_TASK_FORMAT);
              }
+            if(check.length<3){
+                throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + EMPTYSLOT_TASK_FORMAT);
+            }
+            
+             
         }
          
     }
