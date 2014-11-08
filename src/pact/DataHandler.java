@@ -31,20 +31,6 @@ public class DataHandler {
         previousData = new ArrayList<Task>();
         loadFile();
     }
-   
-    /*
-    public static void main(String[] args) {
-        Task t = new Task();
-        DataHandler d = new DataHandler();
-        t.taskName = "gajah";
-        t.type = TASK_TYPE.FLOATING;
-        t.startTime = new Date(2014-1900,8,22,17,50,30);
-        d.addTask(t);
-        for (int i = 0; i < d._data.size(); ++i) {
-            System.out.println(d.convertTaskToString(d._data.get(i)));
-        }
-    }
-    */
     
     /**
      * Add a task to file
@@ -66,7 +52,7 @@ public class DataHandler {
      */
     public ArrayList<Task> deleteTask(String keyword, boolean isDeleting) {
         backupFile();
-        ArrayList<Task> taskToDelete = readTaskWithTollerance(keyword, false, "", "", false, true);
+        ArrayList<Task> taskToDelete = readTask(keyword, true, "", "", false, true);
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
                 if (data.get(i).getValue(Keyword.CONTENT).equals(taskToDelete.get(j).getValue(Keyword.CONTENT))) {
@@ -94,7 +80,7 @@ public class DataHandler {
      */
     public ArrayList<Task> updateTask(String keyword, String newContent, String start, String end, String isCompleted) {
         backupFile();
-        ArrayList<Task> taskToDelete = readTaskWithTollerance(keyword, false, "", "", false, true);
+        ArrayList<Task> taskToDelete = readTask(keyword, false, "", "", false, true);
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
                 if (data.get(i).getValue(Keyword.CONTENT).equals(taskToDelete.get(j).getValue(Keyword.CONTENT))) {
@@ -146,17 +132,14 @@ public class DataHandler {
         return taskToDelete;
     }
     
-    public ArrayList<Task> readTaskWithTollerance(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded, boolean isCompletedIncluded) {
-        if (isExact) {
-            return readTask(keyword, isExact, start, end, isArchivedIncluded, isCompletedIncluded);
-        }
-        ArrayList<Task> noTollerance = readTask(keyword, isExact, start, end, isArchivedIncluded, isCompletedIncluded);
+    public ArrayList<Task> readTask(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded, boolean isCompletedIncluded) {
+        ArrayList<Task> noTollerance = readTaskWithoutTollerance(keyword, isExact, start, end, isArchivedIncluded, isCompletedIncluded);
         if (noTollerance.size() > 0) {
             return noTollerance;
         }
 
         for (int tollerance = 1; tollerance <= 2; ++tollerance) {
-            ArrayList<Task> result = readTask(keyword, isExact, start, end, isArchivedIncluded, isCompletedIncluded, tollerance);
+            ArrayList<Task> result = readTaskWithTollerance(keyword, isExact, start, end, isArchivedIncluded, isCompletedIncluded, tollerance);
             if (result.size() > 0) {
                 System.out.println("Do you mean " + nearMatchString + "?");
                 return result;
@@ -165,7 +148,7 @@ public class DataHandler {
         return new ArrayList<Task>();
     }
     
-    private ArrayList<Task> readTask(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded, boolean isCompletedIncluded, int tollerance) {
+    private ArrayList<Task> readTaskWithTollerance(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded, boolean isCompletedIncluded, int tollerance) {
         ArrayList<Task> result = new ArrayList<Task>();
         for (int i = 0; i < data.size(); ++i) {
             if (!isArchivedIncluded) {
@@ -231,7 +214,7 @@ public class DataHandler {
      * @param isArchivedIncluded
      * @return Tasks to be read
      */
-    public ArrayList<Task> readTask(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded, boolean isCompletedIncluded) {
+    public ArrayList<Task> readTaskWithoutTollerance(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded, boolean isCompletedIncluded) {
         ArrayList<Task> result = new ArrayList<Task>();
         for (int i = 0; i < data.size(); ++i) {
             if (!isArchivedIncluded) {
@@ -287,7 +270,6 @@ public class DataHandler {
      */
     public void undo() {
         restoreFile();
-       
     }
     
     /**
@@ -399,4 +381,17 @@ public class DataHandler {
         }
     }
 
+    /*
+    public static void main(String[] args) {
+        Task t = new Task();
+        DataHandler d = new DataHandler();
+        t.taskName = "gajah";
+        t.type = TASK_TYPE.FLOATING;
+        t.startTime = new Date(2014-1900,8,22,17,50,30);
+        d.addTask(t);
+        for (int i = 0; i < d._data.size(); ++i) {
+            System.out.println(d.convertTaskToString(d._data.get(i)));
+        }
+    }
+    */
 }

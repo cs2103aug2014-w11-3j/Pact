@@ -9,7 +9,7 @@
     CONTENT: haha
     TYPE: FLOATING
     COMPLETED: false
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: false
 }
 {
@@ -17,5 +17,34 @@
     TYPE: FLOATING
     COMPLETED: false
     ARCHIVED: true
+    ALLDAY: false
+}
+{
+    CONTENT: a
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: haha
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: gajah
+    END: 21/12/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: true
+}
+{
+    CONTENT: bb
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
     ALLDAY: false
 }
