@@ -1,0 +1,21 @@
+{
+    CONTENT: gajah
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: false
+}
+{
+    CONTENT: haha
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: aku makan ganteng
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: false
+}

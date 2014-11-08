@@ -91,6 +91,7 @@ public class EventHandler {
             result.add(i.getDisplayedString());
         }
     }
+    
     //@Hui Yi A0101331H
     /**
      * Calls the dataHandler to read/search and store the information obtained into result
@@ -118,7 +119,7 @@ public class EventHandler {
             isCompletedIncluded = true;
         }
         
-        ArrayList<Task> queryResult = dataHandler.readTask(parameters.get(Keyword.CONTENT), isExact, start, end, isArchivedIncluded, isCompletedIncluded);
+        ArrayList<Task> queryResult = dataHandler.readTaskWithTollerance(parameters.get(Keyword.CONTENT), isExact, start, end, isArchivedIncluded, isCompletedIncluded);
         
         if (queryResult.isEmpty()) {
             result.add(ANNOUNCEMENT_NOT_FOUND);

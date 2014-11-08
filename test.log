@@ -1,0 +1,145 @@
+Nov 08, 2014 9:01:57 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch begins
+Nov 08, 2014 9:01:57 AM cli.CommandLineInterface main
+SEVERE: 1
+java.lang.ArrayIndexOutOfBoundsException: 1
+	at pact.DataHandler.readTask(DataHandler.java:190)
+	at pact.DataHandler.readTaskWithTollerance(DataHandler.java:158)
+	at pact.EventHandler.readTask(EventHandler.java:122)
+	at pact.EventHandler.determineCommand(EventHandler.java:37)
+	at cli.CommandLineInterface.main(CommandLineInterface.java:71)
+
+Nov 08, 2014 9:01:57 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch ends 
+xception: 1
+	at pact.DataHandler.readTask(DataHandler.java:190)
+	at pact.DataHandler.readTaskWithTollerance(DataHandler.java:158)
+	at pact.EventHandler.readTask(EventHandler.java:122)
+	at pact.EventHandler.determineCommand(EventHandler.java:37)
+	at cli.CommandLineInterface.main(CommandLineInterface.java:71)
+
+Nov 08, 2014 9:01:57 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch ends 
+Nov 08, 2014 9:03:29 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch begins
+Nov 08, 2014 9:03:29 AM cli.CommandLineInterface main
+SEVERE: 1
+java.lang.ArrayIndexOutOfBoundsException: 1
+	at pact.DataHandler.readTask(DataHandler.java:193)
+	at pact.DataHandler.readTaskWithTollerance(DataHandler.java:160)
+	at pact.EventHandler.readTask(EventHandler.java:122)
+	at pact.EventHandler.determineCommand(EventHandler.java:37)
+	at cli.CommandLineInterface.main(CommandLineInterface.java:71)
+
+Nov 08, 2014 9:03:29 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch ends 
+Exception in thread "main" java.lang.NullPointerException
+	at cli.CommandLineInterface.main(CommandLineInterface.java:89)
+Nov 08, 2014 9:03:48 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch begins
+Nov 08, 2014 9:03:48 AM cli.CommandLineInterface main
+SEVERE: 1
+java.lang.ArrayIndexOutOfBoundsException: 1
+	at pact.DataHandler.readTask(DataHandler.java:194)
+	at pact.DataHandler.readTaskWithTollerance(DataHandler.java:160)
+	at pact.EventHandler.readTask(EventHandler.java:122)
+	at pact.EventHandler.determineCommand(EventHandler.java:37)
+	at cli.CommandLineInterface.main(CommandLineInterface.java:71)
+
+Nov 08, 2014 9:03:48 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch ends 
+Nov 08, 2014 9:04:30 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch begins
+Nov 08, 2014 9:04:30 AM cli.CommandLineInterface main
+SEVERE: Invalid Command
+
+Available commands : "create", "update", "delete", "search", "display", "undo", "completed", "exit", "qexit" 
+
+java.lang.Exception: Invalid Command
+
+Available commands : "create", "update", "delete", "search", "display", "undo", "completed", "exit", "qexit" 
+
+	at parser.Parser.checkExceptions(Parser.java:181)
+	at parser.Parser.parse(Parser.java:240)
+	at cli.CommandLineInterface.main(CommandLineInterface.java:70)
+
+Nov 08, 2014 9:04:30 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch ends 
+Nov 08, 2014 9:04:33 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch begins
+Nov 08, 2014 9:04:33 AM cli.CommandLineInterface main
+SEVERE: 1
+java.lang.ArrayIndexOutOfBoundsException: 1
+	at pact.DataHandler.readTask(DataHandler.java:197)
+	at pact.DataHandler.readTaskWithTollerance(DataHandler.java:160)
+	at pact.EventHandler.readTask(EventHandler.java:122)
+	at pact.EventHandler.determineCommand(EventHandler.java:37)
+	at cli.CommandLineInterface.main(CommandLineInterface.java:71)
+
+Nov 08, 2014 9:04:33 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch ends 
+Nov 08, 2014 9:04:54 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch begins
+Nov 08, 2014 9:04:54 AM cli.CommandLineInterface main
+SEVERE: 1
+java.lang.ArrayIndexOutOfBoundsException: 1
+	at pact.DataHandler.readTask(DataHandler.java:197)
+	at pact.DataHandler.readTaskWithTollerance(DataHandler.java:160)
+	at pact.EventHandler.readTask(EventHandler.java:122)
+	at pact.EventHandler.determineCommand(EventHandler.java:37)
+	at cli.CommandLineInterface.main(CommandLineInterface.java:71)
+
+Nov 08, 2014 9:04:54 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch ends 
+Nov 08, 2014 9:05:53 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch begins
+Nov 08, 2014 9:05:53 AM cli.CommandLineInterface main
+SEVERE: 1
+java.lang.ArrayIndexOutOfBoundsException: 1
+	at pact.DataHandler.readTask(DataHandler.java:194)
+	at pact.DataHandler.readTaskWithTollerance(DataHandler.java:160)
+	at pact.EventHandler.readTask(EventHandler.java:122)
+	at pact.EventHandler.determineCommand(EventHandler.java:37)
+	at cli.CommandLineInterface.main(CommandLineInterface.java:71)
+
+Nov 08, 2014 9:05:53 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch ends 
+Nov 08, 2014 9:06:28 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch begins
+Nov 08, 2014 9:06:28 AM cli.CommandLineInterface main
+SEVERE: 1
+java.lang.ArrayIndexOutOfBoundsException: 1
+	at pact.DataHandler.readTask(DataHandler.java:194)
+	at pact.DataHandler.readTaskWithTollerance(DataHandler.java:160)
+	at pact.EventHandler.readTask(EventHandler.java:122)
+	at pact.EventHandler.determineCommand(EventHandler.java:37)
+	at cli.CommandLineInterface.main(CommandLineInterface.java:71)
+
+Nov 08, 2014 9:06:28 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch ends 
+Nov 08, 2014 9:06:54 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch begins
+Nov 08, 2014 9:06:54 AM cli.CommandLineInterface main
+SEVERE: 1
+java.lang.ArrayIndexOutOfBoundsException: 1
+	at pact.DataHandler.readTask(DataHandler.java:195)
+	at pact.DataHandler.readTaskWithTollerance(DataHandler.java:160)
+	at pact.EventHandler.readTask(EventHandler.java:122)
+	at pact.EventHandler.determineCommand(EventHandler.java:37)
+	at cli.CommandLineInterface.main(CommandLineInterface.java:71)
+
+Nov 08, 2014 9:06:54 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch ends 
+Nov 08, 2014 9:07:08 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch begins
+Nov 08, 2014 9:07:08 AM cli.CommandLineInterface main
+SEVERE: 1
+java.lang.ArrayIndexOutOfBoundsException: 1
+	at pact.DataHandler.readTask(DataHandler.java:195)
+	at pact.DataHandler.readTaskWithTollerance(DataHandler.java:160)
+	at pact.EventHandler.readTask(EventHandler.java:122)
+	at pact.EventHandler.determineCommand(EventHandler.java:37)
+	at cli.CommandLineInterface.main(CommandLineInterface.java:71)
+
+Nov 08, 2014 9:07:08 AM cli.CommandLineInterface main
+INFO: Logging from second try-catch ends 

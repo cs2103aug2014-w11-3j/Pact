@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import utility.Clock;
 import utility.Keyword;
+import utility.StringMatching;
 import utility.Task;
 
 public class DataHandler {
@@ -19,6 +20,8 @@ public class DataHandler {
     private ArrayList<Task> data;
     private ArrayList<Task> previousData;
     private ArrayList<Task> temp;
+    
+    private String nearMatchString;
       
     /**
      * Initialize the DataHandler
@@ -63,7 +66,7 @@ public class DataHandler {
      */
     public ArrayList<Task> deleteTask(String keyword, boolean isDeleting) {
         backupFile();
-        ArrayList<Task> taskToDelete = readTask(keyword, false, "", "", false, true);
+        ArrayList<Task> taskToDelete = readTaskWithTollerance(keyword, false, "", "", false, true);
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
                 if (data.get(i).getValue(Keyword.CONTENT).equals(taskToDelete.get(j).getValue(Keyword.CONTENT))) {
@@ -91,7 +94,7 @@ public class DataHandler {
      */
     public ArrayList<Task> updateTask(String keyword, String newContent, String start, String end, String isCompleted) {
         backupFile();
-        ArrayList<Task> taskToDelete = readTask(keyword, false, "", "", false, true);
+        ArrayList<Task> taskToDelete = readTaskWithTollerance(keyword, false, "", "", false, true);
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
                 if (data.get(i).getValue(Keyword.CONTENT).equals(taskToDelete.get(j).getValue(Keyword.CONTENT))) {
@@ -142,7 +145,83 @@ public class DataHandler {
         saveFile();
         return taskToDelete;
     }
-        
+    
+    public ArrayList<Task> readTaskWithTollerance(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded, boolean isCompletedIncluded) {
+        if (isExact) {
+            return readTask(keyword, isExact, start, end, isArchivedIncluded, isCompletedIncluded);
+        }
+        ArrayList<Task> noTollerance = readTask(keyword, isExact, start, end, isArchivedIncluded, isCompletedIncluded);
+        if (noTollerance.size() > 0) {
+            return noTollerance;
+        }
+
+        for (int tollerance = 1; tollerance <= 2; ++tollerance) {
+            ArrayList<Task> result = readTask(keyword, isExact, start, end, isArchivedIncluded, isCompletedIncluded, tollerance);
+            if (result.size() > 0) {
+                System.out.println("Do you mean " + nearMatchString + "?");
+                return result;
+            }
+        }
+        return new ArrayList<Task>();
+    }
+    
+    private ArrayList<Task> readTask(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded, boolean isCompletedIncluded, int tollerance) {
+        ArrayList<Task> result = new ArrayList<Task>();
+        for (int i = 0; i < data.size(); ++i) {
+            if (!isArchivedIncluded) {
+                if (data.get(i).getValue(Keyword.ARCHIVED).equals("true")) {
+                    continue;
+                }
+            }
+            if (!isCompletedIncluded) {
+                if (data.get(i).getValue(Keyword.COMPLETED).equals("true")) {
+                    continue;
+                }
+            }
+            StringMatching sm = new StringMatching();
+            String[] listOfWords = data.get(i).getValue(Keyword.CONTENT).split(" ");
+            boolean wordFound = false;
+            if (keyword.equals("")) {
+                wordFound = true;
+            }
+            for (int j = 0; j < listOfWords.length; ++j) {
+                if (wordFound) {
+                    continue;
+                }
+                if (sm.computeEditDistance(listOfWords[j],keyword) <= tollerance) {
+                    nearMatchString = listOfWords[j];
+                    wordFound = true;
+                }
+            }
+            if (!wordFound) continue;
+            if (!start.isEmpty() || !end.isEmpty()) {
+                String taskStart = data.get(i).getValue(Keyword.START);
+                String taskEnd = data.get(i).getValue(Keyword.END);
+                /*
+                if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.FLOATING)) {
+                    continue;
+                }
+                */
+                if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)) {
+                    taskStart = taskEnd;
+                }
+                Clock clock = new Clock();
+                if (!start.isEmpty()) {
+                    if (clock.parseFromCommonFormat(start) > clock.parseFromCommonFormat(taskEnd)) {
+                        continue;
+                    }
+                }
+                if (!end.isEmpty()) {
+                    if (clock.parseFromCommonFormat(end) < clock.parseFromCommonFormat(taskStart)) {
+                        continue;
+                    }
+                }
+            }
+            result.add(data.get(i));
+        }
+        return result;
+    }
+    
     /**
      * Get task from database
      * @param keyword

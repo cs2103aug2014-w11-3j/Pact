@@ -296,7 +296,8 @@ public class CommandLineInterface {
         reader.setBellEnabled(false);
         List<SimpleCompletor> completors = new LinkedList<SimpleCompletor>();
         completors.add(new SimpleCompletor(Keyword.listAllCommands()));
-        completors.add(new SimpleCompletor(getAllHashTags()));
+        completors.add(new SimpleCompletor(Keyword.listAllArguments()));
+        //completors.add(new SimpleCompletor(getAllHashTags()));
         
         reader.addCompletor(new ArgumentCompletor(completors));
         PrintWriter out = new PrintWriter(System.out);
@@ -309,7 +310,7 @@ public class CommandLineInterface {
         return command;
     }
     
-    private String[] getAllHashTags() {
+    /*private String[] getAllHashTags() {
         ArrayList<String> hashTags = new ArrayList<String>();
         try
         {
@@ -333,7 +334,7 @@ public class CommandLineInterface {
         String[] finalResult = new String[hashTags.size()];
         hashTags.toArray(finalResult);
         return finalResult;
-    }
+    }*/
 
 }
 
