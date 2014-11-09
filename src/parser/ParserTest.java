@@ -12,7 +12,7 @@ public class ParserTest {
     //test if parser is throwing exceptions correctly
     @Test
     public void testParserException() {
-         String MISSING_ENDDATE = "End date required\n";
+         //String MISSING_ENDDATE = "End date required\n";
          String NO_ARGUMENTS_ADD = "Arguments required for adding a task\n\n";
          String NO_ARGUMENTS_UPDATE = "Arguments required for updating a task\n\n";
          String NO_ARGUMENTS_DELETE = "Arguments required for deleting a task\n\n";
@@ -29,10 +29,10 @@ public class ParserTest {
          String DELETE_FORMAT = "Format for delete : delete <taskName>\n";
          String INVALID_COMMAND = "Invalid Command\n\n";
          String AVAILABLE_COMMANDS = "Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\", \"completed\", \"exit\", \"qexit\" \n";
-         String NON_MATCHING_FORMAT = "Start and end time must have the same format\n";
-         String IMPROPER_ARGUMENT = "Argument is invalid\n";
+         //String NON_MATCHING_FORMAT = "Start and end time must have the same format\n";
+         //String IMPROPER_ARGUMENT = "Argument is invalid\n";
          String INCORRECT_TIME_FORMAT = "Incorrect format to add time\n";
-         String EXCEEDED_CHAR_LIMIT = "Task description has exceeded 30 characters";
+         //String EXCEEDED_CHAR_LIMIT = "Task description has exceeded 30 characters";
          String INVALID_DATE = "You have entered an invalid date.\n\n";
          String EXCEED_DATE_LIMIT ="Maximum search period for emptyslot is 7 days\n\n";
          String HELP = "Valid Formats:\n";
@@ -79,11 +79,11 @@ public class ParserTest {
         }
     }
     @Test
-    public void testParser(){
+    public void testParser() {
         testCommand("check create command","create","go for lunch","create go for lunch");
         
     }
-    private void testCommand(String description,String expectedCommand,String expectedArgument, String command){
+    private void testCommand(String description,String expectedCommand,String expectedArgument, String command) {
         HashMap <Keyword, String> expected = new HashMap<Keyword, String>();
        expected.put(Keyword.METHOD,expectedCommand);
        expected.put(Keyword.CONTENT,expectedCommand);
@@ -91,7 +91,7 @@ public class ParserTest {
       try{
        HashMap<Keyword, String> results =p.parse(command);
        assert(expected.equals(results));
-      }catch(Exception e){
+      }catch(Exception e) {
           
       }
       }

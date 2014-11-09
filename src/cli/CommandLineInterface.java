@@ -18,6 +18,7 @@ import java.util.logging.SimpleFormatter;
 import jline.ArgumentCompletor;
 import jline.ConsoleReader;
 import jline.SimpleCompletor;
+
 import pact.EventHandler;
 import parser.Parser;
 import utility.Clock;
@@ -26,7 +27,6 @@ import utility.Keyword;
 public class CommandLineInterface {
     public static String[] fullDays = new String[] { "", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }; 
     private static final Logger logger = Logger.getLogger(CommandLineInterface.class.getName());
-    //private String[] commandList = new String[] { "create", "update", "delete", "search", "display", "undo", "exit" };
 
     /**
      * main method
@@ -45,25 +45,11 @@ public class CommandLineInterface {
         HashMap<Keyword, String> parsedCommand;
         ArrayList<String> result;
         PrintStream outPS =new PrintStream(new BufferedOutputStream (new FileOutputStream("test.log", true)));  // append is true
-                System.setErr(outPS);    // redirect System.err
+        System.setErr(outPS); // redirect System.err
                
-        
-        
-        
-        
-        
         //reader.clearScreen();
         String userCommand;
-        try {
-            System.out.println("WELCOME TO PERSONAL ASSISTANT COORDINATOR TOOL(PACT)!\n");
-            System.out.println(clock.getGreeting(clock.getCurrentHour()) + "Date: " + clock.getDay(clock.getCurrentDateAndTime()) + " " + clock.getMonth(clock.getCurrentDateAndTime()) + " " + clock.getYear(clock.getCurrentDateAndTime()) + ", " 
-                    + fullDays[clock.getDayOfTheWeek(clock.getDate(clock.getCurrentDateAndTime()))] + "\nTime: " + clock.getTime(clock.getCurrentDateAndTime()) + "\n");
-            System.out.println("Commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\", \"complete\", \"exit\" ");
-        } catch (Exception e) {
-            logger.info("Logging from first try-catch begins"); 
-            logger.log(Level.SEVERE, e.getMessage(), e);
-            logger.info("Logging from first try-catch ends "); 
-        }
+        printGreetingMessage();
         while (true) {
             try {
                 userCommand = cli.getUserCommand();
@@ -76,7 +62,6 @@ public class CommandLineInterface {
                         System.out.println(result.get(i));
                     }
                 }
-                
                 if (Keyword.getMeaning(userCommand).equals(Keyword.EXIT)) {
                     System.out.println("Are you sure you want to exit? [Y/N]");
                     if (cli.getUserCommand().equalsIgnoreCase("Y")) {
@@ -94,14 +79,29 @@ public class CommandLineInterface {
                 logger.log(Level.SEVERE, pe.getMessage(), pe);
                 logger.info("Logging from second try-catch ends "); 
                 cli.printErrorMessage(pe.getMessage());
-               
             }
-
-            
         }
         
     }
-
+    
+    private static void printGreetingMessage() {
+        try {
+            String currentTime = clock.getCurrentDateAndTime();
+            System.out.println("WELCOME TO PERSONAL ASSISTANT COORDINATOR TOOL(PACT)!\n");
+            System.out.println(clock.getGreeting(clock.getCurrentHour()) + "Date: " +
+                               clock.getDay(currentTime) + " " + 
+                               clock.getMonth(currentTime) + " " + 
+                               clock.getYear(currentTime) + ", " + 
+                               fullDays[clock.getDayOfTheWeek(clock.getDate(currentTime))] + "\nTime: " + 
+                               clock.getTime(currentTime) + "\n");
+            System.out.println("Commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\", \"complete\", \"exit\" ");
+        } catch (Exception e) {
+            logger.info("Logging from first try-catch begins"); 
+            logger.log(Level.SEVERE, e.getMessage(), e);
+            logger.info("Logging from first try-catch ends "); 
+        }
+    }
+    
     private boolean printTable(String userCommand) {
         String[] arr;
         arr = userCommand.split(" ", 2);
@@ -117,12 +117,12 @@ public class CommandLineInterface {
      */
     private void printErrorMessage(String message) {
         System.out.println("\nERROR!");
-        System.out.println("******************************************************************************************");
+        System.out.println(rp("*", 90));
         System.out.println("Your command could not be processed.Please try again!");
         System.out.println("");
         System.out.println("Cause of Error:");
         System.out.println(message);
-        System.out.println("******************************************************************************************");
+        System.out.println(rp("*", 90));
         
     }
         
@@ -131,13 +131,11 @@ public class CommandLineInterface {
      * @param result
      */
     private void constructTable(ArrayList<String> result) {
-
         if (result.size() >= 2) {
             System.out.println(result.get(0));
             printHeader();
             constructContents(result);
             printEndLine();
-            
         } else {
             System.out.println(result.get(0));
         }
@@ -154,9 +152,32 @@ public class CommandLineInterface {
             addSerialNumber(i, sb);
             addTaskNameAndCompleted(splitString, sb);
             processDateAndTime(splitString, sb);
+            sb.append("|");
             System.out.println(sb.toString());
         }
 
+    }
+
+    /**
+     * construct serial number component of the table
+     * @param i
+     * @param sb
+     */
+    private void addSerialNumber(int i, StringBuilder sb) {
+        sb.append(createRow(new String[]{ "" + i + "." }, new int[]{ 5 }));
+    }
+    
+    /**
+     * construct task name component of the table
+     * @param splitString
+     * @param sb
+     */
+    private void addTaskNameAndCompleted(String[] splitString, StringBuilder sb) {
+        if (splitString[1].equals("false")) {
+            sb.append(createRow(new String[]{ splitString[0], alC("", 6) }, new int[]{ 30, 6 }));
+        } else {
+            sb.append(createRow(new String[]{ splitString[0], alC("OK", 6) }, new int[]{ 30, 6 }));
+        }
     }
 
     /**
@@ -165,8 +186,9 @@ public class CommandLineInterface {
      * @param sb
      */
     private void processDateAndTime(String[] splitString, StringBuilder sb) {
-        if (splitString[2].equals("")) {
-            sb.append("-          |-     |-   |-          |-     |-   |      |");
+        if (splitString[2].equals("")) { //floating tasks
+            sb.append(createRow(new String[]{ "-", "-", "-", "-", "-", "-", "" }, 
+                                new int[]{ 11, 6, 4, 11, 6, 4, 6 }));
         } else {
             String temp = splitString[2];
             splitString = temp.split(" ");
@@ -179,104 +201,67 @@ public class CommandLineInterface {
     }
 
     /**
-     * print header of table
-     */
-    private void printHeader() {
-        System.out
-                .println("****************************************************************************************************");
-        System.out
-                .println("|     |                              |      |     Start             |      End              | No of|");
-        System.out
-                .println("| S/N |            TaskName          | Done ------------------------------------------------| Days |");
-        System.out
-                .println("|     |                              |      | Date      |Time  |Day | Date      |Time  |Day | Left |");
-        System.out
-                .println("|--------------------------------------------------------------------------------------------------|");
-
-    }
-
-    /**
      * construct Date and Time component of the table
-     * @param splitString
+     * @param arg
      * @param sb
      * @throws Exception 
      */
-    private void addDateAndTime(String[] splitString, StringBuilder sb) throws Exception {
+    private void addDateAndTime(String[] arg, StringBuilder sb) throws Exception {
+        int[] formatter = new int[]{ 11, 6, 4, 11, 6, 4, 6 };
+        String st = "";
         Clock clock = new Clock();
-        String[] array = new String[]{ "","Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" }; 
-        if (splitString.length == 1) {
-            sb.append("-          |-     |-   |" + splitString[0] + " |-     |" + array[clock.getDayOfTheWeek(splitString[0])] + " |"+ addNoOfDaysLeft(splitString[0] + " 23:59") + "|");
-        } else if (splitString.length == 2) {
-            if (splitString[1].length() == 10) {
-                sb.append(splitString[0] + " |-     |" + array[clock.getDayOfTheWeek(splitString[0])] + " |" + splitString[1]
-                        + " |-     |" + array[clock.getDayOfTheWeek(splitString[1])] + " |" + addNoOfDaysLeft(splitString[1] + " 23:59") + "|");
+        String[] array = new String[]{ "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+        if (arg.length == 1) {
+            st = createRow(new String[]{ "-", "-", "-", 
+                                         arg[0], "-", "-", 
+                                         addNoOfDaysLeft(arg[0] + " 23:59") }, 
+                           formatter);
+        } else if (arg.length == 2) {
+            if (arg[1].length() == 10) {
+                st = createRow(new String[]{ arg[0], "-", array[clock.getDayOfTheWeek(arg[0])], 
+                                             arg[1], "-", array[clock.getDayOfTheWeek(arg[1])], 
+                                             addNoOfDaysLeft(arg[1] + " 23:59") }, 
+                               formatter);
             } else {
-                sb.append("-          |-     |-   |" + splitString[0] + " |"
-                        + splitString[1] + " |" + array[clock.getDayOfTheWeek(splitString[0])] + " |" + addNoOfDaysLeft(splitString[0] + " "+ splitString[1]) + "|");
+                st = createRow(new String[]{ "-", "-", "-", 
+                                             arg[0], arg[1], array[clock.getDayOfTheWeek(arg[0])],
+                                             addNoOfDaysLeft(arg[0] + " " + arg[1]) }, 
+                               formatter);
             }
-
-        } else if (splitString.length == 4) {
-            sb.append(splitString[0] + " |" + splitString[1] + " |" + array[clock.getDayOfTheWeek(splitString[0])] + " |"
-                    + splitString[2] + " |" + splitString[3] + " |" + array[clock.getDayOfTheWeek(splitString[2])] + " |" +  addNoOfDaysLeft(splitString[2] + " "+ splitString[3] ) + "|");
+        } else if (arg.length == 4) {
+            st = createRow(new String[]{ arg[0], arg[1], array[clock.getDayOfTheWeek(arg[0])], 
+                                         arg[2], arg[3], array[clock.getDayOfTheWeek(arg[2])], 
+                                         addNoOfDaysLeft(arg[2] + " " + arg[3]) },
+                           formatter);
         }
-    }
-    
-	private String addNoOfDaysLeft(String date) throws Exception {
-		Clock clock = new Clock();
-		StringBuilder sb1 = new StringBuilder();
-		String day = clock.getDateDifference(clock.getCurrentDateAndTime(), date);
-		int spaces = 6 - day.length();
-		sb1.append(day);
-		for(int i = 0; i < spaces; i++){
-			sb1.append(" ");
-		}
-		return sb1.toString();
-		
-	}
-
-    /**
-     * construct task name component of the table
-     * @param splitString
-     * @param sb
-     */
-    private void addTaskNameAndCompleted(String[] splitString, StringBuilder sb) {
-        int length = splitString[0].length();
-        if (length < 30) {
-            int numberOfSpaces = 30 - length;
-            sb.append(splitString[0] + "");
-            for (int j = 0; j < numberOfSpaces; j++) {
-                sb.append(" ");
-            }
-            sb.append("|");
-        }
-        if (splitString[1].equals("false")) {
-            sb.append("      |");
-        } else {
-            sb.append("  OK  |");
-        }
+        sb.append(st);
     }
 
     /**
-     * construct serial number component of the table
-     * @param i
-     * @param sb
+     * print header of table
      */
-    private void addSerialNumber(int i, StringBuilder sb) {
-        int length = String.valueOf(i).length();
-        int numberOfSpaces = 4 - length;
-        sb.append("|" + i + ".");
-        for (int j = 0; j < numberOfSpaces; j++) {
-            sb.append(" ");
-        }
-        sb.append("|");
-
+    private void printHeader() {
+        System.out.println(rp("*", 100));
+        System.out.println(createRow(new String[] { "", "", "", "Start", "End", "No of" }, 
+                                     new int[]{ 5, 30, 6, 23, 23, 6 }) + "|");
+        System.out.println(createRow(new String[] { "S/N", "TaskName", "Done", rp("-", 47), "Days" }, 
+                                     new int[]{ 5, 30, 6, 47, 6 }) + "|");
+        System.out.println(createRow(new String[] { rp(" ", 5), rp(" ", 30), rp(" ", 6), "Date", "Time", "Day", "Date", "Time", "Day", "Left" }, 
+                                     new int[]{ 5, 30, 6, 11, 6, 4, 11, 6, 4, 6}) + "|");
+        System.out.printf("|%s|\n", rp("-", 98));
     }
     
+    private String addNoOfDaysLeft(String date) throws Exception {
+        Clock clock = new Clock();
+        String day = clock.getDateDifference(clock.getCurrentDateAndTime(), date);
+        return day;
+    }
+
     /**
      * print bottom line of table
      */
     private void printEndLine() {
-        System.out.println("****************************************************************************************************");        
+        System.out.println(rp("*", 100));
     }
 
     private String readLine(ConsoleReader reader) throws IOException {
@@ -291,17 +276,14 @@ public class CommandLineInterface {
      */
     private String getUserCommand() throws IOException { // get from Scanner or something else
         String command;
-        
         ConsoleReader reader = new ConsoleReader();
         reader.setBellEnabled(false);
         List<SimpleCompletor> completors = new LinkedList<SimpleCompletor>();
         completors.add(new SimpleCompletor(Keyword.listAllCommands()));
         completors.add(new SimpleCompletor(Keyword.listAllArguments()));
         //completors.add(new SimpleCompletor(getAllHashTags()));
-        
         reader.addCompletor(new ArgumentCompletor(completors));
         PrintWriter out = new PrintWriter(System.out);
-        
         do {
             //System.out.print(">> ");
             command = readLine(reader);
@@ -310,34 +292,33 @@ public class CommandLineInterface {
         return command;
     }
     
-    /*private String[] getAllHashTags() {
-        ArrayList<String> hashTags = new ArrayList<String>();
-        try
-        {
-            Parser commandParser = new Parser();
-            EventHandler logic = new EventHandler();
-            HashMap<Keyword,String> command = commandParser.parse("display");
-            ArrayList<String> result = logic.determineCommand(command);
-            for (int i = 1; i < result.size(); ++i) {
-                String[] splitString = result.get(i).split(":", 3);
-                String taskName = splitString[0];
-                String[] splitWords = taskName.split(" ");
-                for (int j = 0; j < splitWords.length; ++j) {
-                    if (splitWords[j].charAt(0) == '#' && !hashTags.contains(splitWords[j])) {
-                        hashTags.add(splitWords[j]);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            
+    private String rp(String st, int times) {
+        if (st.isEmpty() || (times == 0)) return "";
+        return new String(new char[times]).replace("\0", st);
+    }
+    
+    public String alL(String st, String spaces, int counter) {
+        return st + rp(spaces, counter - st.length());
+    }
+    
+    private String alC(String st, int counter, String spaces) {
+        int right = (counter - st.length()) / 2;
+        int left = counter - st.length() - right;
+        return rp(spaces, left) + st + rp(spaces, right);
+    }
+
+    private String alC(String st, int counter) {
+        return alC(st, counter, " ");
+    }
+    
+    private String createRow(String[] content, int[] spaces) {
+        String output = "";
+        int len = Math.min(content.length, spaces.length);
+        for (int i = 0; i < len; ++i) {
+            output = output.concat("|");
+            output = output.concat(alC(content[i], spaces[i]));
         }
-        String[] finalResult = new String[hashTags.size()];
-        hashTags.toArray(finalResult);
-        return finalResult;
-    }*/
+        return output;
+    }
 
 }
-
-
-
-

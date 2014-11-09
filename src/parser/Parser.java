@@ -83,7 +83,7 @@ public class Parser {
         if (startType.equals(TimeType.NONE)) { 
             throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + EMPTYSLOT_TASK_FORMAT);
         }
-        if(endType.equals(TimeType.NONE)){
+        if(endType.equals(TimeType.NONE)) {
             throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + EMPTYSLOT_TASK_FORMAT);
         }
         
@@ -198,15 +198,15 @@ public class Parser {
         }
 
         
-        if(userCode.equals(Keyword.EMPTYSLOT)){
+        if(userCode.equals(Keyword.EMPTYSLOT)) {
             
             String[] check = values.trim().split("--");
            
             
-            if(values.equals("")||values.charAt(0) != '-'){
+            if(values.equals("")||values.charAt(0) != '-') {
                  throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + EMPTYSLOT_TASK_FORMAT);
              }
-            if(check.length<3){
+            if(check.length<3) {
                 throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + EMPTYSLOT_TASK_FORMAT);
             }
             
@@ -219,7 +219,7 @@ public class Parser {
        Clock clock = new Clock();
     	String st = parameters.get(Keyword.START);
     	String en = parameters.get(Keyword.END);
-        if(Integer.parseInt(clock.getDateDifference(st, en)) >7){
+        if(Integer.parseInt(clock.getDateDifference(st, en)) >7) {
            throw new Exception(EXCEED_DATE_LIMIT);
        }
     }

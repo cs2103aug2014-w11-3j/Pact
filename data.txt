@@ -1,14 +1,14 @@
 {
     CONTENT: gajah
     TYPE: FLOATING
-    COMPLETED: false
+    COMPLETED: true
     ARCHIVED: true
     ALLDAY: false
 }
 {
     CONTENT: haha
     TYPE: FLOATING
-    COMPLETED: false
+    COMPLETED: true
     ARCHIVED: true
     ALLDAY: false
 }
@@ -22,22 +22,21 @@
 {
     CONTENT: a
     TYPE: FLOATING
-    COMPLETED: false
+    COMPLETED: true
     ARCHIVED: false
     ALLDAY: false
 }
 {
     CONTENT: haha
     TYPE: FLOATING
-    COMPLETED: false
+    COMPLETED: true
     ARCHIVED: false
     ALLDAY: false
 }
 {
     CONTENT: gajah
-    END: 21/12/2014 23:59
-    TYPE: DEADLINE
-    COMPLETED: false
+    TYPE: FLOATING
+    COMPLETED: true
     ARCHIVED: false
     ALLDAY: true
 }
@@ -47,4 +46,53 @@
     COMPLETED: false
     ARCHIVED: false
     ALLDAY: false
+}
+{
+    CONTENT: pes
+    END: 19/10/2014 23:59
+    START: 19/11/2014 00:00
+    TYPE: TIMED
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: true
+}
+{
+    CONTENT: pes
+    END: 19/11/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: true
+}
+{
+    CONTENT: pes
+    END: 19/11/2014 21:00
+    START: 19/11/2014 19:00
+    TYPE: TIMED
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: fifa
+    TYPE: FLOATING
+    COMPLETED: true
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: clgt
+    TYPE: FLOATING
+    COMPLETED: true
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: play game
+    END: 19/11/2014 23:59
+    START: 10/11/2014 00:00
+    TYPE: TIMED
+    COMPLETED: true
+    ARCHIVED: false
+    ALLDAY: true
 }

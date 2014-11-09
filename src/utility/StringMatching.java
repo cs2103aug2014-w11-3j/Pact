@@ -15,16 +15,16 @@ public class StringMatching {
                     continue;
                 }
                 if (i < s.length()) {
-                    dp[i][j] = Math.min(dp[i][j], dp[i+1][j] + 1);
+                    dp[i][j] = Math.min(dp[i][j], dp[i + 1][j] + 1);
                 }
                 if (j < t.length()) {
-                    dp[i][j] = Math.min(dp[i][j], dp[i][j+1] + 1);
+                    dp[i][j] = Math.min(dp[i][j], dp[i][j + 1] + 1);
                 }
                 if (i < s.length() && j < t.length()) {
                     if (s.charAt(i) == t.charAt(j)) {
-                        dp[i][j] = Math.min(dp[i][j], dp[i+1][j+1]);
+                        dp[i][j] = Math.min(dp[i][j], dp[i + 1][j + 1]);
                     } else {
-                        dp[i][j] = Math.min(dp[i][j], dp[i+1][j+1] + 1);
+                        dp[i][j] = Math.min(dp[i][j], dp[i + 1][j + 1] + 1);
                     }
                 }
             }

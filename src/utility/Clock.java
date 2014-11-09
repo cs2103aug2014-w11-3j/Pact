@@ -84,13 +84,13 @@ public class Clock {
     public String getGreeting(String hour) {
         int time = Integer.parseInt(hour);
 
-        if(time >= 0  && time < 12){
+        if(time >= 0  && time < 12) {
         	return "Good Morning!\n";
-        }else if(time >=12 && time < 17){
+        } else if(time >=12 && time < 17) {
         	return "Good Afternoon!\n";
-        }else if(time >=17 && time < 19){
+        } else if(time >=17 && time < 19) {
         	return "Good Evening\n!";
-        }else{     	
+        } else {     	
         	return "";
     	}
 	}
@@ -162,7 +162,7 @@ public class Clock {
         return result.getTimeInMillis();
     }
 
-/*    public int getDateDifference(String start,String end){
+/*    public int getDateDifference(String start,String end) {
        
     public boolean getDateDifference(HashMap<Keyword,String> parameters) {
         String start = parameters.get(Keyword.START);
@@ -187,7 +187,7 @@ public class Clock {
         
         double days = (int) (cal2.getTime().getTime() - cal1.getTime().getTime()) / (1000 * 60 * 60 * 24);
         
-        if(days<=7){
+        if(days<=7) {
             return true;
         }
         BigDecimal bd = new BigDecimal(days).setScale(2, RoundingMode.DOWN);
@@ -210,7 +210,7 @@ public class Clock {
         double days = (double) ((endDate.getTime() - startDate.getTime()) /(1000.0* 60.0 * 60.0 * 24.0));
         DecimalFormat df = new DecimalFormat("#.##");
         String dateDifference = df.format(days);
-        if(days > 365 ){
+        if(days > 365 ) {
         	dateDifference = "";
         }
         return dateDifference;
