@@ -171,7 +171,7 @@ public class DataHandler {
                 if (wordFound) {
                     continue;
                 }
-                if (sm.computeEditDistance(listOfWords[j],keyword) <= tollerance) {
+                if (sm.computeEditDistance(listOfWords[j], keyword) <= tollerance) {
                     nearMatchString = listOfWords[j];
                     wordFound = true;
                 }

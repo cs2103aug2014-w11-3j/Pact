@@ -31,10 +31,4 @@ public class StringMatching {
         }
         return dp[0][0];
     }
-    
-    /*public static void main(String[] args) {
-        StringMatching sm = new StringMatching();
-        int k = sm.computeEditDistance("gajaaah","gajah");
-        System.out.println(k);
-    }*/
 }

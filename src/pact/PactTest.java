@@ -13,7 +13,6 @@ public class PactTest {
     @Test
     public void test() {
        
-       
         testCommand("add a task", "Task was added successfully.","create go for lunch");
         testCommand("add a task","Task was added successfully.","create assignment --end 12112014");
         testCommand("delete a task", "Task was deleted successfully.","delete go for lunch");
@@ -39,7 +38,7 @@ public class PactTest {
             assertEquals(description,expected,result.get(0));
         
         }
-        catch( Exception e) {
+        catch (Exception e) {
             
         }
        

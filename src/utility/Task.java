@@ -12,7 +12,6 @@ public class Task {
     private boolean isCompleted;
     private boolean isArchived;
     
-    
     /**
      * Construct a new Task object
      */
@@ -61,7 +60,7 @@ public class Task {
      * Construct string to put into result
      * @return 
      */
-   /* public String getDisplayedString() {
+    /* public String getDisplayedString() {
         String result = content;
         if (type.equals(Keyword.TIMED)) {
             String[] splitStart = start.split(" ", 2);
@@ -94,7 +93,7 @@ public class Task {
             String[] splitStart = start.split(" ", 2);
             String[] splitEnd = end.split(" ", 2);  
             if (splitEnd[1].equals("23:59") && splitStart[1].equals("00:00")) {
-                result = result +":" + splitStart[0];
+                result = result + ":" + splitStart[0];
                 result = result + " " + splitEnd[0]; 
             } else {
                 result = result + ":" + splitStart[0] + " " + splitStart[1];
@@ -108,7 +107,6 @@ public class Task {
                 result = result + ":" +splitEnd[0];
             }
         } else if (type.equals(Keyword.FLOATING)) {
-            
             result = result + ":" ;
         }
         return result;
@@ -181,4 +179,3 @@ public class Task {
         return result;
     }
 }
-

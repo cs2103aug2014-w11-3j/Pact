@@ -74,7 +74,7 @@ public class ParserTest {
         try {
             parser.parse(command);
             
-        } catch(Exception e) {
+        } catch (Exception e) {
             assertEquals(description,expected,e.getMessage() );
         }
     }
@@ -85,14 +85,13 @@ public class ParserTest {
     }
     private void testCommand(String description,String expectedCommand,String expectedArgument, String command) {
         HashMap <Keyword, String> expected = new HashMap<Keyword, String>();
-       expected.put(Keyword.METHOD,expectedCommand);
-       expected.put(Keyword.CONTENT,expectedCommand);
-      Parser p =new Parser();
-      try{
-       HashMap<Keyword, String> results =p.parse(command);
-       assert(expected.equals(results));
-      }catch(Exception e) {
-          
-      }
-      }
+        expected.put(Keyword.METHOD,expectedCommand);
+        expected.put(Keyword.CONTENT,expectedCommand);
+        Parser p =new Parser();
+        try {
+            HashMap<Keyword, String> results =p.parse(command);
+            assert(expected.equals(results));
+        } catch (Exception e) {
+        }
+    }
 }
