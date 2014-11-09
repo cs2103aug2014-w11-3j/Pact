@@ -38,18 +38,20 @@ public class CommandLineInterface {
         fh.setFormatter(new SimpleFormatter());
         logger.addHandler(fh);
         logger.setLevel(Level.FINE);
+        PrintStream outPS =new PrintStream(new BufferedOutputStream (new FileOutputStream("test.log", true)));  // append is true
+        System.setErr(outPS); // redirect System.err
+
         CommandLineInterface cli = new CommandLineInterface();
         Parser commandParser = new Parser();
         EventHandler logic = new EventHandler();
-        Clock clock = new Clock();
+
         HashMap<Keyword, String> parsedCommand;
         ArrayList<String> result;
-        PrintStream outPS =new PrintStream(new BufferedOutputStream (new FileOutputStream("test.log", true)));  // append is true
-        System.setErr(outPS); // redirect System.err
+        Clock clock = new Clock();
                
         //reader.clearScreen();
         String userCommand;
-        printGreetingMessage();
+        cli.printWelcomeMessage();
         while (true) {
             try {
                 userCommand = cli.getUserCommand();
@@ -63,11 +65,7 @@ public class CommandLineInterface {
                     }
                 }
                 if (Keyword.getMeaning(userCommand).equals(Keyword.EXIT)) {
-                    System.out.println("Are you sure you want to exit? [Y/N]");
-                    if (cli.getUserCommand().equalsIgnoreCase("Y")) {
-                        System.out.println(clock.getExitGreeting(clock.getCurrentHour()));
-                        System.exit(0);
-                    }
+                    cli.confirmExit();
                 }
             } catch (Exception pe) {
                 //System.out.println("Your command could not be processed.Please try again!");
@@ -81,10 +79,10 @@ public class CommandLineInterface {
                 cli.printErrorMessage(pe.getMessage());
             }
         }
-        
     }
-    
-    private static void printGreetingMessage() {
+
+    private void printWelcomeMessage() {
+        Clock clock = new Clock();
         try {
             String currentTime = clock.getCurrentDateAndTime();
             System.out.println("WELCOME TO PERSONAL ASSISTANT COORDINATOR TOOL(PACT)!\n");
@@ -102,6 +100,15 @@ public class CommandLineInterface {
         }
     }
     
+    private void confirmExit() throws Exception {
+        Clock clock = new Clock();
+        System.out.println("Are you sure you want to exit? [Y/N]");
+        if (this.getUserCommand().equalsIgnoreCase("Y")) {
+            System.out.println(clock.getExitGreeting(clock.getCurrentHour()));
+            System.exit(0);
+        }
+    }
+
     private boolean printTable(String userCommand) {
         String[] arr;
         arr = userCommand.split(" ", 2);
@@ -117,12 +124,12 @@ public class CommandLineInterface {
      */
     private void printErrorMessage(String message) {
         System.out.println("\nERROR!");
-        System.out.println(rp("*", 90));
+        System.out.println(repeat("*", 90));
         System.out.println("Your command could not be processed.Please try again!");
         System.out.println("");
         System.out.println("Cause of Error:");
         System.out.println(message);
-        System.out.println(rp("*", 90));
+        System.out.println(repeat("*", 90));
         
     }
         
@@ -141,6 +148,20 @@ public class CommandLineInterface {
         }
     }
 
+    /**
+     * print header of table
+     */
+    private void printHeader() {
+        System.out.println(repeat("*", 100));
+        System.out.println(createRow(new String[] { "", "", "", "Start", "End", "No of" }, 
+                                     new int[]{ 5, 30, 6, 23, 23, 6 }) + "|");
+        System.out.println(createRow(new String[] { "S/N", "TaskName", "Done", repeat("-", 47), "Days" }, 
+                                     new int[]{ 5, 30, 6, 47, 6 }) + "|");
+        System.out.println(createRow(new String[] { repeat(" ", 5), repeat(" ", 30), repeat(" ", 6), "Date", "Time", "Day", "Date", "Time", "Day", "Left" }, 
+                                     new int[]{ 5, 30, 6, 11, 6, 4, 11, 6, 4, 6}) + "|");
+        System.out.printf("|%s|\n", repeat("-", 98));
+    }
+    
     /**
      * construct contents from result to structured string and print
      * @param result
@@ -174,9 +195,9 @@ public class CommandLineInterface {
      */
     private void addTaskNameAndCompleted(String[] splitString, StringBuilder sb) {
         if (splitString[1].equals("false")) {
-            sb.append(createRow(new String[]{ splitString[0], alC("", 6) }, new int[]{ 30, 6 }));
+            sb.append(createRow(new String[]{ splitString[0], "" }, new int[]{ 30, 6 }));
         } else {
-            sb.append(createRow(new String[]{ splitString[0], alC("OK", 6) }, new int[]{ 30, 6 }));
+            sb.append(createRow(new String[]{ splitString[0], "OK" }, new int[]{ 30, 6 }));
         }
     }
 
@@ -237,20 +258,6 @@ public class CommandLineInterface {
         sb.append(st);
     }
 
-    /**
-     * print header of table
-     */
-    private void printHeader() {
-        System.out.println(rp("*", 100));
-        System.out.println(createRow(new String[] { "", "", "", "Start", "End", "No of" }, 
-                                     new int[]{ 5, 30, 6, 23, 23, 6 }) + "|");
-        System.out.println(createRow(new String[] { "S/N", "TaskName", "Done", rp("-", 47), "Days" }, 
-                                     new int[]{ 5, 30, 6, 47, 6 }) + "|");
-        System.out.println(createRow(new String[] { rp(" ", 5), rp(" ", 30), rp(" ", 6), "Date", "Time", "Day", "Date", "Time", "Day", "Left" }, 
-                                     new int[]{ 5, 30, 6, 11, 6, 4, 11, 6, 4, 6}) + "|");
-        System.out.printf("|%s|\n", rp("-", 98));
-    }
-    
     private String addNoOfDaysLeft(String date) throws Exception {
         Clock clock = new Clock();
         String day = clock.getDateDifference(clock.getCurrentDateAndTime(), date);
@@ -261,7 +268,7 @@ public class CommandLineInterface {
      * print bottom line of table
      */
     private void printEndLine() {
-        System.out.println(rp("*", 100));
+        System.out.println(repeat("*", 100));
     }
 
     private String readLine(ConsoleReader reader) throws IOException {
@@ -292,23 +299,15 @@ public class CommandLineInterface {
         return command;
     }
     
-    private String rp(String st, int times) {
+    private String repeat(String st, int times) {
         if (st.isEmpty() || (times == 0)) return "";
         return new String(new char[times]).replace("\0", st);
     }
     
-    public String alL(String st, String spaces, int counter) {
-        return st + rp(spaces, counter - st.length());
-    }
-    
-    private String alC(String st, int counter, String spaces) {
+    private String alignCenter(String st, int counter) {
         int right = (counter - st.length()) / 2;
         int left = counter - st.length() - right;
-        return rp(spaces, left) + st + rp(spaces, right);
-    }
-
-    private String alC(String st, int counter) {
-        return alC(st, counter, " ");
+        return repeat(" ", left) + st + repeat(" ", right);
     }
     
     private String createRow(String[] content, int[] spaces) {
@@ -316,7 +315,7 @@ public class CommandLineInterface {
         int len = Math.min(content.length, spaces.length);
         for (int i = 0; i < len; ++i) {
             output = output.concat("|");
-            output = output.concat(alC(content[i], spaces[i]));
+            output = output.concat(alignCenter(content[i], spaces[i]));
         }
         return output;
     }
