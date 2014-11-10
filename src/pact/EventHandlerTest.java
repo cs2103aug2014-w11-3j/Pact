@@ -64,7 +64,6 @@ public class EventHandlerTest {
             e.printStackTrace();
         }
         assertEquals(result.get(0), "1. Visit the zoo");
-
     }
 
 }

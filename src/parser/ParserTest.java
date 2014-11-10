@@ -9,7 +9,6 @@ import org.junit.Test;
 import utility.Keyword;
 
 public class ParserTest {
-    //test if parser is throwing exceptions correctly
     @Test
     public void testParserException() {
         String NO_ARGUMENTS_ADD = "Arguments required for adding a task\n\n";
@@ -68,7 +67,6 @@ public class ParserTest {
         Parser parser = new Parser();
         try {
             parser.parse(command);
-
         } catch (Exception e) {
             assertEquals(description,expected,e.getMessage() );
         }
@@ -88,6 +86,8 @@ public class ParserTest {
             HashMap<Keyword, String> results =p.parse(command);
             assert(expected.equals(results));
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
 }

@@ -12,7 +12,6 @@ import utility.Task;
 public class DataHandlerTest {
     private DataHandler dh;
     private Task sampleTaskOne, sampleTaskTwo, sampleTaskThree;
-
     private ArrayList<String> ExpectedOutputZero, ExpectedOutputOne, ExpectedOutputTwo, ExpectedOutputThree, ExpectedOutputFour, ExpectedOutputFive;
 
     private void setUpTasks() {
