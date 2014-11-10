@@ -34,7 +34,7 @@ public class CommandLineInterface {
      * @param args
      */
     public static void main(String[] args) throws Exception{
-        Handler fh = new FileHandler("test.log", false);
+        Handler fh = new FileHandler("test.log", true);
         fh.setFormatter(new SimpleFormatter());
         logger.addHandler(fh);
         logger.setLevel(Level.FINE);
