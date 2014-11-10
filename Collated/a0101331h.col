@@ -1,0 +1,255 @@
+//@author: a0101331h
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+	 */
+
+    /**
+     * Use the parameters and call the appropriate methods
+     * @param parameters
+     * @return result
+     * @throws Exception
+     */
+    public ArrayList<String> determineCommand(HashMap<Keyword, String> parameters) throws Exception {
+        String codeString = parameters.get(Keyword.METHOD);
+        Keyword code = Keyword.getMeaning(codeString);
+        result.clear();
+        if (code.equals(Keyword.CREATE)) {
+            createTask(parameters);
+        } else if (code.equals(Keyword.READ)) {
+            readTask(parameters);
+        } else if (code.equals(Keyword.UPDATE)) {
+            updateTask(parameters);
+        } else if (code.equals(Keyword.DELETE)) {
+            deleteTask(parameters, false);
+        } else if (code.equals(Keyword.CLEAR)) {
+            deleteTask(parameters, true);  
+        } else if (code.equals(Keyword.UNDO)) {
+            undo();
+        } else if (code.equals(Keyword.EXIT)) {
+            readTask(parameters);
+        } else if (code.equals(Keyword.COMPLETED)) {
+            completeTask(parameters, "true");
+        } else if (code.equals(Keyword.INCOMPLETE)) {
+            completeTask(parameters, "false");
+        } else if (code.equals(Keyword.EMPTYSLOT)) {
+            searchEmptySlot(parameters);
+        }
+        return result;
+    }
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+	 */
+
+    private void completeTask(HashMap<Keyword, String> parameters, String done) {
+        parameters.put(Keyword.COMPLETED, done);
+        updateTask(parameters);
+    }
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+	 */
+
+    /**
+     * Creates a new Task and calls the dataHandler to store the information
+     * @param parameters
+     */
+    private void createTask(HashMap<Keyword, String> parameters) {
+        String value;
+        Task task = new Task();
+        for (Keyword key : parameters.keySet()) {
+            value = parameters.get(key); 
+            if (key.equals(Keyword.CONTENT)) {
+                task.setValue(key, value);
+            } else if (key.equals(Keyword.START)) {
+                task.setValue(key, value);
+            } else if (key.equals(Keyword.END)) {
+                task.setValue(key, value);
+            } else if (key.equals(Keyword.ALLDAY)) {
+                task.setValue(key, value);
+            } else if (key.equals(Keyword.TYPE)) {
+                task.setValue(key, value);
+            }
+        }
+        dataHandler.createTask(task);
+       
+        result.add(ANNOUNCEMENT_CREATE);
+        parameters.clear();
+        parameters.put(Keyword.CONTENT, "");
+        ArrayList<Task> queryResult = dataHandler.readTask(parameters.get(Keyword.CONTENT), false, "", "", false, false);
+        for (Task i : queryResult) {
+            result.add(i.getDisplayedString());
+        }
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+	 */
+
+    /**
+     * Calls the dataHandler to read/search and store the information obtained into result
+     * @param parameters
+     */
+    private void readTask(HashMap<Keyword, String> parameters) {
+  
+        boolean isExact = parameters.containsKey(Keyword.EXACT);
+        Clock clock = new Clock();
+        String start = clock.getCurrentDateAndTime();
+        String end = "";
+        boolean isArchivedIncluded = false; 
+        boolean isCompletedIncluded = false;
+        
+        if (parameters.containsKey(Keyword.START)) {
+            start = parameters.get(Keyword.START);
+        }
+        if (parameters.containsKey(Keyword.END)) {
+            end = parameters.get(Keyword.END);
+        }
+        if (parameters.containsKey(Keyword.ARCHIVED)) {
+            isArchivedIncluded = Boolean.valueOf(parameters.get(Keyword.ARCHIVED));
+        }
+        if (parameters.containsKey(Keyword.COMPLETED)) {
+            isCompletedIncluded = true;
+        }
+        
+        ArrayList<Task> queryResult = dataHandler.readTask(parameters.get(Keyword.CONTENT), isExact, start, end, isArchivedIncluded, isCompletedIncluded);
+        
+        if (queryResult.isEmpty()) {
+            result.add(ANNOUNCEMENT_NOT_FOUND);
+        } else {
+            result.add(ANNOUNCEMENT_READ);
+        }
+     
+        if ((parameters.containsKey(Keyword.SORT))) {
+        	Keyword sortKey = Keyword.getMeaning(parameters.get(Keyword.SORT));
+        	sortTasks(queryResult, sortKey, true);
+        }
+        for (int i = 0; i < queryResult.size(); i++) {
+            result.add(queryResult.get(i).getDisplayedString());
+        }
+        
+    }
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+	 */
+
+    /**
+     * Calls the dataHandler to delete Task or clear all Tasks
+     * @param parameters
+     * @param clear
+     */
+    private void deleteTask(HashMap<Keyword, String> parameters, Boolean clear) {
+        ArrayList<Task> queryResult = dataHandler.deleteTask(parameters.get(Keyword.CONTENT), parameters.containsKey(Keyword.FOREVER));
+        if (queryResult.isEmpty()) {
+            result.add(ANNOUNCEMENT_NOT_FOUND);
+            return;
+        }
+        if (clear == false) {
+            result.add(ANNOUNCEMENT_DELETE);
+        } else {
+            result.add(ANNOUNCEMENT_CLEAR);
+        }
+
+        for (Task i : queryResult) {
+            result.add(i.getDisplayedString());
+        }
+    }
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+	 */
+
+    /**
+     * Calls the dataHandler to update Task
+     * @param parameters
+     */
+    private void updateTask(HashMap<Keyword, String> parameters) {
+        String start = "";
+        String end = "";
+        String newContent = "";
+        String isCompleted = "";
+        if (parameters.containsKey(Keyword.NEWCONTENT)) {
+            newContent = parameters.get(Keyword.NEWCONTENT);
+        }
+        if (parameters.containsKey(Keyword.COMPLETED)) {
+            isCompleted = parameters.get(Keyword.COMPLETED);
+        }
+        if (parameters.containsKey(Keyword.START)) {
+            start = parameters.get(Keyword.START);
+        }
+        if (parameters.containsKey(Keyword.END)) {
+            end = parameters.get(Keyword.END);
+        }
+        ArrayList<Task> queryResult = dataHandler.updateTask(parameters.get(Keyword.CONTENT), newContent, start, end, isCompleted);
+        if (queryResult.isEmpty()) {
+            result.add(ANNOUNCEMENT_NOT_FOUND);
+            return;
+        }
+        result.add(ANNOUNCEMENT_UPDATE);
+
+        for (Task i : queryResult) {
+            result.add(i.getDisplayedString());
+        }
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+	 */
+
+    /**
+     * Calls the dataHandler to undo to the previous data
+     * @throws Exception
+     */
+    private void undo() throws Exception {
+        dataHandler.undo();
+        result.add(ANNOUNCEMENT_UNDO);
+    }
+    
+    /*public static void main(String[] args) throws Exception {
+        EventHandler e = new EventHandler();
+        e.searchEmptySlot("20/12/2014 00:00","21/12/2014 23:59");
+    }*/
+}
+
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+
+
+
+
+
