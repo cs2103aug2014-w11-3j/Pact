@@ -49,8 +49,8 @@
 }
 {
     CONTENT: pes
-    END: 19/10/2014 23:59
-    START: 19/11/2014 00:00
+    END: 21/11/2014 23:59
+    START: 20/11/2014 00:00
     TYPE: TIMED
     COMPLETED: false
     ARCHIVED: false
@@ -58,16 +58,17 @@
 }
 {
     CONTENT: pes
-    END: 19/11/2014 23:59
-    TYPE: DEADLINE
+    END: 21/11/2014 23:59
+    START: 20/11/2014 00:00
+    TYPE: TIMED
     COMPLETED: false
     ARCHIVED: false
     ALLDAY: true
 }
 {
     CONTENT: pes
-    END: 19/11/2014 21:00
-    START: 19/11/2014 19:00
+    END: 21/11/2014 23:59
+    START: 20/11/2014 00:00
     TYPE: TIMED
     COMPLETED: false
     ARCHIVED: false

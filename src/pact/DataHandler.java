@@ -22,7 +22,8 @@ public class DataHandler {
     private ArrayList<Task> temp;
     
     private String nearMatchString;
-      
+     
+    //@author A0113012J
     /**
      * Initialize the DataHandler
      */
@@ -32,6 +33,7 @@ public class DataHandler {
         loadFile();
     }
     
+    //@author A0113012J
     /**
      * Add a task to file
      * @param task
@@ -41,9 +43,9 @@ public class DataHandler {
         backupFile();
         data.add(task);
         saveFile();
-      
     }
     
+    //@author A0113012J
     /**
      * Archive/delete task
      * @param keyword
@@ -69,7 +71,8 @@ public class DataHandler {
         saveFile();
         return taskToDelete;
     }
-        
+      
+    //@author A0113012J
     /**
      * Updates Task
      * @param keyword
@@ -90,21 +93,9 @@ public class DataHandler {
                     if (!isCompleted.isEmpty()) {
                         data.get(i).setValue(Keyword.COMPLETED, isCompleted);
                     }
-                    /*if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.TIMED)) {
-                        if (!start.isEmpty()) {
-                            data.get(i).setValue(Keyword.START, start);
-                        }
-                        if (!end.isEmpty()) {
-                            data.get(i).setValue(Keyword.END, end);
-                        }
-                    } else if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)) {
-                        if (!end.isEmpty()) {
-                            data.get(i).setValue(Keyword.END, end);
-                        }
-                    } */
                     if (!start.isEmpty() && !end.isEmpty()) {
-                        if (!Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)) {
-                            data.get(i).setValue(Keyword.TYPE, String.valueOf(Keyword.DEADLINE));
+                        if (!Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.TIMED)) {
+                            data.get(i).setValue(Keyword.TYPE, String.valueOf(Keyword.TIMED));
                         }
                         data.get(i).setValue(Keyword.START, start);
                         data.get(i).setValue(Keyword.END, end);
@@ -132,6 +123,7 @@ public class DataHandler {
         return taskToDelete;
     }
     
+    //@author A0113012J
     public ArrayList<Task> readTask(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded, boolean isCompletedIncluded) {
         ArrayList<Task> noTollerance = readTaskWithoutTollerance(keyword, isExact, start, end, isArchivedIncluded, isCompletedIncluded);
         if (noTollerance.size() > 0) {
@@ -148,6 +140,7 @@ public class DataHandler {
         return new ArrayList<Task>();
     }
     
+    //@author A0113012J
     private ArrayList<Task> readTaskWithTollerance(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded, boolean isCompletedIncluded, int tollerance) {
         ArrayList<Task> result = new ArrayList<Task>();
         for (int i = 0; i < data.size(); ++i) {
@@ -205,6 +198,7 @@ public class DataHandler {
         return result;
     }
     
+    //@author A0113012J
     /**
      * Get task from database
      * @param keyword
@@ -264,6 +258,7 @@ public class DataHandler {
         return result;
     }
     
+    //@author A0113012J
     /**
      * Undo to the previous state
      * @return status
@@ -272,6 +267,7 @@ public class DataHandler {
         restoreFile();
     }
     
+    //@author A0113012J
     /**
      * Write to file with appropriate formatting
      * @param writer
@@ -285,6 +281,7 @@ public class DataHandler {
         }
     }
     
+    //@author A0113012J
     /**
      * Get contents of file
      * @param read
@@ -309,6 +306,7 @@ public class DataHandler {
         }
     }
     
+    //@author A0113012J
     /**
      * Create a new file
      */
@@ -321,6 +319,7 @@ public class DataHandler {
         }
     }
     
+    //@author A0113012J
     /**
      * Backup existing file
      */
@@ -332,6 +331,7 @@ public class DataHandler {
         }
     }
     
+    //@author A0113012J
     /**
      * Restore previous file
      */
@@ -352,6 +352,7 @@ public class DataHandler {
         saveFile();
     }
     
+    //@author A0113012J
     /**
      * Save file
      */
@@ -366,6 +367,7 @@ public class DataHandler {
         }
     }
     
+    //@author A0113012J
     /**
      * load file to be read
      */
