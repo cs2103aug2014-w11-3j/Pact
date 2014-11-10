@@ -17,6 +17,10 @@ public class EventHandler {
     private static final String ANNOUNCEMENT_UPDATE = "Task was updated successfully.";
     private static final String ANNOUNCEMENT_UNDO = "Undo was successful.";
     private static final String ANNOUNCEMENT_CLEAR = "All tasks cleared successfully.";
+    private static final String ANNOUNCEMENT_SUGGESTION = "Do you mean ";
+    
+    private final String[] dayName = new String[]{ "","Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}; 
+    
     private DataHandler dataHandler = new DataHandler();
     private ArrayList<String> result = new ArrayList<String>();
     
@@ -98,7 +102,7 @@ public class EventHandler {
      * @param parameters
      */
     private void readTask(HashMap<Keyword, String> parameters) {
-  
+        String key = parameters.get(Keyword.CONTENT);
         boolean isExact = parameters.containsKey(Keyword.EXACT);
         Clock clock = new Clock();
         String start = clock.getCurrentDateAndTime();
@@ -119,13 +123,25 @@ public class EventHandler {
             isCompletedIncluded = true;
         }
         
-        ArrayList<Task> queryResult = dataHandler.readTask(parameters.get(Keyword.CONTENT), isExact, start, end, isArchivedIncluded, isCompletedIncluded);
+        ArrayList<Task> queryResult = dataHandler.readTask(key, isExact, 
+                                                           start, end, 
+                                                           isArchivedIncluded, 
+                                                           isCompletedIncluded);
+        
+        String firstOutputLine = "";
+
+        if (!dataHandler.getNearMatchString().equals("")) {
+            firstOutputLine += ANNOUNCEMENT_SUGGESTION 
+                  + dataHandler.getNearMatchString() + "?\n";
+        }
         
         if (queryResult.isEmpty()) {
-            result.add(ANNOUNCEMENT_NOT_FOUND);
+            firstOutputLine += ANNOUNCEMENT_NOT_FOUND;
         } else {
-            result.add(ANNOUNCEMENT_READ);
+            firstOutputLine += ANNOUNCEMENT_READ;
         }
+        
+        result.add(firstOutputLine);
      
         if ((parameters.containsKey(Keyword.SORT))) {
         	Keyword sortKey = Keyword.getMeaning(parameters.get(Keyword.SORT));
@@ -143,17 +159,31 @@ public class EventHandler {
      * @param clear
      */
     private void deleteTask(HashMap<Keyword, String> parameters, Boolean clear) {
-        ArrayList<Task> queryResult = dataHandler.deleteTask(parameters.get(Keyword.CONTENT), parameters.containsKey(Keyword.FOREVER));
+        String key = parameters.get(Keyword.CONTENT);
+        boolean isDeleting = parameters.containsKey(Keyword.FOREVER);
+        
+        ArrayList<Task> queryResult = dataHandler.deleteTask(key, isDeleting);
+        
+        String firstOutputLine = "";
+
+        if (!dataHandler.getNearMatchString().equals("")) {
+            firstOutputLine += ANNOUNCEMENT_SUGGESTION 
+                  + dataHandler.getNearMatchString() + "?\n";
+        }
+        
         if (queryResult.isEmpty()) {
-            result.add(ANNOUNCEMENT_NOT_FOUND);
+            firstOutputLine += ANNOUNCEMENT_NOT_FOUND;
+            result.add(firstOutputLine);
             return;
         }
         if (clear == false) {
-            result.add(ANNOUNCEMENT_DELETE);
+            firstOutputLine += ANNOUNCEMENT_DELETE;
         } else {
-            result.add(ANNOUNCEMENT_CLEAR);
+            firstOutputLine += ANNOUNCEMENT_CLEAR;
         }
 
+        result.add(firstOutputLine);
+        
         for (Task i : queryResult) {
             result.add(i.getDisplayedString());
         }
@@ -168,6 +198,7 @@ public class EventHandler {
         String end = "";
         String newContent = "";
         String isCompleted = "";
+        String key = parameters.get(Keyword.CONTENT);
         if (parameters.containsKey(Keyword.NEWCONTENT)) {
             newContent = parameters.get(Keyword.NEWCONTENT);
         }
@@ -180,12 +211,24 @@ public class EventHandler {
         if (parameters.containsKey(Keyword.END)) {
             end = parameters.get(Keyword.END);
         }
-        ArrayList<Task> queryResult = dataHandler.updateTask(parameters.get(Keyword.CONTENT), newContent, start, end, isCompleted);
+        ArrayList<Task> queryResult = dataHandler.updateTask(key, newContent, 
+                                                             start, end, 
+                                                             isCompleted);
+        
+        String firstOutputLine = "";
+
+        if (!dataHandler.getNearMatchString().equals("")) {
+            firstOutputLine += ANNOUNCEMENT_SUGGESTION 
+                  + dataHandler.getNearMatchString() + "?\n";
+        }
+        
         if (queryResult.isEmpty()) {
-            result.add(ANNOUNCEMENT_NOT_FOUND);
+            firstOutputLine += ANNOUNCEMENT_NOT_FOUND;
+            result.add(firstOutputLine);
             return;
         }
-        result.add(ANNOUNCEMENT_UPDATE);
+        firstOutputLine += ANNOUNCEMENT_UPDATE;
+        result.add(firstOutputLine);
 
         for (Task i : queryResult) {
             result.add(i.getDisplayedString());
@@ -194,25 +237,28 @@ public class EventHandler {
     
     //@author A0113012J
     
-    private int compareTo(Task taskOne, Task taskTwo, Keyword compareKey) {
-    	if (compareKey.equals(Keyword.START) || compareKey.equals(Keyword.END)) {
+    private int compareTo(Task taskOne, Task taskTwo, Keyword key) {
+    	if (key.equals(Keyword.START) || key.equals(Keyword.END)) {
     		Clock clock = new Clock();
-    		long taskOneTime = clock.parseFromCommonFormat(taskOne.getValue(compareKey));
-    		long taskTwoTime = clock.parseFromCommonFormat(taskTwo.getValue(compareKey));
-    		if (taskOneTime < taskTwoTime) {
+    		String taskOneTime = taskOne.getValue(key);
+    		String taskTwoTime = taskTwo.getValue(key);
+    		long taskOneTimeLong = clock.parseFromCommonFormat(taskOneTime);
+    		long taskTwoTimeLong = clock.parseFromCommonFormat(taskTwoTime);
+    		if (taskOneTimeLong < taskTwoTimeLong) {
     			return -1;
-    		} else if (taskOneTime == taskTwoTime) {
+    		} else if (taskOneTimeLong == taskTwoTimeLong) {
     			return 0;
     		} else {
     			return 1;
     		}
     	}
-    	return taskOne.getValue(compareKey).compareTo(taskTwo.getValue(compareKey));
+    	return taskOne.getValue(key).compareTo(taskTwo.getValue(key));
     }
     
     //@author A0113012J
     
-    private void sortTasks(ArrayList<Task> tasksList,Keyword sortKey,boolean isAscending) {
+    private void sortTasks(ArrayList<Task> tasksList,Keyword sortKey,
+                           boolean isAscending) {
         for (int i = 0; i < tasksList.size(); ++i) {
             for (int j = i; j < tasksList.size(); ++j) {
                 if (compareTo(tasksList.get(i),tasksList.get(j),sortKey) > 0) {
@@ -227,7 +273,8 @@ public class EventHandler {
     
     //@author A0113012J
     
-    private void searchEmptySlot(HashMap<Keyword, String> parameters) throws Exception {   
+    private void searchEmptySlot(HashMap<Keyword, String> parameters) 
+            throws Exception {   
         String start = parameters.get(Keyword.START);
         String end = parameters.get(Keyword.END);
         Clock clock = new Clock();
@@ -240,11 +287,15 @@ public class EventHandler {
             }
             startSearch = startSearch + start.substring(2, start.length());
             startSearch = clock.normalize(startSearch);
-            if (clock.parseFromCommonFormat(startSearch) > clock.parseFromCommonFormat(end)) {
+            if (clock.parseFromCommonFormat(startSearch) > 
+                clock.parseFromCommonFormat(end)) {
                 break;
             }
             String endSearch = clock.getDate(startSearch) + " 23:59";
-            ArrayList<Task> onThisDay = dataHandler.readTask("", false, startSearch, endSearch, false, false);
+            ArrayList<Task> onThisDay = dataHandler.readTask("", false, 
+                                                             startSearch, 
+                                                             endSearch, 
+                                                             false, false);
             sortTasks(onThisDay,Keyword.START, true);
             String freeTimeNow = "00:00";
             for (int j = 0; j < onThisDay.size(); ++j) {
@@ -264,8 +315,8 @@ public class EventHandler {
             if (resultThisDay.size() == 0) {
             	resultThisDay.add("There is no empty slot for this day :(");
             }
-            String[] array = new String[]{ "","Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}; 
-            result.add("\nOn " + array[clock.getDayOfTheWeek(clock.getDate(startSearch))] + " " + clock.getDay(startSearch) + " " + clock.getMonth(clock.getDate(startSearch)) + " free from:" );
+            
+            result.add("\nOn " + dayName[clock.getDayOfTheWeek(clock.getDate(startSearch))] + " " + clock.getDay(startSearch) + " " + clock.getMonth(clock.getDate(startSearch)) + " free from:" );
             for (int j = 0; j < resultThisDay.size(); ++j) {
                 result.add(String.valueOf(j + 1) + ". " + resultThisDay.get(j));
             }
@@ -282,9 +333,4 @@ public class EventHandler {
         dataHandler.undo();
         result.add(ANNOUNCEMENT_UNDO);
     }
-    
-    /*public static void main(String[] args) throws Exception {
-        EventHandler e = new EventHandler();
-        e.searchEmptySlot("20/12/2014 00:00","21/12/2014 23:59");
-    }*/
 }

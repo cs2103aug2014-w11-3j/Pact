@@ -21,7 +21,7 @@ public class DataHandler {
     private ArrayList<Task> previousData;
     private ArrayList<Task> temp;
     
-    private String nearMatchString;
+    private String nearMatchString = "";
      
     //@author A0113012J
     /**
@@ -181,15 +181,15 @@ public class DataHandler {
                                                        tolerance);
             
             if (result.size() > 0) {
-                if (!nearMatchString.equals("")) {
-                	System.out.println("Do you mean " + nearMatchString + "?");
-                }
                 return result;
             }
         }
         return new ArrayList<Task>();
     }
     
+    public String getNearMatchString() {
+        return nearMatchString;
+    }
     
     private boolean isPassArchiveCheck(Task task, boolean isArchivedIncluded) {
         return (isArchivedIncluded || task.getValue(Keyword.ARCHIVED)
@@ -201,11 +201,17 @@ public class DataHandler {
                                           .equals("false"));
     }
     
-    private boolean isPassKeywordCheck(Task task, String key, int tolerance) {
+    private boolean isPassKeywordCheck(Task task, String key, int tolerance, 
+                                       boolean isExact) {
+        if (tolerance == 0 && !isExact) {
+            nearMatchString = "";
+            return task.getValue(Keyword.CONTENT).contains(key);
+        }
         StringMatching sm = new StringMatching();
         String[] listOfWords = task.getValue(Keyword.CONTENT).split(" ");
         boolean wordFound = false;
         if (key.equals("")) {
+            nearMatchString = "";
             return true;
         }
         for (int j = 0; j < listOfWords.length; ++j) {
@@ -213,7 +219,11 @@ public class DataHandler {
                 continue;
             }
             if (sm.computeEditDistance(listOfWords[j], key) <= tolerance) {
-                nearMatchString = listOfWords[j];
+                if (tolerance == 0) {
+                    nearMatchString = "";
+                } else {
+                    nearMatchString = listOfWords[j];
+                }
                 return true;
             }
         }
@@ -260,7 +270,7 @@ public class DataHandler {
             if (!isPassCompleteCheck(data.get(i), isCompleteIncluded)) {
                 continue;
             }
-            if (!isPassKeywordCheck(data.get(i), keyword, tolerance)) {
+            if (!isPassKeywordCheck(data.get(i), keyword, tolerance, isExact)) {
                 continue;
             }
             if (!isPassTimeCheck(data.get(i), start, end)) {
@@ -323,7 +333,7 @@ public class DataHandler {
             while (text != null) { 
                 text = text.trim();
                 String operation = "";
-                //each tasks are separated with {} like JSON object
+                //each tasks are separated with {} like JSON file
                 //read until reach '}' which means the end of a task
                 while (!text.equals("}")) {
                     text = read.readLine();

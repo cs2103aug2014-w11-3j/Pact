@@ -34,15 +34,19 @@
     ALLDAY: false
 }
 {
-    CONTENT: fifa
-    TYPE: FLOATING
+    CONTENT: fafu
+    END: 21/12/2014 23:59
+    START: 22/12/2041 00:00
+    TYPE: TIMED
     COMPLETED: false
     ARCHIVED: true
     ALLDAY: false
 }
 {
-    CONTENT: fifa
-    TYPE: FLOATING
+    CONTENT: fafu
+    END: 21/12/2014 23:59
+    START: 22/12/2041 00:00
+    TYPE: TIMED
     COMPLETED: false
     ARCHIVED: false
     ALLDAY: false
