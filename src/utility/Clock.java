@@ -8,6 +8,15 @@ import java.util.GregorianCalendar;
 
 public class Clock {
     
+    private final String WELCOME_MORNING = "Good Morning!\n";
+    private final String WELCOME_AFTERNOON = "Good Afternoon!\n";
+    private final String WELCOME_EVENING = "Good Evening!\n";
+    
+    private final String GOODBYE_MORNING = "Have an awesome day ahead. All the best!";
+    private final String GOODBYE_AFTERNOON = "Have a pleasant afternoon!";
+    private final String GOODBYE_EVENING = "Have a sweet evening!";
+    private final String GOODBYE_NIGHT = "Good Night!";
+    
     public enum TimeType {
         NONE, TIME, DATE
     };
@@ -94,11 +103,11 @@ public class Clock {
         int time = Integer.parseInt(hour);
 
         if (time >= 0  && time < 12) {
-            return "Good Morning!\n";
+            return WELCOME_MORNING;
         } else if (time >=12 && time < 17) {
-            return "Good Afternoon!\n";
+            return WELCOME_AFTERNOON;
         } else if (time >=17 && time < 19) {
-            return "Good Evening!\n";
+            return WELCOME_EVENING;
         } else {        
             return "";
         }
@@ -108,13 +117,13 @@ public class Clock {
     public String getExitGreeting(String hour) {
         int time = Integer.parseInt(hour);
         if (time >= 0  && time < 12) {
-            return "Have an awesome day ahead. All the best!";
+            return GOODBYE_MORNING;
         } else if (time >=12 && time < 17) {
-            return "Have a pleasant afternoon!";
+            return GOODBYE_AFTERNOON;
         } else if (time >=17 && time < 19) {
-            return "Have a sweet evening!";
+            return GOODBYE_EVENING;
         } else if (time >= 20 && time < 24) {       
-            return "Good Night!";
+            return GOODBYE_NIGHT;
         } else {
             return "";
         }

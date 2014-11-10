@@ -57,13 +57,125 @@
     START: 20/12/2014 00:00
     TYPE: TIMED
     COMPLETED: false
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: true
 }
 {
     CONTENT: fifa
+    END: 01/01/2015 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: false
+}
+{
+    CONTENT: dota2
+    END: 23/05/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: true
+}
+{
+    CONTENT: dota2
+    END: 23/05/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: true
+}
+{
+    CONTENT: dota2
+    END: 23/05/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: true
+}
+{
+    CONTENT: dota2
     TYPE: FLOATING
     COMPLETED: false
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: false
+}
+{
+    CONTENT: fifa
+    END: 20/12/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: true
+}
+{
+    CONTENT: gajah
+    END: 20/12/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: true
+}
+{
+    CONTENT: dota
+    END: 20/12/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: true
+}
+{
+    CONTENT: dota2
+    END: 20/12/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: true
+}
+{
+    CONTENT: dota2
+    END: 20/12/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: true
+}
+{
+    CONTENT: dota2
+    END: 23/05/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: true
+}
+{
+    CONTENT: dota
+    END: 23/05/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: true
+}
+{
+    CONTENT: dota
+    END: 23/12/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: true
+}
+{
+    CONTENT: dota2
+    END: 23/05/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: true
+}
+{
+    CONTENT: dota
+    END: 23/05/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: true
 }
