@@ -48,6 +48,22 @@
     START: 22/12/2041 00:00
     TYPE: TIMED
     COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: false
+}
+{
+    CONTENT: gajah
+    END: 21/12/2014 23:59
+    START: 20/12/2014 00:00
+    TYPE: TIMED
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: true
+}
+{
+    CONTENT: fifa
+    TYPE: FLOATING
+    COMPLETED: false
     ARCHIVED: false
     ALLDAY: false
 }

@@ -18,6 +18,7 @@ public class EventHandler {
     private static final String ANNOUNCEMENT_UNDO = "Undo was successful.";
     private static final String ANNOUNCEMENT_CLEAR = "All tasks cleared successfully.";
     private static final String ANNOUNCEMENT_SUGGESTION = "Do you mean ";
+    private static final String ANNOUNCEMENT_NO_EMPTY_SLOT = "There is no empty slot for this day :(";
     
     private final String[] dayName = new String[]{ "","Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}; 
     
@@ -31,7 +32,8 @@ public class EventHandler {
      * @return result
      * @throws Exception
      */
-    public ArrayList<String> determineCommand(HashMap<Keyword, String> parameters) throws Exception {
+    public ArrayList<String> determineCommand(HashMap<Keyword, String> parameters) 
+                throws Exception {
         String codeString = parameters.get(Keyword.METHOD);
         Keyword code = Keyword.getMeaning(codeString);
         result.clear();
@@ -90,7 +92,8 @@ public class EventHandler {
         result.add(ANNOUNCEMENT_CREATE);
         parameters.clear();
         parameters.put(Keyword.CONTENT, "");
-        ArrayList<Task> queryResult = dataHandler.readTask(parameters.get(Keyword.CONTENT), false, "", "", false, false);
+        ArrayList<Task> queryResult = dataHandler.readTask("", false, "", 
+                                                           "", false, false);
         for (Task i : queryResult) {
             result.add(i.getDisplayedString());
         }
@@ -98,7 +101,8 @@ public class EventHandler {
     
     //@author A0101331H
     /**
-     * Calls the dataHandler to read/search and store the information obtained into result
+     * Calls the dataHandler to read/search and store the information obtained 
+     * into result
      * @param parameters
      */
     private void readTask(HashMap<Keyword, String> parameters) {
@@ -158,7 +162,8 @@ public class EventHandler {
      * @param parameters
      * @param clear
      */
-    private void deleteTask(HashMap<Keyword, String> parameters, Boolean clear) {
+    private void deleteTask(HashMap<Keyword, String> parameters, 
+                            boolean clear) {
         String key = parameters.get(Keyword.CONTENT);
         boolean isDeleting = parameters.containsKey(Keyword.FOREVER);
         
@@ -238,12 +243,14 @@ public class EventHandler {
     //@author A0113012J
     
     private int compareTo(Task taskOne, Task taskTwo, Keyword key) {
+        //time comparison must be handled separately
     	if (key.equals(Keyword.START) || key.equals(Keyword.END)) {
     		Clock clock = new Clock();
     		String taskOneTime = taskOne.getValue(key);
     		String taskTwoTime = taskTwo.getValue(key);
     		long taskOneTimeLong = clock.parseFromCommonFormat(taskOneTime);
     		long taskTwoTimeLong = clock.parseFromCommonFormat(taskTwoTime);
+    		//compare the integer
     		if (taskOneTimeLong < taskTwoTimeLong) {
     			return -1;
     		} else if (taskOneTimeLong == taskTwoTimeLong) {
@@ -256,7 +263,6 @@ public class EventHandler {
     }
     
     //@author A0113012J
-    
     private void sortTasks(ArrayList<Task> tasksList,Keyword sortKey,
                            boolean isAscending) {
         for (int i = 0; i < tasksList.size(); ++i) {
@@ -271,8 +277,35 @@ public class EventHandler {
         }
     }
     
-    //@author A0113012J
+    private ArrayList<String> processADayEmptySlot(ArrayList<Task> onThisDay) 
+            throws Exception {
+        ArrayList<String> resultThisDay = new ArrayList<String>();
+        String freeTimeNow = "00:00";
+        Clock clock = new Clock();
+        for (int j = 0; j < onThisDay.size(); ++j) {
+            if (onThisDay.get(j).getValue(Keyword.START).equals("")) {
+                continue;
+            }
+            Task task = onThisDay.get(j);
+            String startTime = clock.getTime(task.getValue(Keyword.START));
+            String endTime = clock.getTime(task.getValue(Keyword.END));
+            if (freeTimeNow.compareTo(startTime) < 0) {
+                resultThisDay.add(freeTimeNow + " to " + startTime);
+            }
+            if (freeTimeNow.compareTo(endTime) < 0) {
+                freeTimeNow = endTime;
+            }
+        }
+        if (freeTimeNow.compareTo("23:59") < 0) {
+            resultThisDay.add(freeTimeNow + " to 23:59");
+        }
+        if (resultThisDay.size() == 0) {
+            resultThisDay.add(ANNOUNCEMENT_NO_EMPTY_SLOT);
+        }
+        return resultThisDay;
+    }
     
+    //@author A0113012J
     private void searchEmptySlot(HashMap<Keyword, String> parameters) 
             throws Exception {   
         String start = parameters.get(Keyword.START);
@@ -280,7 +313,6 @@ public class EventHandler {
         Clock clock = new Clock();
         int startDay = clock.getDay(start);
         for (int i = startDay; ; ++i) {
-            ArrayList<String> resultThisDay = new ArrayList<String>();
             String startSearch = String.valueOf(i);
             while (startSearch.length() < 2) {
                 startSearch = '0' + startSearch;
@@ -297,26 +329,14 @@ public class EventHandler {
                                                              endSearch, 
                                                              false, false);
             sortTasks(onThisDay,Keyword.START, true);
-            String freeTimeNow = "00:00";
-            for (int j = 0; j < onThisDay.size(); ++j) {
-                if (onThisDay.get(j).getValue(Keyword.START).equals("")) {
-                    continue;
-                }
-                if (freeTimeNow.compareTo(clock.getTime(onThisDay.get(j).getValue(Keyword.START))) < 0) {
-                    resultThisDay.add(freeTimeNow + " to " + clock.getTime(onThisDay.get(j).getValue(Keyword.START)));
-                }
-                if (freeTimeNow.compareTo(clock.getTime(onThisDay.get(j).getValue(Keyword.END))) < 0) {
-                    freeTimeNow = clock.getTime(onThisDay.get(j).getValue(Keyword.END)); 
-                }
-            }
-            if (freeTimeNow.compareTo("23:59") < 0) {
-                resultThisDay.add(freeTimeNow + " to 23:59");
-            }
-            if (resultThisDay.size() == 0) {
-            	resultThisDay.add("There is no empty slot for this day :(");
-            }
             
-            result.add("\nOn " + dayName[clock.getDayOfTheWeek(clock.getDate(startSearch))] + " " + clock.getDay(startSearch) + " " + clock.getMonth(clock.getDate(startSearch)) + " free from:" );
+            ArrayList<String> resultThisDay = processADayEmptySlot(onThisDay);
+            
+            String date = clock.getDate(startSearch);
+            String day = dayName[clock.getDayOfTheWeek(date)];
+            result.add("\nOn " + day + " " + clock.getDay(startSearch) + " " + 
+                       clock.getMonth(clock.getDate(startSearch)) 
+                       + " free from:" );
             for (int j = 0; j < resultThisDay.size(); ++j) {
                 result.add(String.valueOf(j + 1) + ". " + resultThisDay.get(j));
             }
