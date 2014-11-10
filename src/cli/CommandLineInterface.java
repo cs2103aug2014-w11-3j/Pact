@@ -169,13 +169,13 @@ public class CommandLineInterface {
      * print header of table
      */
     private void printHeader() {
-        System.out.println(repeat("*", 100));
+        System.out.println(repeat("*", 103));
         System.out.println(createRow(new String[] { "", "", "", 
                                                     "Start", "End", "No of" }, 
-                                     new int[]{ 5, 30, 6, 23, 23, 6 }) + "|");
+                                     new int[]{ 5, 30, 6, 23, 23, 9 }) + "|");
         System.out.println(createRow(new String[] { "S/N", "TaskName", "Done", 
                                                     repeat("-", 47), "Days" }, 
-                                     new int[]{ 5, 30, 6, 47, 6 }) + "|");
+                                     new int[]{ 5, 30, 6, 47, 9 }) + "|");
         System.out.println(createRow(new String[] { repeat(" ", 5), 
                                                     repeat(" ", 30), 
                                                     repeat(" ", 6), 
@@ -183,8 +183,8 @@ public class CommandLineInterface {
                                                     "Date", "Time", "Day", 
                                                     "Left" }, 
                                      new int[]{ 5, 30, 6, 11, 6, 
-                                                4, 11, 6, 4, 6}) + "|");
-        System.out.printf("|%s|\n", repeat("-", 98));
+                                                4, 11, 6, 4, 9}) + "|");
+        System.out.printf("|%s|\n", repeat("-", 101));
     }
     //@author A0101331H
     /**
@@ -238,7 +238,7 @@ public class CommandLineInterface {
         if (splitString[2].equals("")) { //floating tasks
             sb.append(createRow(new String[]{ "-", "-", "-", 
                                               "-", "-", "-", "" }, 
-                                new int[]{ 11, 6, 4, 11, 6, 4, 6 }));
+                                new int[]{ 11, 6, 4, 11, 6, 4, 9 }));
         } else {
             String temp = splitString[2];
             splitString = temp.split(" ");
@@ -258,7 +258,7 @@ public class CommandLineInterface {
      */
     private void addDateAndTime(String[] arg, 
                                 StringBuilder sb) throws Exception {
-        int[] formatter = new int[]{ 11, 6, 4, 11, 6, 4, 6 };
+        int[] formatter = new int[]{ 11, 6, 4, 11, 6, 4, 9 };
         String st = "";
         Clock clock = new Clock();
         String[] arr = new String[]{ "", "Sun", "Mon", "Tue", 
@@ -307,7 +307,7 @@ public class CommandLineInterface {
      * print bottom line of table
      */
     private void printEndLine() {
-        System.out.println(repeat("*", 100));
+        System.out.println(repeat("*", 103));
     }
     
     //@author A0113012J
