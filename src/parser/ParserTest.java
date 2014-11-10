@@ -81,8 +81,8 @@ public class ParserTest {
     @Test
     public void testParser() {
         testCommand("check create command","create","go for lunch","create go for lunch");
-        
     }
+    
     private void testCommand(String description,String expectedCommand,String expectedArgument, String command) {
         HashMap <Keyword, String> expected = new HashMap<Keyword, String>();
         expected.put(Keyword.METHOD,expectedCommand);

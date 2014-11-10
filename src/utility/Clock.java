@@ -86,7 +86,7 @@ public class Clock {
         } else if (time >=12 && time < 17) {
             return "Good Afternoon!\n";
         } else if (time >=17 && time < 19) {
-            return "Good Evening\n!";
+            return "Good Evening!\n";
         } else {        
             return "";
         }

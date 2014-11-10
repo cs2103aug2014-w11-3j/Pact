@@ -1,43 +1,11 @@
-package parser;
+//@author: a0099584h
 
-import java.util.HashMap;
 
-import utility.Clock;
-import utility.Clock.TimeType;
-import utility.Keyword;
 
-public class Parser {
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\parser\Parser.java
+	 */
 
-    private static final String MISSING_ENDDATE = "End date required\n";
-    private static final String NO_ARGUMENTS_ADD = "Arguments required for adding a task\n\n";
-    private static final String NO_ARGUMENTS_UPDATE = "Arguments required for updating a task\n\n";
-    private static final String NO_ARGUMENTS_DELETE = "Arguments required for deleting a task\n\n";
-    private static final String NO_ARGUMENTS_COMPLETED = "Arguments are required for completing tasks\n\n";
-    private static final String NO_ARGUMENTS_INCOMPLETE = "Arguments are required for incomplete task command\n\n";
-    private static final String NO_ARGUMENTS_EMPTYSLOT = "Arguments are required to search for empty slots\n\n";
-    private static final String COMPLETED_TASK_FORMAT = "Format for complete task : completed <taskName>\n";
-    private static final String INCOMPLETE_TASK_FORMAT = "Format for incomplete task : incomplete <taskName>\n";
-    private static final String TIMED_TASK_FORMAT = "Format for Time Task : add <taskName> --st <startDate> at <time> --en <endDate> at <time>\n";
-    private static final String DEADLINE_TASK_FORMAT = "Format for Deadline Task : add <taskName> --en <endDate> at <time>\n";
-    private static final String FlOATING_TASK_FORMAT = "Format for Floating Task : add <taskName>\n";
-    private static final String EMPTYSLOT_TASK_FORMAT ="Format for EmptySlot : emptyslot --after <startDate> --before <endDate>\n";
-    private static final String UPDATE_FORMAT = "Format for update/change : update/change <taskName> --<field> <changeToValue>\n";
-    private static final String DELETE_FORMAT = "Format for delete : delete <taskName>\n";
-    private static final String INVALID_COMMAND = "Invalid Command\n\n";
-    private static final String AVAILABLE_COMMANDS = "Available commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\", \"completed\", \"exit\", \"qexit\" \n";
-    private static final String NON_MATCHING_FORMAT = "Start and end time must have the same format\n";
-    private static final String IMPROPER_ARGUMENT = "Argument is invalid\n";
-    private static final String INCORRECT_TIME_FORMAT = "Incorrect format to add time\n";
-    private static final String EXCEEDED_CHAR_LIMIT = "Task description has exceeded 30 characters";
-    private static final String INVALID_DATE = "You have entered an invalid date.\n\n";
-    private static final String EXCEED_DATE_LIMIT ="Maximum search period for emptyslot is 7 days\n\n";
-    private static final String HELP = "Valid Formats:\n";
-    private HashMap<Keyword, String> parameters = new HashMap<Keyword, String>();
-    
-    private TimeType startType;
-    private TimeType endType;
-    
-    //@author A0099584H
     /**
      * Insert isAllDay parameter into HashMap
      * @param isAllDay
@@ -46,7 +14,16 @@ public class Parser {
         parameters.put(Keyword.ALLDAY, Boolean.toString(isAllDay));
     }
     
-    //@author A0099584H
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\parser\Parser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\parser\Parser.java
+	 */
+
     /**
      * Insert typeOfTask parameter into HashMap
      * @param typeOfTask
@@ -55,7 +32,16 @@ public class Parser {
         parameters.put(Keyword.TYPE, typeOfTask.toString());
     }
     
-    //@author A0099584H
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\parser\Parser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\parser\Parser.java
+	 */
+
     /**
      * set the type of Task : timed, floating, deadline 
      * @throws Exception
@@ -84,7 +70,16 @@ public class Parser {
         }
     }
     
-    //@author A0099584H
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\parser\Parser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\parser\Parser.java
+	 */
+
     /**
      * Check Exceptions for emptyslot command
      * @throws Exception
@@ -99,7 +94,16 @@ public class Parser {
         
     }
     
-    //@author A0099584H
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\parser\Parser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\parser\Parser.java
+	 */
+
     /**
      * Parse the string and set the TIMETYPE for the Task
      * @param argType START/END
@@ -137,7 +141,16 @@ public class Parser {
         return value;
     }
     
-    //@author A0099584H
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\parser\Parser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\parser\Parser.java
+	 */
+
     /**
      * Process string array to get parameters and put in HashMap
      * @param method
@@ -183,7 +196,16 @@ public class Parser {
         }
     }
     
-    //@author A0099584H
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\parser\Parser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\parser\Parser.java
+	 */
+
     /**
      * Check exceptions for all commands
      * @param userCode
@@ -222,7 +244,16 @@ public class Parser {
         }
          
     }
-    //@author A0099584H
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\parser\Parser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\parser\Parser.java
+	 */
+
     /**
      * Check if user date is within limit
      * @throws Exception
@@ -236,7 +267,16 @@ public class Parser {
        }
     }
     
-    //@author A0099584H
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\parser\Parser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\parser\Parser.java
+	 */
+
     /**
      * Parse the userInput and calls appropriate methods
      * @param userInput
@@ -259,3 +299,10 @@ public class Parser {
         return parameters;
     }
 } 
+
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\parser\Parser.java
+
+
+
+
+
