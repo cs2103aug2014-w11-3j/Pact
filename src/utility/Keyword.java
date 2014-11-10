@@ -14,15 +14,18 @@ public enum Keyword {
     UNDO        (new String[] { "undo", "cancel" }),
     CLEAR       (new String[] { "clear", "deleteAll", "removeAll" }),
     COMPLETED   (new String[] { "completed", "complete", "finished", "done" }),
-    INCOMPLETE  (new String[] { "incomplete", "not complete","not done", "uncomplete" }),
-    EMPTYSLOT   (new String[] { "emptyslot", "find", "findempty", "fes", "findslot" }),
+    INCOMPLETE  (new String[] { "incomplete", "not complete","not done", 
+                                "uncomplete" }),
+    EMPTYSLOT   (new String[] { "emptyslot", "find", "findempty", "fes", 
+                                "findslot" }),
     
    
     METHOD      (new String[] { "method" }), 
     CONTENT     (new String[] { "content" }), 
     NEWCONTENT  (new String[] { "description", "name", "task" }), 
     START       (new String[] { "start", "begin", "from", "after", "st" }), 
-    END         (new String[] { "end", "due", "finish", "to", "until", "on", "before", "en" }), 
+    END         (new String[] { "end", "due", "finish", "to", "until", "on", 
+                                "before", "en" }), 
     EXACT       (new String[] { "exact" }),
     TYPE        (new String[] { "type" }),
     ALLDAY      (new String[] { "allday" }),
@@ -73,7 +76,9 @@ public enum Keyword {
      * @return boolean
      */
     public static boolean isCommand(Keyword input) {
-        Keyword[] commandList = { CREATE, READ, DELETE, UPDATE, EXIT, QEXIT, UNDO, CLEAR, COMPLETED, INCOMPLETE, EMPTYSLOT };
+        Keyword[] commandList = { CREATE, READ, DELETE, UPDATE, EXIT, QEXIT, 
+                                  UNDO, CLEAR, COMPLETED, INCOMPLETE, 
+                                  EMPTYSLOT };
         return Arrays.asList(commandList).contains(input);
     }
     
@@ -89,9 +94,11 @@ public enum Keyword {
         if (method.equals(CREATE)) {
             argList = new Keyword[] { CONTENT, START, END };
         } else if (method.equals(READ)) {
-            argList = new Keyword[] { CONTENT, EXACT, START, END , SORT ,COMPLETED, ARCHIVED };
+            argList = new Keyword[] { CONTENT, EXACT, START, END , SORT ,
+                                      COMPLETED, ARCHIVED };
         } else if (method.equals(UPDATE)) {
-            argList = new Keyword[] { CONTENT, NEWCONTENT, START, END, FOREVER , COMPLETED };
+            argList = new Keyword[] { CONTENT, NEWCONTENT, START, END, FOREVER, 
+                                      COMPLETED };
         } else if (method.equals(DELETE)) {
             argList = new Keyword[] { CONTENT, FOREVER };
         } else if (method.equals(COMPLETED)) {
@@ -115,22 +122,35 @@ public enum Keyword {
         return method.dictionary;
     }
     
-    //@author A0119656W
+    //@author A0113012J
+    /**
+     * List all available commands for autocomplete purposes
+     * @return
+     */
     public static String[] listAllCommands() {
-        Keyword[] commandList = { CREATE, READ, DELETE, UPDATE, EXIT, QEXIT, UNDO, CLEAR, COMPLETED, INCOMPLETE, EMPTYSLOT };
-        ArrayList<String> mergedResult = new ArrayList<String>();
+        Keyword[] commandList = { CREATE, READ, DELETE, UPDATE, EXIT, QEXIT, 
+                                  UNDO, CLEAR, COMPLETED, INCOMPLETE, 
+                                  EMPTYSLOT };
+        ArrayList<String> merged = new ArrayList<String>();
         for (int i = 0; i < commandList.length; ++i) {
-            mergedResult.addAll(new ArrayList<String>(Arrays.asList(listDictionary(commandList[i]))));
+            String[] dictionary = listDictionary(commandList[i]);
+            merged.addAll(new ArrayList<String>(Arrays.asList(dictionary)));
         }
         
-        String[] finalResult = new String[mergedResult.size()];
-        mergedResult.toArray(finalResult);
+        String[] finalResult = new String[merged.size()];
+        merged.toArray(finalResult);
         return finalResult;
     }
     
-    //@author A0119656W
+    //@author A0113012J
+    /**
+     * List all available arguments for autocomplete purposes
+     * @return
+     */
     public static String[] listAllArguments() {
-        Keyword[] argumentList = { METHOD, CONTENT, NEWCONTENT, START, END, EXACT, TYPE, ALLDAY, ARCHIVED, FOREVER, SORT, ALL };
+        Keyword[] argumentList = { METHOD, CONTENT, NEWCONTENT, START, END, 
+                                   EXACT, TYPE, ALLDAY, ARCHIVED, FOREVER, 
+                                   SORT, ALL };
         ArrayList<String> mergedResult = new ArrayList<String>();
         for (int i = 0; i < argumentList.length; ++i) {
             ArrayList<String> dictionary = new ArrayList<String>(Arrays.asList(listDictionary(argumentList[i])));

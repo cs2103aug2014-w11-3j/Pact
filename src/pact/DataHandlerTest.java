@@ -9,10 +9,14 @@ import org.junit.Test;
 import utility.Keyword;
 import utility.Task;
 
+//@author A0113012J
+
 public class DataHandlerTest {
     private DataHandler dh;
     private Task sampleTaskOne, sampleTaskTwo, sampleTaskThree;
-    private ArrayList<String> ExpectedOutputZero, ExpectedOutputOne, ExpectedOutputTwo, ExpectedOutputThree, ExpectedOutputFour, ExpectedOutputFive;
+    private ArrayList<String> ExpectedOutputZero, ExpectedOutputOne, 
+                              ExpectedOutputTwo, ExpectedOutputThree, 
+                              ExpectedOutputFour, ExpectedOutputFive;
 
     private void setUpTasks() {
         sampleTaskOne = new Task();
@@ -67,7 +71,8 @@ public class DataHandlerTest {
     }
 
     public void testDelete() {
-        dh.deleteTask("",true);     //clear the data first, start the test with empty data
+        //clear the data first, start the test with empty data
+        dh.deleteTask("",true);
         assertEquals(getAllData(),ExpectedOutputZero); //make sure it is cleared
     }
 

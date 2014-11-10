@@ -274,3 +274,17 @@
     ARCHIVED: false
     ALLDAY: true
 }
+{
+    CONTENT: zzzz
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: aaaaa
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
