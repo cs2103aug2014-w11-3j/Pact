@@ -20,7 +20,7 @@ public class EventHandler {
     private DataHandler dataHandler = new DataHandler();
     private ArrayList<String> result = new ArrayList<String>();
     
-    //@Hui Yi A0101331H
+    //@author A0101331H
     /**
      * Use the parameters and call the appropriate methods
      * @param parameters
@@ -54,12 +54,12 @@ public class EventHandler {
         }
         return result;
     }
-    //@Hui Yi A0101331H
+    //@author A0101331H
     private void completeTask(HashMap<Keyword, String> parameters, String done) {
         parameters.put(Keyword.COMPLETED, done);
         updateTask(parameters);
     }
-    //@Hui Yi A0101331H
+    //@author A0101331H
     /**
      * Creates a new Task and calls the dataHandler to store the information
      * @param parameters
@@ -92,7 +92,7 @@ public class EventHandler {
         }
     }
     
-    //@Hui Yi A0101331H
+    //@author A0101331H
     /**
      * Calls the dataHandler to read/search and store the information obtained into result
      * @param parameters
@@ -136,7 +136,7 @@ public class EventHandler {
         }
         
     }
-    //@Hui Yi A0101331H
+    //@author A0101331H
     /**
      * Calls the dataHandler to delete Task or clear all Tasks
      * @param parameters
@@ -158,7 +158,7 @@ public class EventHandler {
             result.add(i.getDisplayedString());
         }
     }
-    //@Hui Yi A0101331H
+    //@author A0101331H
     /**
      * Calls the dataHandler to update Task
      * @param parameters
@@ -248,7 +248,7 @@ public class EventHandler {
         }
     }
 
-    //@Hui Yi A0101331H
+    //@author A0101331H
     /**
      * Calls the dataHandler to undo to the previous data
      * @throws Exception
