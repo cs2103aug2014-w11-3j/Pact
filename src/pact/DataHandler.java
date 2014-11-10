@@ -36,8 +36,7 @@ public class DataHandler {
     //@author A0113012J
     /**
      * Add a task to file
-     * @param task
-     * @return status
+     * @param task task to be added
      */
     public void createTask(Task task) {
         backupFile();
@@ -48,16 +47,20 @@ public class DataHandler {
     //@author A0113012J
     /**
      * Archive/delete task
-     * @param keyword
-     * @param isDeleting
+     * @param keyword the keyword of the tasks to be deleted
+     * @param isDeleting true if the task is to be deleted completely
+     * 					false if the task is to be archived only
      * @return Task that are deleted
      */
     public ArrayList<Task> deleteTask(String keyword, boolean isDeleting) {
         backupFile();
-        ArrayList<Task> taskToDelete = readTask(keyword, true, "", "", false, true);
+        ArrayList<Task> taskToDelete = readTaskTolerance(keyword, true, "", "", 
+                                                         false, true, 0);
         for (int i = 0; i < data.size(); ++i) {
             for (int j = 0; j < taskToDelete.size(); ++j) {
-                if (data.get(i).getValue(Keyword.CONTENT).equals(taskToDelete.get(j).getValue(Keyword.CONTENT))) {
+                if (data.get(i).getValue(Keyword.CONTENT)
+                        .equals(taskToDelete.get(j)
+                                            .getValue(Keyword.CONTENT))) {
                     if (isDeleting) {
                         data.remove(i);
                         --i;
@@ -68,67 +71,115 @@ public class DataHandler {
                 }
             }
         }
-        saveFile();
-        return taskToDelete;
-    }
-      
-    //@author A0113012J
-    /**
-     * Updates Task
-     * @param keyword
-     * @param newContent
-     * @param start
-     * @param end
-     * @return Task that are updated
-     */
-    public ArrayList<Task> updateTask(String keyword, String newContent, String start, String end, String isCompleted) {
-        backupFile();
-        ArrayList<Task> taskToDelete = readTask(keyword, false, "", "", false, true);
-        for (int i = 0; i < data.size(); ++i) {
-            for (int j = 0; j < taskToDelete.size(); ++j) {
-                if (data.get(i).getValue(Keyword.CONTENT).equals(taskToDelete.get(j).getValue(Keyword.CONTENT))) {
-                    if (!newContent.isEmpty()) {
-                        data.get(i).setValue(Keyword.CONTENT, newContent); 
-                    }
-                    if (!isCompleted.isEmpty()) {
-                        data.get(i).setValue(Keyword.COMPLETED, isCompleted);
-                    }
-                    if (!start.isEmpty() && !end.isEmpty()) {
-                        if (!Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.TIMED)) {
-                            data.get(i).setValue(Keyword.TYPE, String.valueOf(Keyword.TIMED));
-                        }
-                        data.get(i).setValue(Keyword.START, start);
-                        data.get(i).setValue(Keyword.END, end);
-                    } else if (!start.isEmpty()) {
-                        if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)) {
-                            data.get(i).setValue(Keyword.TYPE, String.valueOf(Keyword.TIMED));
-                        }
-                        data.get(i).setValue(Keyword.START, start);
-                    } else if (!end.isEmpty()) {
-                        if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.FLOATING)) {
-                            data.get(i).setValue(Keyword.TYPE, String.valueOf(Keyword.DEADLINE));
-                        }
-                        data.get(i).setValue(Keyword.END, end);
-                    }
-                    break;
-
-                }
-            }
+        if (taskToDelete.size() == 0) {
+            //show the tolerance message if there's any
+            readTask(keyword, true, "", "", false, true);
         }
         saveFile();
         return taskToDelete;
     }
     
     //@author A0113012J
-    public ArrayList<Task> readTask(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded, boolean isCompletedIncluded) {
-        ArrayList<Task> noTollerance = readTaskWithoutTollerance(keyword, isExact, start, end, isArchivedIncluded, isCompletedIncluded);
-        if (noTollerance.size() > 0) {
-            return noTollerance;
+    private void updateContent(Task task, String newContent) {
+        if (!newContent.isEmpty()) {
+            task.setValue(Keyword.CONTENT, newContent); 
         }
-
-        for (int tollerance = 1; tollerance <= 2; ++tollerance) {
-            ArrayList<Task> result = readTaskWithTollerance(keyword, isExact, start, end, isArchivedIncluded, isCompletedIncluded, tollerance);
+    }
+    
+    //@author A0113012J
+    private void updateCompleted(Task task, String isCompleted) {
+        if (!isCompleted.isEmpty()) {
+            task.setValue(Keyword.COMPLETED, isCompleted);
+        }
+    }
+    
+    //@author A0113012J
+    private void updateTime(Task task, String start, String end) {
+        if (!start.isEmpty() && !end.isEmpty()) {
+            if (!Keyword.getMeaning(task.getValue(Keyword.TYPE))
+                                        .equals(Keyword.TIMED)) {
+                task.setValue(Keyword.TYPE, String.valueOf(Keyword.TIMED));
+            }
+            task.setValue(Keyword.START, start);
+            task.setValue(Keyword.END, end);
+        } else if (!start.isEmpty()) {
+            if (Keyword.getMeaning(task.getValue(Keyword.TYPE))
+                       .equals(Keyword.DEADLINE)) {
+                task.setValue(Keyword.TYPE, String.valueOf(Keyword.TIMED));
+            }
+            task.setValue(Keyword.START, start);
+        } else if (!end.isEmpty()) {
+            if (Keyword.getMeaning(task.getValue(Keyword.TYPE))
+                       .equals(Keyword.FLOATING)) {
+                task.setValue(Keyword.TYPE, String.valueOf(Keyword.DEADLINE));
+            }
+            task.setValue(Keyword.END, end);
+        }
+    }
+      
+    //@author A0113012J
+    /**
+     * Updates Task
+     * @param keyword the keyword of the tasks to be updated
+     * @param newContent the new task name
+     * @param start the new start time
+     * @param end the new end time
+     * @param isCompleted the new value of isCompleted
+     * @return Task that are updated
+     */
+    public ArrayList<Task> updateTask(String keyword, String newContent, 
+                                      String start, String end, 
+                                      String isCompleted) {
+        backupFile();
+        ArrayList<Task> taskToUpdate = readTask(keyword, false, "", "", 
+                                                false, true);
+        for (int i = 0; i < data.size(); ++i) {
+            for (int j = 0; j < taskToUpdate.size(); ++j) {
+                if (data.get(i).getValue(Keyword.CONTENT)
+                        .equals(taskToUpdate.get(j)
+                        .getValue(Keyword.CONTENT))) {
+                    updateContent(data.get(i),newContent);
+                    updateCompleted(data.get(i),isCompleted);
+                    updateTime(data.get(i),start,end);
+                    break;
+                }
+            }
+        }
+        saveFile();
+        return taskToUpdate;
+    }
+    
+    //@author A0113012J
+    /**
+     * Get the list of tasks
+     * @param keyword Keyword of a task to be search
+     * @param isExact true if the keyword have to be a word of the taskname
+     * 				false if the keyword can be any substring of the taskname
+     * @param start all returned task will be the task after start.
+     * 			leave it blank if you don't want to filter by time
+     * @param end all returned task will be the task before end
+     * @param isArchivedIncluded true if the archived task is included
+     * @param isCompletedIncluded true if the completed task is included
+     * @return
+     */
+    public ArrayList<Task> readTask(String keyword, boolean isExact, 
+                                    String start, String end, 
+                                    boolean isArchivedIncluded, 
+                                    boolean isCompletedIncluded) {
+        ArrayList<Task> noTolerance = readTaskTolerance(keyword, isExact, start, 
+                                                        end, isArchivedIncluded, 
+                                                        isCompletedIncluded, 0);
+        if (noTolerance.size() > 0) {
+            return noTolerance;
+        }
+       
+        for (int tolerance = 1; tolerance <= 2; ++tolerance) {
             nearMatchString = "";
+            ArrayList<Task> result = readTaskTolerance(keyword, isExact, start, 
+                                                       end, isArchivedIncluded, 
+                                                       isCompletedIncluded, 
+                                                       tolerance);
+            
             if (result.size() > 0) {
                 if (!nearMatchString.equals("")) {
                 	System.out.println("Do you mean " + nearMatchString + "?");
@@ -139,53 +190,81 @@ public class DataHandler {
         return new ArrayList<Task>();
     }
     
+    
+    private boolean isPassArchiveCheck(Task task, boolean isArchivedIncluded) {
+        return (isArchivedIncluded || task.getValue(Keyword.ARCHIVED)
+                                          .equals("false"));
+    }
+    
+    private boolean isPassCompleteCheck(Task task, boolean isCompleteIncluded) {
+        return (isCompleteIncluded || task.getValue(Keyword.COMPLETED)
+                                          .equals("false"));
+    }
+    
+    private boolean isPassKeywordCheck(Task task, String key, int tolerance) {
+        StringMatching sm = new StringMatching();
+        String[] listOfWords = task.getValue(Keyword.CONTENT).split(" ");
+        boolean wordFound = false;
+        if (key.equals("")) {
+            return true;
+        }
+        for (int j = 0; j < listOfWords.length; ++j) {
+            if (wordFound) {
+                continue;
+            }
+            if (sm.computeEditDistance(listOfWords[j], key) <= tolerance) {
+                nearMatchString = listOfWords[j];
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private boolean isPassTimeCheck(Task task, String start, String end) {
+        if (start.isEmpty() && end.isEmpty()) {
+            return true;
+        }
+        String taskStart = task.getValue(Keyword.START);
+        String taskEnd = task.getValue(Keyword.END);
+        if (Keyword.getMeaning(task.getValue(Keyword.TYPE))
+                   .equals(Keyword.DEADLINE)) {
+            taskStart = taskEnd;
+        }
+        Clock clock = new Clock();
+        if (!start.isEmpty()) {
+            if (clock.parseFromCommonFormat(start) > 
+                clock.parseFromCommonFormat(taskEnd)) {
+                return false;
+            }
+        }
+        if (!end.isEmpty()) {
+            if (clock.parseFromCommonFormat(end) < 
+                clock.parseFromCommonFormat(taskStart)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
     //@author A0113012J
-    private ArrayList<Task> readTaskWithTollerance(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded, boolean isCompletedIncluded, int tollerance) {
+    private ArrayList<Task> readTaskTolerance(String keyword, boolean isExact, 
+                                              String start, String end, 
+                                              boolean isArchivedIncluded, 
+                                              boolean isCompleteIncluded, 
+                                              int tolerance) {
         ArrayList<Task> result = new ArrayList<Task>();
         for (int i = 0; i < data.size(); ++i) {
-            if (!isArchivedIncluded) {
-                if (data.get(i).getValue(Keyword.ARCHIVED).equals("true")) {
-                    continue;
-                }
+            if (!isPassArchiveCheck(data.get(i), isArchivedIncluded)) {
+                continue;
             }
-            if (!isCompletedIncluded) {
-                if (data.get(i).getValue(Keyword.COMPLETED).equals("true")) {
-                    continue;
-                }
+            if (!isPassCompleteCheck(data.get(i), isCompleteIncluded)) {
+                continue;
             }
-            StringMatching sm = new StringMatching();
-            String[] listOfWords = data.get(i).getValue(Keyword.CONTENT).split(" ");
-            boolean wordFound = false;
-            if (keyword.equals("")) {
-                wordFound = true;
+            if (!isPassKeywordCheck(data.get(i), keyword, tolerance)) {
+                continue;
             }
-            for (int j = 0; j < listOfWords.length; ++j) {
-                if (wordFound) {
-                    continue;
-                }
-                if (sm.computeEditDistance(listOfWords[j], keyword) <= tollerance) {
-                    nearMatchString = listOfWords[j];
-                    wordFound = true;
-                }
-            }
-            if (!wordFound) continue;
-            if (!start.isEmpty() || !end.isEmpty()) {
-                String taskStart = data.get(i).getValue(Keyword.START);
-                String taskEnd = data.get(i).getValue(Keyword.END);
-                if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)) {
-                    taskStart = taskEnd;
-                }
-                Clock clock = new Clock();
-                if (!start.isEmpty()) {
-                    if (clock.parseFromCommonFormat(start) > clock.parseFromCommonFormat(taskEnd)) {
-                        continue;
-                    }
-                }
-                if (!end.isEmpty()) {
-                    if (clock.parseFromCommonFormat(end) < clock.parseFromCommonFormat(taskStart)) {
-                        continue;
-                    }
-                }
+            if (!isPassTimeCheck(data.get(i), start, end)) {
+                continue;
             }
             result.add(data.get(i));
         }
@@ -194,72 +273,34 @@ public class DataHandler {
     
     //@author A0113012J
     /**
-     * Get task from database
-     * @param keyword
-     * @param isExact
-     * @param start
-     * @param end
-     * @param isArchivedIncluded
-     * @return Tasks to be read
-     */
-    public ArrayList<Task> readTaskWithoutTollerance(String keyword, boolean isExact, String start, String end, boolean isArchivedIncluded, boolean isCompletedIncluded) {
-        ArrayList<Task> result = new ArrayList<Task>();
-        for (int i = 0; i < data.size(); ++i) {
-            if (!isArchivedIncluded) {
-                if (data.get(i).getValue(Keyword.ARCHIVED).equals("true")) {
-                    continue;
-                }
-            }
-            if (!isCompletedIncluded) {
-                if (data.get(i).getValue(Keyword.COMPLETED).equals("true")) {
-                    continue;
-                }
-            }
-            if (isExact) {
-                if (!data.get(i).getValue(Keyword.CONTENT).contentEquals(keyword)) {
-                    continue;
-                }
-            } else {
-                if (!data.get(i).getValue(Keyword.CONTENT).contains(keyword)) {
-                    continue;
-                }
-            }
-            if (!start.isEmpty() || !end.isEmpty()) {
-                String taskStart = data.get(i).getValue(Keyword.START);
-                String taskEnd = data.get(i).getValue(Keyword.END);
-                if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)) {
-                    taskStart = taskEnd;
-                }
-                Clock clock = new Clock();
-                if (!start.isEmpty()) {
-                    if (clock.parseFromCommonFormat(start) > clock.parseFromCommonFormat(taskEnd)) {
-                        continue;
-                    }
-                }
-                if (!end.isEmpty()) {
-                    if (clock.parseFromCommonFormat(end) < clock.parseFromCommonFormat(taskStart)) {
-                        continue;
-                    }
-                }
-            }
-            result.add(data.get(i));
-        }
-        return result;
-    }
-    
-    //@author A0113012J
-    /**
-     * Undo to the previous state
-     * @return status
+     * Restore previous data.
+     * Basically swap the previous data(before last operation) and current data
      */
     public void undo() {
-        restoreFile();
+    	//create a temporary arraylist of task
+        temp = new ArrayList<Task>();
+        //move everything in current data to the temporary data
+        for(int i = 0; i < data.size(); ++i) {
+            Task toAdd = new Task(data.get(i));
+            temp.add(toAdd);
+        }
+        //move everything from previous data to current data
+        data = new ArrayList<Task>();
+        for(int i = 0; i < previousData.size(); ++i) {
+            data.add(previousData.get(i));
+        }
+        //move everyting from temporary data to previous data
+        previousData = new ArrayList<Task>();
+        for(int i = 0; i < temp.size(); ++i) {
+            previousData.add(temp.get(i));
+        }
+        saveFile();
     }
     
     //@author A0113012J
     /**
      * Write to file with appropriate formatting
-     * @param writer
+     * @param writer BufferedWriter to write to the file
      * @throws IOException
      */
     private void writeToFile(BufferedWriter writer) throws IOException {
@@ -272,16 +313,18 @@ public class DataHandler {
     
     //@author A0113012J
     /**
-     * Get contents of file
-     * @param read
+     * Get contents of file and put it to data arraylist
+     * @param read BufferedReader to read from the file
      */
     private void getData(BufferedReader read) {
         try {
+            String text = read.readLine();
             //while have not reached EOF
-            String text = read.readLine(); //read {
-            while (text != null) {
+            while (text != null) { 
                 text = text.trim();
                 String operation = "";
+                //each tasks are separated with {} like JSON object
+                //read until reach '}' which means the end of a task
                 while (!text.equals("}")) {
                     text = read.readLine();
                     if (!text.equals("}")) {
@@ -289,7 +332,7 @@ public class DataHandler {
                     }
                 }
                 data.add(Task.parseTask(operation));
-                text = read.readLine(); //read {
+                text = read.readLine();
             }
         } catch (IOException e) {
         }
@@ -303,14 +346,14 @@ public class DataHandler {
         File file = new File(fileName);
         try {
             file.createNewFile();
-        } catch (IOException e) {
-            
+        } catch (IOException e) { 
         }
     }
     
     //@author A0113012J
     /**
-     * Backup existing file
+     * Backup existing file for undo purpose
+     * Move everything from current data to previous data
      */
     private void backupFile() {
         previousData = new ArrayList<Task>();
@@ -322,28 +365,8 @@ public class DataHandler {
     
     //@author A0113012J
     /**
-     * Restore previous file
-     */
-    private void restoreFile() {
-        temp = new ArrayList<Task>();
-        for(int i = 0; i < data.size(); ++i) {
-            Task toAdd = new Task(data.get(i));
-            temp.add(toAdd);
-        }
-        data = new ArrayList<Task>();
-        for(int i = 0; i < previousData.size(); ++i) {
-            data.add(previousData.get(i));
-        }
-        previousData = new ArrayList<Task>();
-        for(int i = 0; i < temp.size(); ++i) {
-            previousData.add(temp.get(i));
-        }
-        saveFile();
-    }
-    
-    //@author A0113012J
-    /**
      * Save file
+     * Move everything in the data arraylist to the textfile
      */
     private void saveFile() {
         try {
@@ -352,13 +375,13 @@ public class DataHandler {
             writeToFile(writer);
             writer.close();
         } catch (IOException e) {
-
         }
     }
     
     //@author A0113012J
     /**
-     * load file to be read
+     * Load file
+     * Move everything in the textfile to the arraylist
      */
     private void loadFile() {
         try {
@@ -371,18 +394,4 @@ public class DataHandler {
         } catch (IOException e) {
         }
     }
-
-    /*
-    public static void main(String[] args) {
-        Task t = new Task();
-        DataHandler d = new DataHandler();
-        t.taskName = "gajah";
-        t.type = TASK_TYPE.FLOATING;
-        t.startTime = new Date(2014-1900,8,22,17,50,30);
-        d.addTask(t);
-        for (int i = 0; i < d._data.size(); ++i) {
-            System.out.println(d.convertTaskToString(d._data.get(i)));
-        }
-    }
-    */
 }
