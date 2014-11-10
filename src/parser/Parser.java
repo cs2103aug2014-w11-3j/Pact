@@ -37,6 +37,7 @@ public class Parser {
     private TimeType startType;
     private TimeType endType;
     
+    //@author A0099584H
     /**
      * Insert isAllDay parameter into HashMap
      * @param isAllDay
@@ -44,6 +45,8 @@ public class Parser {
     private void setAllDay(boolean isAllDay) {
         parameters.put(Keyword.ALLDAY, Boolean.toString(isAllDay));
     }
+    
+    //@author A0099584H
     /**
      * Insert typeOfTask parameter into HashMap
      * @param typeOfTask
@@ -52,6 +55,7 @@ public class Parser {
         parameters.put(Keyword.TYPE, typeOfTask.toString());
     }
     
+    //@author A0099584H
     /**
      * set the type of Task : timed, floating, deadline 
      * @throws Exception
@@ -79,6 +83,12 @@ public class Parser {
             }
         }
     }
+    
+    //@author A0099584H
+    /**
+     * Check Exceptions for emptyslot command
+     * @throws Exception
+     */
     private void configEmptySlot() throws Exception {
         if (startType.equals(TimeType.NONE)) { 
             throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + EMPTYSLOT_TASK_FORMAT);
@@ -89,6 +99,7 @@ public class Parser {
         
     }
     
+    //@author A0099584H
     /**
      * Parse the string and set the TIMETYPE for the Task
      * @param argType START/END
@@ -120,14 +131,13 @@ public class Parser {
             }
         }
         String[] check = value.split(" ");
-        //System.out.println(check[0]);
         if (check[0].length() > 10) {
             throw new Exception(INVALID_DATE + HELP + FlOATING_TASK_FORMAT + DEADLINE_TASK_FORMAT + TIMED_TASK_FORMAT);
         }
         return value;
     }
     
-    
+    //@author A0099584H
     /**
      * Process string array to get parameters and put in HashMap
      * @param method
@@ -172,7 +182,14 @@ public class Parser {
             configEmptySlot();
         }
     }
-
+    
+    //@author A0099584H
+    /**
+     * Check exceptions for all commands
+     * @param userCode
+     * @param values
+     * @throws Exception
+     */
     private void checkExceptions(Keyword userCode, String values) throws Exception {
         if (!Keyword.isCommand(userCode)) {
             throw new Exception(INVALID_COMMAND + AVAILABLE_COMMANDS);
@@ -205,7 +222,11 @@ public class Parser {
         }
          
     }
-
+    //@author A0099584H
+    /**
+     * Check if user date is within limit
+     * @throws Exception
+     */
     public void checkDateLimit() throws Exception{
        Clock clock = new Clock();
         String st = parameters.get(Keyword.START);
@@ -215,6 +236,7 @@ public class Parser {
        }
     }
     
+    //@author A0099584H
     /**
      * Parse the userInput and calls appropriate methods
      * @param userInput
