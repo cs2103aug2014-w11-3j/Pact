@@ -187,6 +187,10 @@ public class DataHandler {
         return new ArrayList<Task>();
     }
     
+    /**
+     * Get the value of nearMatchString because of the tollerance after search
+     * @return
+     */
     public String getNearMatchString() {
         return nearMatchString;
     }
