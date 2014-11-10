@@ -159,42 +159,6 @@ public class Clock {
         return result.getTimeInMillis();
     }
 
-    /*    
-    public int getDateDifference(String start,String end) {
-       
-    public boolean getDateDifference(HashMap<Keyword,String> parameters) {
-        String start = parameters.get(Keyword.START);
-        String end = parameters.get(Keyword.END);
-        String[] starts = start.split("/");
-        String[] ends = end.split("/");
-        String[] checkStartYear = starts[2].split(" ");
-        String[] checkEndYear = ends[2].split(" ");
-        int startDay = Integer.parseInt(starts[0]);
-        int startMonth = Integer.parseInt(starts[1]);
-        
-        int startYear = Integer.parseInt(checkStartYear[0]);
-        
-        int endDay = Integer.parseInt(ends[0]);
-        int endMonth = Integer.parseInt(ends[1]);
-        int endYear = Integer.parseInt(checkEndYear[0]);
-        
-        Calendar cal1 = new GregorianCalendar();
-        Calendar cal2 = new GregorianCalendar();
-        cal1.set(startYear, startMonth, startDay);
-        cal2.set(endYear, endMonth, endDay);
-        
-        double days = (int) (cal2.getTime().getTime() - cal1.getTime().getTime()) / (1000 * 60 * 60 * 24);
-        
-        if (days<=7) {
-            return true;
-        }
-        BigDecimal bd = new BigDecimal(days).setScale(2, RoundingMode.DOWN);
-        int day = bd.intValue();
-       
-        return day;
-    } 
-    */
-
     public String getDateDifference(String start,String end)throws Exception{
         SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_COMMON);
         Date startDate = null;

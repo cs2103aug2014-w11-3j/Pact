@@ -15,6 +15,7 @@ public class Task {
     /**
      * Construct a new Task object
      */
+    //@author A0119656W
     public Task() {
         this.content = "";
         this.start = "";
@@ -25,6 +26,7 @@ public class Task {
         this.isArchived = false;
     }
     
+    //@author A0113012J
     public Task(Task copy) {
         this.content = copy.getValue(Keyword.CONTENT);
         this.start = copy.getValue(Keyword.START);
@@ -35,7 +37,8 @@ public class Task {
         this.isAllDayTask = Boolean.parseBoolean(copy.getValue(Keyword.ALLDAY));
     }
     
-    /* 
+    //@author A0119656W
+    /** 
      * Construct string to print contents of Task
      * @return constructed string
      */
@@ -56,36 +59,11 @@ public class Task {
         return result;
     }
     
+    //@author A0119656W
     /**
      * Construct string to put into result
      * @return 
-     */
-    /* public String getDisplayedString() {
-        String result = content;
-        if (type.equals(Keyword.TIMED)) {
-            String[] splitStart = start.split(" ", 2);
-            String[] splitEnd = end.split(" ", 2);
-            if (!isAllDayTask) {
-                result = result + ":" + String.valueOf(isCompleted) + ":" + splitStart[0] + " " + splitStart[1];
-                result = result + " " + splitEnd[0] + " " + splitEnd[1];
-            } else {
-                result = result + ":" + String.valueOf(isCompleted) + ":" + splitStart[0];
-                result = result + " " + splitEnd[0];
-            }
-        } else if (type.equals(Keyword.DEADLINE)) {
-            String[] splitEnd = end.split(" ", 2);
-            if (!isAllDayTask) {
-                result = result + ":" + String.valueOf(isCompleted) + ":" + splitEnd[0] + " " + splitEnd[1];
-            } else {
-                result = result + ":" + String.valueOf(isCompleted) + ":" +splitEnd[0];
-            }
-        } else if (type.equals(Keyword.FLOATING)) {
-            
-            result = result + ":" + String.valueOf(isCompleted) + ":" ;
-        }
-        return result;
-    }*/
-    
+     */    
     public String getDisplayedString() {
         String result = content;
         result = result + ":" + String.valueOf(isCompleted); 
@@ -112,6 +90,7 @@ public class Task {
         return result;
     }
     
+    //@author A0119656W
     /**
      * Get a particular value in a Task object
      * @param key
@@ -137,6 +116,7 @@ public class Task {
         return value;
     }
 
+    //@author A0119656W
     /**
      * Change a particular value in a Task object 
      * @param key
@@ -160,6 +140,7 @@ public class Task {
         }
     }
     
+    //@author A0119656W
     /**
      * convert formatted string to a Task object
      * @param toConvert

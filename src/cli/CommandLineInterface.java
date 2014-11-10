@@ -270,12 +270,15 @@ public class CommandLineInterface {
     private void printEndLine() {
         System.out.println(repeat("*", 100));
     }
+    
+    //@author A0113012J
 
     private String readLine(ConsoleReader reader) throws IOException {
         String line = reader.readLine(">> ");
         return line.trim();
     }
     
+    //@author A0113012J
     /**
      * Get the user's command
      * 
@@ -288,28 +291,29 @@ public class CommandLineInterface {
         List<SimpleCompletor> completors = new LinkedList<SimpleCompletor>();
         completors.add(new SimpleCompletor(Keyword.listAllCommands()));
         completors.add(new SimpleCompletor(Keyword.listAllArguments()));
-        //completors.add(new SimpleCompletor(getAllHashTags()));
         reader.addCompletor(new ArgumentCompletor(completors));
         PrintWriter out = new PrintWriter(System.out);
         do {
-            //System.out.print(">> ");
             command = readLine(reader);
             out.flush();
         } while (command.isEmpty());
         return command;
     }
     
+    //@author A0119656W
     private String repeat(String st, int times) {
         if (st.isEmpty() || (times == 0)) return "";
         return new String(new char[times]).replace("\0", st);
     }
     
+    //@author A0119656W
     private String alignCenter(String st, int counter) {
         int right = (counter - st.length()) / 2;
         int left = counter - st.length() - right;
         return repeat(" ", left) + st + repeat(" ", right);
     }
     
+    //@author A0119656W
     private String createRow(String[] content, int[] spaces) {
         String output = "";
         int len = Math.min(content.length, spaces.length);
