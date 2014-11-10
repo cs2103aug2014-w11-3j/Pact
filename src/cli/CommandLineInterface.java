@@ -149,7 +149,7 @@ public class CommandLineInterface {
         System.out.println(repeat("*", 90));
         
     }
-    //@author A0101331H   
+    //@author A0101331H
     /**
      * Construct table for the user
      * @param result
