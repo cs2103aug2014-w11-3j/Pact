@@ -126,10 +126,10 @@
     ALLDAY: false
 }
 {
-    CONTENT: play dota
-    END: 22/12/2014 23:59
+    CONTENT: play dota 2
+    END: 28/12/2014 23:59
     TYPE: DEADLINE
-    COMPLETED: true
+    COMPLETED: false
     ARCHIVED: false
     ALLDAY: false
 }
@@ -145,7 +145,7 @@
     END: 01/01/2015 23:59
     START: 10/11/2014 00:00
     TYPE: TIMED
-    COMPLETED: true
+    COMPLETED: false
     ARCHIVED: false
     ALLDAY: false
 }

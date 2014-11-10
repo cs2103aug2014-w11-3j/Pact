@@ -261,7 +261,9 @@ public class EventHandler {
             if (freeTimeNow.compareTo("23:59") < 0) {
                 resultThisDay.add(freeTimeNow + " to 23:59");
             }
-            //result.add("On " + clock.getDate(startSearch) );
+            if (resultThisDay.size() == 0) {
+            	resultThisDay.add("There is no empty slot for this day :(");
+            }
             String[] array = new String[]{ "","Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}; 
             result.add("\nOn " + array[clock.getDayOfTheWeek(clock.getDate(startSearch))] + " " + clock.getDay(startSearch) + " " + clock.getMonth(clock.getDate(startSearch)) + " free from:" );
             for (int j = 0; j < resultThisDay.size(); ++j) {

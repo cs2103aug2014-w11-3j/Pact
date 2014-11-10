@@ -109,10 +109,6 @@ public class DataHandler {
                             data.get(i).setValue(Keyword.TYPE, String.valueOf(Keyword.DEADLINE));
                         }
                         data.get(i).setValue(Keyword.END, end);
-                    } else {
-                        if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)) {
-                            data.get(i).setValue(Keyword.TYPE, String.valueOf(Keyword.FLOATING));
-                        }
                     }
                     break;
 
