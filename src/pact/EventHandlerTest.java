@@ -17,33 +17,6 @@ public class EventHandlerTest {
         ev = new EventHandler();
     }
 
-    /*
-     * @Test public void test() { EventHandler ev = new EventHandler();
-     * HashMap<Keyword, String> hm = new HashMap<Keyword, String>();
-     * ArrayList<String> result = new ArrayList<String>();
-     * hm.put(Keyword.METHOD, "add"); hm.put(Keyword.CONTENT, "Visit the zoo");
-     * try { 
-     * result = ev.determineCommand(hm); 
-     * } catch (Exception e) { 
-     * Auto-generated catch block e.printStackTrace(); 
-     * }
-     * assertTrue(result.get(0).equals("Added Successfully.")); }
-     * 
-     * @Test public void test1() { 
-     * EventHandler ev = new EventHandler();
-     * HashMap<Keyword, String> hm = new HashMap<Keyword, String>();
-     * ArrayList<String> result = new ArrayList<String>();
-     * hm.put(Keyword.METHOD, "add");
-     *  hm.put(Keyword.CONTENT, "Visit the zoo");
-     * hm.put(Keyword.DEADLINE, "true"); 
-     * hm.put(Keyword.END,"10/10/2014 23:59");
-     *  try { result = ev.determineCommand(hm); 
-     *  } catch (Exception e) { 
-     *  e.printStackTrace(); 
-     *  }
-     * assertTrue(result.get(0).equals("Added Successfully.")); 
-     * }
-     */
     @Test
     public void test2() {
         HashMap<Keyword, String> hm = new HashMap<Keyword, String>();
@@ -58,7 +31,7 @@ public class EventHandlerTest {
         assertEquals(result.get(0), "Added Successfully.");
         result.clear();
         hm.clear();
-    
+
         hm.put(Keyword.METHOD, "add");
         hm.put(Keyword.CONTENT, "Visit the zoo1");
         hm.put(Keyword.ALLDAY, "false");
@@ -80,7 +53,7 @@ public class EventHandlerTest {
             e.printStackTrace();
         }
         assertEquals(result.get(0) , "Undo Successfully.");
-        
+
         result.clear();
         hm.clear();
         hm.put(Keyword.METHOD, "display");
@@ -91,7 +64,7 @@ public class EventHandlerTest {
             e.printStackTrace();
         }
         assertEquals(result.get(0), "1. Visit the zoo");
-        
+
     }
 
 }
