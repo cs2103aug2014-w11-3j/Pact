@@ -132,8 +132,11 @@ public class DataHandler {
 
         for (int tollerance = 1; tollerance <= 2; ++tollerance) {
             ArrayList<Task> result = readTaskWithTollerance(keyword, isExact, start, end, isArchivedIncluded, isCompletedIncluded, tollerance);
+            nearMatchString = "";
             if (result.size() > 0) {
-                System.out.println("Do you mean " + nearMatchString + "?");
+                if (!nearMatchString.equals("")) {
+                	System.out.println("Do you mean " + nearMatchString + "?");
+                }
                 return result;
             }
         }
@@ -173,11 +176,6 @@ public class DataHandler {
             if (!start.isEmpty() || !end.isEmpty()) {
                 String taskStart = data.get(i).getValue(Keyword.START);
                 String taskEnd = data.get(i).getValue(Keyword.END);
-                /*
-                if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.FLOATING)) {
-                    continue;
-                }
-                */
                 if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)) {
                     taskStart = taskEnd;
                 }
@@ -233,11 +231,6 @@ public class DataHandler {
             if (!start.isEmpty() || !end.isEmpty()) {
                 String taskStart = data.get(i).getValue(Keyword.START);
                 String taskEnd = data.get(i).getValue(Keyword.END);
-                /*
-                if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.FLOATING)) {
-                    continue;
-                }
-                */
                 if (Keyword.getMeaning(data.get(i).getValue(Keyword.TYPE)).equals(Keyword.DEADLINE)) {
                     taskStart = taskEnd;
                 }

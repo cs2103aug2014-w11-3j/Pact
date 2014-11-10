@@ -23,28 +23,28 @@
     CONTENT: a
     TYPE: FLOATING
     COMPLETED: true
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: false
 }
 {
     CONTENT: haha
     TYPE: FLOATING
     COMPLETED: true
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: false
 }
 {
     CONTENT: gajah
     TYPE: FLOATING
     COMPLETED: true
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: true
 }
 {
     CONTENT: bb
     TYPE: FLOATING
     COMPLETED: false
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: false
 }
 {
@@ -53,7 +53,7 @@
     START: 20/11/2014 00:00
     TYPE: TIMED
     COMPLETED: false
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: true
 }
 {
@@ -62,7 +62,7 @@
     START: 20/11/2014 00:00
     TYPE: TIMED
     COMPLETED: false
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: true
 }
 {
@@ -71,21 +71,21 @@
     START: 20/11/2014 00:00
     TYPE: TIMED
     COMPLETED: false
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: false
 }
 {
     CONTENT: fifa
     TYPE: FLOATING
     COMPLETED: true
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: false
 }
 {
     CONTENT: clgt
     TYPE: FLOATING
     COMPLETED: true
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: false
 }
 {
@@ -94,6 +94,58 @@
     START: 10/11/2014 00:00
     TYPE: TIMED
     COMPLETED: true
-    ARCHIVED: false
+    ARCHIVED: true
     ALLDAY: true
+}
+{
+    CONTENT: play pes
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: false
+}
+{
+    CONTENT: play pes
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: false
+}
+{
+    CONTENT: play pes
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: true
+    ALLDAY: false
+}
+{
+    CONTENT: play pes
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: play dota
+    END: 22/12/2014 23:59
+    TYPE: DEADLINE
+    COMPLETED: true
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: play fifa
+    TYPE: FLOATING
+    COMPLETED: false
+    ARCHIVED: false
+    ALLDAY: false
+}
+{
+    CONTENT: play skyrim
+    END: 01/01/2015 23:59
+    START: 10/11/2014 00:00
+    TYPE: TIMED
+    COMPLETED: true
+    ARCHIVED: false
+    ALLDAY: false
 }

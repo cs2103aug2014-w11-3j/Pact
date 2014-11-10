@@ -191,10 +191,31 @@ public class EventHandler {
             result.add(i.getDisplayedString());
         }
     }
+    
+    //@author A0113012J
+    
+    private int compareTo(Task taskOne, Task taskTwo, Keyword compareKey) {
+    	if (compareKey.equals(Keyword.START) || compareKey.equals(Keyword.END)) {
+    		Clock clock = new Clock();
+    		long taskOneTime = clock.parseFromCommonFormat(taskOne.getValue(compareKey));
+    		long taskTwoTime = clock.parseFromCommonFormat(taskTwo.getValue(compareKey));
+    		if (taskOneTime < taskTwoTime) {
+    			return -1;
+    		} else if (taskOneTime == taskTwoTime) {
+    			return 0;
+    		} else {
+    			return 1;
+    		}
+    	}
+    	return taskOne.getValue(compareKey).compareTo(taskTwo.getValue(compareKey));
+    }
+    
+    //@author A0113012J
+    
     private void sortTasks(ArrayList<Task> tasksList,Keyword sortKey,boolean isAscending) {
         for (int i = 0; i < tasksList.size(); ++i) {
             for (int j = i; j < tasksList.size(); ++j) {
-                if (tasksList.get(i).getValue(sortKey).compareTo(tasksList.get(j).getValue(sortKey)) > 0) {
+                if (compareTo(tasksList.get(i),tasksList.get(j),sortKey) > 0) {
                     Collections.swap(tasksList, i, j);
                 }
             }
@@ -203,6 +224,8 @@ public class EventHandler {
             Collections.reverse(tasksList);
         }
     }
+    
+    //@author A0113012J
     
     private void searchEmptySlot(HashMap<Keyword, String> parameters) throws Exception {   
         String start = parameters.get(Keyword.START);
