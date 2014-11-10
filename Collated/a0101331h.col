@@ -3,6 +3,260 @@
 
 
 	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+    private void confirmExit() throws Exception {
+        Clock clock = new Clock();
+        System.out.println("Are you sure you want to exit? [Y/N]");
+        if (this.getUserCommand().equalsIgnoreCase("Y")) {
+            System.out.println(clock.getExitGreeting(clock.getCurrentHour()));
+            System.exit(0);
+        }
+    }
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+    private boolean printTable(String userCommand) {
+        String[] arr;
+        arr = userCommand.split(" ", 2);
+        if (!Keyword.getMeaning(arr[0]).equals(Keyword.EMPTYSLOT)) {
+            return true;
+        }
+        return false;
+    }
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+    /**
+     * print header of table
+     */
+    private void printHeader() {
+        System.out.println(repeat("*", 103));
+        System.out.println(createRow(new String[] { "", "", "", 
+                                                    "Start", "End", "No of" }, 
+                                     new int[]{ 5, 30, 6, 23, 23, 9 }) + "|");
+        System.out.println(createRow(new String[] { "S/N", "TaskName", "Done", 
+                                                    repeat("-", 47), "Days" }, 
+                                     new int[]{ 5, 30, 6, 47, 9 }) + "|");
+        System.out.println(createRow(new String[] { repeat(" ", 5), 
+                                                    repeat(" ", 30), 
+                                                    repeat(" ", 6), 
+                                                    "Date", "Time", "Day", 
+                                                    "Date", "Time", "Day", 
+                                                    "Left" }, 
+                                     new int[]{ 5, 30, 6, 11, 6, 
+                                                4, 11, 6, 4, 9}) + "|");
+        System.out.printf("|%s|\n", repeat("-", 101));
+    }
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+    /**
+     * construct contents from result to structured string and print
+     * @param result
+     */
+    private void constructContents(ArrayList<String> result) {
+        for (int i = 1; i < result.size(); i++) {
+            StringBuilder sb = new StringBuilder();
+            String[] splitString = result.get(i).split(":", 3);
+            addSerialNumber(i, sb);
+            addTaskNameAndCompleted(splitString, sb);
+            processDateAndTime(splitString, sb);
+            sb.append("|");
+            System.out.println(sb.toString());
+        }
+
+    }
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+    /**
+     * construct serial number component of the table
+     * @param i
+     * @param sb
+     */
+    private void addSerialNumber(int i, StringBuilder sb) {
+        sb.append(createRow(new String[]{ "" + i + "." }, new int[]{ 5 }));
+    }
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+    /**
+     * construct task name component of the table
+     * @param splitString
+     * @param sb
+     */
+    private void addTaskNameAndCompleted(String[] splitString, 
+                                         StringBuilder sb) {
+        if (splitString[1].equals("false")) {
+            sb.append(createRow(new String[]{ splitString[0], "" }, 
+                                new int[]{ 30, 6 }));
+        } else {
+            sb.append(createRow(new String[]{ splitString[0], "OK" }, 
+                                new int[]{ 30, 6 }));
+        }
+    }
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+    /**
+     * process the Date And Time and calls addDateAndTime method
+     * @param splitString
+     * @param sb
+     */
+    private void processDateAndTime(String[] splitString, StringBuilder sb) {
+        if (splitString[2].equals("")) { //floating tasks
+            sb.append(createRow(new String[]{ "-", "-", "-", 
+                                              "-", "-", "-", "" }, 
+                                new int[]{ 11, 6, 4, 11, 6, 4, 9 }));
+        } else {
+            String temp = splitString[2];
+            splitString = temp.split(" ");
+            try {
+                addDateAndTime(splitString, sb);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+    /**
+     * construct Date and Time component of the table
+     * @param arg
+     * @param sb
+     * @throws Exception 
+     */
+    private void addDateAndTime(String[] arg, 
+                                StringBuilder sb) throws Exception {
+        int[] formatter = new int[]{ 11, 6, 4, 11, 6, 4, 9 };
+        String st = "";
+        Clock clock = new Clock();
+        String[] arr = new String[]{ "", "Sun", "Mon", "Tue", 
+                                       "Wed", "Thu", "Fri", "Sat" };
+        if (arg.length == 1) {
+            st = createRow(new String[]{ "-", "-", "-", 
+                                         arg[0], "-", "-", 
+                                         addNoOfDaysLeft(arg[0] + " 23:59") }, 
+                           formatter);
+        } else if (arg.length == 2) {
+            if (arg[1].length() == 10) {
+                st = createRow(new String[]{ arg[0], "-", 
+                                             arr[clock.getDayOfTheWeek(arg[0])], 
+                                             arg[1], "-", 
+                                             arr[clock.getDayOfTheWeek(arg[1])], 
+                                             addNoOfDaysLeft(arg[1] + " 23:59") 
+                                           }, formatter);
+            } else {
+                st = createRow(new String[]{ "-", "-", "-", 
+                                             arg[0], arg[1], 
+                                             arr[clock.getDayOfTheWeek(arg[0])],
+                                             addNoOfDaysLeft(arg[0] + " " + 
+                                                             arg[1]) }, 
+                               formatter);
+            }
+        } else if (arg.length == 4) {
+            st = createRow(new String[]{ arg[0], arg[1], 
+                                         arr[clock.getDayOfTheWeek(arg[0])], 
+                                         arg[2], arg[3], 
+                                         arr[clock.getDayOfTheWeek(arg[2])], 
+                                         addNoOfDaysLeft(arg[2] + " " + 
+                                                         arg[3]) },
+                           formatter);
+        }
+        sb.append(st);
+    }
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+    private String addNoOfDaysLeft(String date) throws Exception {
+        Clock clock = new Clock();
+        String currentTime = clock.getCurrentDateAndTime();
+        String day = clock.getDateDifference(currentTime, date);
+        return day;
+    }
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+    /**
+     * print bottom line of table
+     */
+    private void printEndLine() {
+        System.out.println(repeat("*", 103));
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+
+	/**
 	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
 	 */
 
@@ -12,7 +266,8 @@
      * @return result
      * @throws Exception
      */
-    public ArrayList<String> determineCommand(HashMap<Keyword, String> parameters) throws Exception {
+    public ArrayList<String> determineCommand(HashMap<Keyword, String> parameters) 
+                throws Exception {
         String codeString = parameters.get(Keyword.METHOD);
         Keyword code = Keyword.getMeaning(codeString);
         result.clear();
@@ -89,7 +344,8 @@
         result.add(ANNOUNCEMENT_CREATE);
         parameters.clear();
         parameters.put(Keyword.CONTENT, "");
-        ArrayList<Task> queryResult = dataHandler.readTask(parameters.get(Keyword.CONTENT), false, "", "", false, false);
+        ArrayList<Task> queryResult = dataHandler.readTask("", false, "", 
+                                                           "", false, false);
         for (Task i : queryResult) {
             result.add(i.getDisplayedString());
         }
@@ -106,11 +362,12 @@
 	 */
 
     /**
-     * Calls the dataHandler to read/search and store the information obtained into result
+     * Calls the dataHandler to read/search and store the information obtained 
+     * into result
      * @param parameters
      */
     private void readTask(HashMap<Keyword, String> parameters) {
-  
+        String key = parameters.get(Keyword.CONTENT);
         boolean isExact = parameters.containsKey(Keyword.EXACT);
         Clock clock = new Clock();
         String start = clock.getCurrentDateAndTime();
@@ -131,13 +388,25 @@
             isCompletedIncluded = true;
         }
         
-        ArrayList<Task> queryResult = dataHandler.readTask(parameters.get(Keyword.CONTENT), isExact, start, end, isArchivedIncluded, isCompletedIncluded);
+        ArrayList<Task> queryResult = dataHandler.readTask(key, isExact, 
+                                                           start, end, 
+                                                           isArchivedIncluded, 
+                                                           isCompletedIncluded);
+        
+        String firstOutputLine = "";
+
+        if (!dataHandler.getNearMatchString().equals("")) {
+            firstOutputLine += ANNOUNCEMENT_SUGGESTION 
+                  + dataHandler.getNearMatchString() + "?\n";
+        }
         
         if (queryResult.isEmpty()) {
-            result.add(ANNOUNCEMENT_NOT_FOUND);
+            firstOutputLine += ANNOUNCEMENT_NOT_FOUND;
         } else {
-            result.add(ANNOUNCEMENT_READ);
+            firstOutputLine += ANNOUNCEMENT_READ;
         }
+        
+        result.add(firstOutputLine);
      
         if ((parameters.containsKey(Keyword.SORT))) {
         	Keyword sortKey = Keyword.getMeaning(parameters.get(Keyword.SORT));
@@ -163,18 +432,33 @@
      * @param parameters
      * @param clear
      */
-    private void deleteTask(HashMap<Keyword, String> parameters, Boolean clear) {
-        ArrayList<Task> queryResult = dataHandler.deleteTask(parameters.get(Keyword.CONTENT), parameters.containsKey(Keyword.FOREVER));
+    private void deleteTask(HashMap<Keyword, String> parameters, 
+                            boolean clear) {
+        String key = parameters.get(Keyword.CONTENT);
+        boolean isDeleting = parameters.containsKey(Keyword.FOREVER);
+        
+        ArrayList<Task> queryResult = dataHandler.deleteTask(key, isDeleting);
+        
+        String firstOutputLine = "";
+
+        if (!dataHandler.getNearMatchString().equals("")) {
+            firstOutputLine += ANNOUNCEMENT_SUGGESTION 
+                  + dataHandler.getNearMatchString() + "?\n";
+        }
+        
         if (queryResult.isEmpty()) {
-            result.add(ANNOUNCEMENT_NOT_FOUND);
+            firstOutputLine += ANNOUNCEMENT_NOT_FOUND;
+            result.add(firstOutputLine);
             return;
         }
         if (clear == false) {
-            result.add(ANNOUNCEMENT_DELETE);
+            firstOutputLine += ANNOUNCEMENT_DELETE;
         } else {
-            result.add(ANNOUNCEMENT_CLEAR);
+            firstOutputLine += ANNOUNCEMENT_CLEAR;
         }
 
+        result.add(firstOutputLine);
+        
         for (Task i : queryResult) {
             result.add(i.getDisplayedString());
         }
@@ -198,6 +482,7 @@
         String end = "";
         String newContent = "";
         String isCompleted = "";
+        String key = parameters.get(Keyword.CONTENT);
         if (parameters.containsKey(Keyword.NEWCONTENT)) {
             newContent = parameters.get(Keyword.NEWCONTENT);
         }
@@ -210,12 +495,24 @@
         if (parameters.containsKey(Keyword.END)) {
             end = parameters.get(Keyword.END);
         }
-        ArrayList<Task> queryResult = dataHandler.updateTask(parameters.get(Keyword.CONTENT), newContent, start, end, isCompleted);
+        ArrayList<Task> queryResult = dataHandler.updateTask(key, newContent, 
+                                                             start, end, 
+                                                             isCompleted);
+        
+        String firstOutputLine = "";
+
+        if (!dataHandler.getNearMatchString().equals("")) {
+            firstOutputLine += ANNOUNCEMENT_SUGGESTION 
+                  + dataHandler.getNearMatchString() + "?\n";
+        }
+        
         if (queryResult.isEmpty()) {
-            result.add(ANNOUNCEMENT_NOT_FOUND);
+            firstOutputLine += ANNOUNCEMENT_NOT_FOUND;
+            result.add(firstOutputLine);
             return;
         }
-        result.add(ANNOUNCEMENT_UPDATE);
+        firstOutputLine += ANNOUNCEMENT_UPDATE;
+        result.add(firstOutputLine);
 
         for (Task i : queryResult) {
             result.add(i.getDisplayedString());
@@ -240,14 +537,133 @@
         dataHandler.undo();
         result.add(ANNOUNCEMENT_UNDO);
     }
-    
-    /*public static void main(String[] args) throws Exception {
-        EventHandler e = new EventHandler();
-        e.searchEmptySlot("20/12/2014 00:00","21/12/2014 23:59");
-    }*/
 }
 
 	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Clock.java
+	 */
+
+    public String getGreeting(String hour) {
+        int time = Integer.parseInt(hour);
+
+        if (time >= 0  && time < 12) {
+            return WELCOME_MORNING;
+        } else if (time >=12 && time < 17) {
+            return WELCOME_AFTERNOON;
+        } else if (time >=17 && time < 19) {
+            return WELCOME_EVENING;
+        } else {        
+            return "";
+        }
+    }
+
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Clock.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Clock.java
+	 */
+
+    public String getExitGreeting(String hour) {
+        int time = Integer.parseInt(hour);
+        if (time >= 0  && time < 12) {
+            return GOODBYE_MORNING;
+        } else if (time >=12 && time < 17) {
+            return GOODBYE_AFTERNOON;
+        } else if (time >=17 && time < 19) {
+            return GOODBYE_EVENING;
+        } else if (time >= 20 && time < 24) {       
+            return GOODBYE_NIGHT;
+        } else {
+            return "";
+        }
+    }
+    
+    public int getDay(String source) {
+        return Integer.parseInt(source.substring(0, 2));
+    }
+    
+    public int getYear(String source) {
+        return Integer.parseInt(source.substring(6, 10));
+    }
+    
+    public String normalize(String toNormalize) throws Exception {
+        String array[] = toNormalize.split(" ");
+        return parse(array[0],array[1]);
+    }
+    
+    public String getDate(String dateAndTime) throws Exception {
+        String array[] = dateAndTime.split(" ");
+        return array[0];
+    }
+    public String getMonth(String dateString)throws Exception {
+        GregorianCalendar tmp = new GregorianCalendar();
+        dateString = dateString.replace("/", "");
+        Date date = guess(dateString, DICTIONARY_DATE);
+        tmp.setTime(date); 
+        String[] monthArray = new String[]{"JAN", "FEB", "MAY","APR", "MAY", 
+                                           "JUN", "JUL", "AUG","SEP", "OCT", 
+                                           "NOV", "DEC"};
+        return monthArray[tmp.get(GregorianCalendar.MONTH)];
+    }
+    
+    public String getTime(String toSplit) throws Exception {
+        String array[] = toSplit.split(" ");
+        return array[1];
+    }
+
+    public int getDayOfTheWeek(String dateString)throws Exception {
+         GregorianCalendar tmp = new GregorianCalendar();
+         dateString = dateString.replace("/", "");
+         Date date = guess(dateString, DICTIONARY_DATE);
+         tmp.setTime(date); 
+         return tmp.get(GregorianCalendar.DAY_OF_WEEK);
+    }
+
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Clock.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Clock.java
+	 */
+
+    public String getDateDifference(String start,String end)throws Exception{
+        SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_COMMON);
+        Date startDate = null;
+        Date endDate = null;
+        try {
+            startDate = formatter.parse(start);
+            endDate = formatter.parse(end);
+        } catch (ParseException e) {
+            throw new Exception("error in getting date difference");
+        }
+  
+        double days = (double) ((endDate.getTime() - startDate.getTime()) / 
+                                (1000.0* 60.0 * 60.0 * 24.0));
+        DecimalFormat df = new DecimalFormat("#.##");
+        String dateDifference = df.format(days);
+        if (days > 365 ) {
+            dateDifference = "";
+        }
+        return dateDifference;
+    }
+
+}
+
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Clock.java
 
 
 

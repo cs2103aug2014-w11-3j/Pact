@@ -1,0 +1,593 @@
+//@author: a0119656w
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+    /**
+     * main method
+     * 
+     * @param args
+     */
+    public static void main(String[] args) throws Exception {
+        Handler fh = new FileHandler("test.log", true);
+        fh.setFormatter(new SimpleFormatter());
+        logger.addHandler(fh);
+        logger.setLevel(Level.FINE);
+        //append is true
+        FileOutputStream fos = new FileOutputStream("test.log", true);
+        PrintStream outPS = new PrintStream(new BufferedOutputStream(fos));  
+        
+        System.setErr(outPS); // redirect System.err
+
+        CommandLineInterface cli = new CommandLineInterface();
+        Parser commandParser = new Parser();
+        EventHandler logic = new EventHandler();
+
+        HashMap<Keyword, String> parsedCommand;
+        ArrayList<String> result;
+        Clock clock = new Clock();
+               
+        //reader.clearScreen();
+        String userCommand;
+        cli.printWelcomeMessage();
+        while (true) {
+            try {
+                userCommand = cli.getUserCommand();
+                parsedCommand = commandParser.parse(userCommand);
+                result = logic.determineCommand(parsedCommand);
+                if (cli.printTable(userCommand)) {
+                    cli.constructTable(result);
+                } else {
+                    for (int i = 0; i < result.size(); i++) {
+                        System.out.println(result.get(i));
+                    }
+                }
+                if (Keyword.getMeaning(userCommand).equals(Keyword.EXIT)) {
+                    cli.confirmExit();
+                }
+            } catch (Exception pe) {
+                if (pe.getMessage().equals("exit from program")) {
+                    String msg = clock.getExitGreeting(clock.getCurrentHour());
+                    System.out.println(msg);
+                    return;
+                }
+                logger.info("Logging from second try-catch begins"); 
+                logger.log(Level.SEVERE, pe.getMessage(), pe);
+                logger.info("Logging from second try-catch ends "); 
+                cli.printErrorMessage(pe.getMessage());
+            }
+        }
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+    private String getTimeMessage() throws Exception {
+        Clock clock = new Clock();
+        String currentTime = clock.getCurrentDateAndTime();
+        return clock.getGreeting(clock.getCurrentHour()) + "Date: " +
+               clock.getDay(currentTime) + " " + 
+               clock.getMonth(currentTime) + " " + 
+               clock.getYear(currentTime) + ", " + 
+               fullDays[clock.getDayOfTheWeek(clock.getDate(currentTime))] + 
+               "\nTime: " + clock.getTime(currentTime) + "\n";
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+    private void printWelcomeMessage() {
+        try {
+            System.out.println("WELCOME TO PERSONAL ASSISTANT " +
+                               "COORDINATOR TOOL(PACT)!\n");
+            System.out.println(getTimeMessage());
+            System.out.println("Commands : \"create\", \"update\", " +
+                               "\"delete\", \"search\", \"display\", " +
+                               "\"undo\", \"complete\", \"exit\"");
+        } catch (Exception e) {
+            logger.info("Logging from first try-catch begins"); 
+            logger.log(Level.SEVERE, e.getMessage(), e);
+            logger.info("Logging from first try-catch ends "); 
+        }
+    }
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+    private String repeat(String st, int times) {
+        if (st.isEmpty() || (times == 0)) return "";
+        return new String(new char[times]).replace("\0", st);
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+    private String alignCenter(String st, int counter) {
+        int right = (counter - st.length()) / 2;
+        int left = counter - st.length() - right;
+        return repeat(" ", left) + st + repeat(" ", right);
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+    private String createRow(String[] content, int[] spaces) {
+        String output = "";
+        int len = Math.min(content.length, spaces.length);
+        for (int i = 0; i < len; ++i) {
+            output = output.concat("|");
+            output = output.concat(alignCenter(content[i], spaces[i]));
+        }
+        return output;
+    }
+
+}
+
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Clock.java
+	 */
+
+    /**
+     * Guess the time from input string using a dictionary_date 
+     * or dictionary_time
+     * @param input
+     * @param dictionary
+     * @return Date
+     * @throws Exception
+     */
+    private Date guess(String input, String[] dictionary) throws Exception {
+        for (int i = 0; i < dictionary.length; ++i) {
+            SimpleDateFormat formatter = new SimpleDateFormat(dictionary[i]);
+            try {
+                Date date = formatter.parse(input);
+                return date;
+            } catch (ParseException e) {
+                //not suitable, don't need to do anything
+            }
+        }
+        throw new Exception("Cannot guess this time");
+    }
+
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Clock.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Clock.java
+	 */
+
+    /**
+     * Parse and set the time into GregorianCalendar format
+     * @param dateString
+     * @param timeString
+     * @return formatted timeString
+     * @throws Exception
+     */
+    public String parse(String dateString, String timeString) throws Exception {
+        GregorianCalendar result = new GregorianCalendar();
+        GregorianCalendar tmp = new GregorianCalendar();
+        dateString = dateString.trim().replaceAll("\\W+", "");
+        timeString = timeString.trim().replaceAll("\\W+", "").toUpperCase();
+        if (timeString.length() % 2 != 0) {
+            timeString = "0" + timeString;
+        }
+        Date date;
+        if (!dateString.isEmpty()) {
+            date = guess(dateString, DICTIONARY_DATE);
+            tmp.setTime(date);
+            result.set(GregorianCalendar.DATE, 
+                       tmp.get(GregorianCalendar.DATE));
+            result.set(GregorianCalendar.MONTH, 
+                       tmp.get(GregorianCalendar.MONTH));
+            result.set(GregorianCalendar.YEAR, 
+                       tmp.get(GregorianCalendar.YEAR));
+        }
+        if (!timeString.isEmpty()) {
+            date = guess(timeString, DICTIONARY_TIME);
+            tmp.setTime(date);
+            result.set(GregorianCalendar.HOUR_OF_DAY, 
+                       tmp.get(GregorianCalendar.HOUR_OF_DAY));
+            result.set(GregorianCalendar.MINUTE, 
+                       tmp.get(GregorianCalendar.MINUTE));
+        }
+        return new SimpleDateFormat(FORMAT_COMMON).format(result.getTime());
+    }
+    
+    public String getCurrentDateAndTime() {
+        Date date = new Date();
+        return new SimpleDateFormat(FORMAT_COMMON).format(date);
+    }
+    
+    public String getCurrentHour() {
+        Date date = new Date();
+        return new SimpleDateFormat(FORMAT_HOUR).format(date);
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Clock.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Clock.java
+	 */
+
+    /**
+     * Parse source into GregorianCalendar format
+     * @param source
+     * @return
+     */
+    public long parseFromCommonFormat(String source) {
+        GregorianCalendar result = new GregorianCalendar();
+        try {
+            result.setTime(new SimpleDateFormat(FORMAT_COMMON).parse(source));
+        } catch (Exception e) {
+        }
+        return result.getTimeInMillis();
+    }
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Clock.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Keyword.java
+	 */
+
+    /**
+     * Use a particular dictionary
+     * @param otherOptions
+     */
+    private Keyword(String[] otherOptions) {
+        this.dictionary = otherOptions;  
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Keyword.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Keyword.java
+	 */
+
+    /**
+     * Obtain the meaning of the command string
+     * @param code
+     * @return Keyword
+     */
+    public static Keyword getMeaning(String code) {
+        code = code.toLowerCase().trim();
+        for (Keyword command : Keyword.values()) {
+            if (command != INVALID) {
+                if (Arrays.asList(command.dictionary).contains(code)) {
+                    return command;
+                }
+            }
+        }
+        return INVALID;
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Keyword.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Keyword.java
+	 */
+
+    /**
+     * Check if the keyword is a command
+     * @param input
+     * @return boolean
+     */
+    public static boolean isCommand(Keyword input) {
+        Keyword[] commandList = { CREATE, READ, DELETE, UPDATE, EXIT, QEXIT, 
+                                  UNDO, CLEAR, COMPLETED, INCOMPLETE, 
+                                  EMPTYSLOT };
+        return Arrays.asList(commandList).contains(input);
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Keyword.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Keyword.java
+	 */
+
+    /**
+     * Check if the input arguments are valid
+     * @param method
+     * @param key
+     * @return
+     */
+    public static boolean isProperArgument(Keyword method, Keyword key) {
+        Keyword[] argList = {};
+        if (method.equals(CREATE)) {
+            argList = new Keyword[] { CONTENT, START, END };
+        } else if (method.equals(READ)) {
+            argList = new Keyword[] { CONTENT, EXACT, START, END , SORT ,
+                                      COMPLETED, ARCHIVED };
+        } else if (method.equals(UPDATE)) {
+            argList = new Keyword[] { CONTENT, NEWCONTENT, START, END, FOREVER, 
+                                      COMPLETED };
+        } else if (method.equals(DELETE)) {
+            argList = new Keyword[] { CONTENT, FOREVER };
+        } else if (method.equals(COMPLETED)) {
+            argList = new Keyword[] { CONTENT };
+        } else if (method.equals(INCOMPLETE)) {
+            argList = new Keyword[] { CONTENT };
+        } else if (method.equals(UNDO)) {
+            argList = new Keyword[] { CONTENT };
+        } else if (method.equals(CLEAR)) {
+            argList = new Keyword[] { CONTENT,FOREVER };
+        } else if (method.equals(EXIT)) {
+            argList = new Keyword[] { CONTENT };
+        } else if (method.equals(EMPTYSLOT)) {
+            argList = new Keyword[] { CONTENT, START, END };
+        }
+        return Arrays.asList(argList).contains(key);
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Keyword.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Keyword.java
+	 */
+
+    public static String[] listDictionary(Keyword method) {
+        return method.dictionary;
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Keyword.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Task.java
+	 */
+
+    public Task() {
+        this.content = "";
+        this.start = "";
+        this.end = "";
+        this.type = Keyword.FLOATING;
+        this.isAllDayTask = false;
+        this.isCompleted = false;
+        this.isArchived = false;
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Task.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Task.java
+	 */
+
+    /** 
+     * Construct string to print contents of Task
+     * @return constructed string
+     */
+    public String toString() {
+        String result = "";
+        String TAB = "    ";
+        result = result + TAB + Keyword.CONTENT + ": " + this.content + "\n";
+        if (!this.type.equals(Keyword.FLOATING)) {
+            result = result + TAB + Keyword.END + ": " + this.end + "\n";
+            if (!this.type.equals(Keyword.DEADLINE)) {
+                result = result + TAB + Keyword.START + ": " + this.start + "\n";
+            }
+        }
+        result = result + TAB + Keyword.TYPE + ": " + this.type + "\n";
+        result = result + TAB + Keyword.COMPLETED + ": " + this.isCompleted + "\n";
+        result = result + TAB + Keyword.ARCHIVED + ": " + this.isArchived + "\n";
+        result = result + TAB + Keyword.ALLDAY + ": " + this.isAllDayTask + "\n";
+        return result;
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Task.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Task.java
+	 */
+
+    /**
+     * Construct string to put into result
+     * @return 
+     */    
+    public String getDisplayedString() {
+        String result = content;
+        result = result + ":" + String.valueOf(isCompleted); 
+        if (type.equals(Keyword.TIMED)) {
+            String[] splitStart = start.split(" ", 2);
+            String[] splitEnd = end.split(" ", 2);  
+            if (splitEnd[1].equals("23:59") && splitStart[1].equals("00:00")) {
+                result = result + ":" + splitStart[0];
+                result = result + " " + splitEnd[0]; 
+            } else {
+                result = result + ":" + splitStart[0] + " " + splitStart[1];
+                result = result + " " + splitEnd[0] + " " + splitEnd[1];
+            }
+        } else if (type.equals(Keyword.DEADLINE)) {
+            String[] splitEnd = end.split(" ", 2);
+            if (!splitEnd[1].equals("23:59")) {
+                result = result + ":" + splitEnd[0] + " " + splitEnd[1];
+            } else {
+                result = result + ":" +splitEnd[0];
+            }
+        } else if (type.equals(Keyword.FLOATING)) {
+            result = result + ":" ;
+        }
+        return result;
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Task.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Task.java
+	 */
+
+    /**
+     * Get a particular value in a Task object
+     * @param key
+     * @return
+     */
+    public String getValue(Keyword key) {
+        String value = "";
+        if (key.equals(Keyword.CONTENT)) {
+            value = content;
+        } else if (key.equals(Keyword.START)) {
+            value = start;
+        } else if (key.equals(Keyword.END)) {
+            value = end;
+        } else if (key.equals(Keyword.TYPE)) {
+            value = String.valueOf(type);
+        } else if (key.equals(Keyword.COMPLETED)) {
+            value = String.valueOf(isCompleted);
+        } else if (key.equals(Keyword.ARCHIVED)) {
+            value = String.valueOf(isArchived);
+        } else if (key.equals(Keyword.ALLDAY)) {
+            value = String.valueOf(isAllDayTask);
+        }
+        return value;
+    }
+
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Task.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Task.java
+	 */
+
+    /**
+     * Change a particular value in a Task object 
+     * @param key
+     * @param value
+     */
+    public void setValue(Keyword key, String value) {
+        if (key.equals(Keyword.CONTENT)) {
+            content = value;
+        } else if (key.equals(Keyword.START)) {
+            start = value;
+        } else if (key.equals(Keyword.END)) {
+            end = value;
+        } else if (key.equals(Keyword.TYPE)) {
+            type = Keyword.getMeaning(value);
+        } else if (key.equals(Keyword.COMPLETED)) {
+            isCompleted = Boolean.parseBoolean(value);
+        } else if (key.equals(Keyword.ARCHIVED)) {
+            isArchived = Boolean.parseBoolean(value);
+        } else if (key.equals(Keyword.ALLDAY)) {
+            isAllDayTask = Boolean.parseBoolean(value);
+        }
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Task.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Task.java
+	 */
+
+    /**
+     * convert formatted string to a Task object
+     * @param toConvert
+     * @return Task
+     */
+    public static Task parseTask(String toConvert) {
+        Task result = new Task();
+        Scanner scanner = new Scanner(toConvert);
+        while (scanner.hasNextLine()) {
+            String thisLine = scanner.nextLine();
+            int colonPosition = thisLine.indexOf(':');
+            Keyword key = Keyword.getMeaning(thisLine.substring(0, colonPosition));
+            String value = thisLine.substring(colonPosition + 1, thisLine.length()).trim();
+            result.setValue(key, value);
+        }
+        scanner.close();
+        return result;
+    }
+}
+
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Task.java
+
+
+
+
+

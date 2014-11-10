@@ -1,0 +1,28 @@
+//@author: a0101331h 
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+    /**
+     * Construct table for the user
+     * @param result
+     */
+    private void constructTable(ArrayList<String> result) {
+        if (result.size() >= 2) {
+            System.out.println(result.get(0));
+            printHeader();
+            constructContents(result);
+            printEndLine();
+        } else {
+            System.out.println(result.get(0));
+        }
+    }
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+

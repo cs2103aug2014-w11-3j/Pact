@@ -1,0 +1,992 @@
+//@author: a0113012j
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+    /**
+     * Print error messages to user
+     * @param message
+     */
+    private void printErrorMessage(String message) {
+        System.out.println("\nERROR!");
+        System.out.println(repeat("*", 90));
+        System.out.println("Your command could not be processed. " + 
+                           "Please try again!");
+        System.out.println("");
+        System.out.println("Cause of Error:");
+        System.out.println(message);
+        System.out.println(repeat("*", 90));
+        
+    }
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+
+    private String readLine(ConsoleReader reader) throws IOException {
+        String line = reader.readLine(">> ");
+        return line.trim();
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+	 */
+
+    /**
+     * Get the user's command
+     * 
+     * @return command
+     */
+    private String getUserCommand() throws IOException { 
+        // get from Scanner or something else
+        String command;
+        ConsoleReader reader = new ConsoleReader();
+        reader.setBellEnabled(false);
+        List<SimpleCompletor> completors = new LinkedList<SimpleCompletor>();
+        completors.add(new SimpleCompletor(Keyword.listAllCommands()));
+        completors.add(new SimpleCompletor(Keyword.listAllArguments()));
+        reader.addCompletor(new ArgumentCompletor(completors));
+        PrintWriter out = new PrintWriter(System.out);
+        do {
+            command = readLine(reader);
+            out.flush();
+        } while (command.isEmpty());
+        return command;
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\cli\CommandLineInterface.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+	 */
+
+    /**
+     * Initialize the DataHandler
+     */
+    public DataHandler() {
+        data = new ArrayList<Task>();
+        previousData = new ArrayList<Task>();
+        loadFile();
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+	 */
+
+    /**
+     * Add a task to file
+     * @param task task to be added
+     */
+    public void createTask(Task task) {
+        backupFile();
+        data.add(task);
+        saveFile();
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+	 */
+
+    /**
+     * Archive/delete task
+     * @param keyword the keyword of the tasks to be deleted
+     * @param isDeleting true if the task is to be deleted completely
+     * 					false if the task is to be archived only
+     * @return Task that are deleted
+     */
+    public ArrayList<Task> deleteTask(String keyword, boolean isDeleting) {
+        backupFile();
+        ArrayList<Task> taskToDelete = readTaskTolerance(keyword, true, "", "", 
+                                                         false, true, 0);
+        for (int i = 0; i < data.size(); ++i) {
+            for (int j = 0; j < taskToDelete.size(); ++j) {
+                if (data.get(i).getValue(Keyword.CONTENT)
+                        .equals(taskToDelete.get(j)
+                                            .getValue(Keyword.CONTENT))) {
+                    if (isDeleting) {
+                        data.remove(i);
+                        --i;
+                    } else {
+                        data.get(i).setValue(Keyword.ARCHIVED, "true");
+                    }
+                    break;
+                }
+            }
+        }
+        if (taskToDelete.size() == 0) {
+            //show the tolerance message if there's any
+            readTask(keyword, true, "", "", false, true);
+        }
+        saveFile();
+        return taskToDelete;
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+	 */
+
+    private void updateContent(Task task, String newContent) {
+        if (!newContent.isEmpty()) {
+            task.setValue(Keyword.CONTENT, newContent); 
+        }
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+	 */
+
+    private void updateCompleted(Task task, String isCompleted) {
+        if (!isCompleted.isEmpty()) {
+            task.setValue(Keyword.COMPLETED, isCompleted);
+        }
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+	 */
+
+    private void updateTime(Task task, String start, String end) {
+        if (!start.isEmpty() && !end.isEmpty()) {
+            if (!Keyword.getMeaning(task.getValue(Keyword.TYPE))
+                                        .equals(Keyword.TIMED)) {
+                task.setValue(Keyword.TYPE, String.valueOf(Keyword.TIMED));
+            }
+            task.setValue(Keyword.START, start);
+            task.setValue(Keyword.END, end);
+        } else if (!start.isEmpty()) {
+            if (Keyword.getMeaning(task.getValue(Keyword.TYPE))
+                       .equals(Keyword.DEADLINE)) {
+                task.setValue(Keyword.TYPE, String.valueOf(Keyword.TIMED));
+            }
+            task.setValue(Keyword.START, start);
+        } else if (!end.isEmpty()) {
+            if (Keyword.getMeaning(task.getValue(Keyword.TYPE))
+                       .equals(Keyword.FLOATING)) {
+                task.setValue(Keyword.TYPE, String.valueOf(Keyword.DEADLINE));
+            }
+            task.setValue(Keyword.END, end);
+        }
+    }
+      
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+	 */
+
+    /**
+     * Updates Task
+     * @param keyword the keyword of the tasks to be updated
+     * @param newContent the new task name
+     * @param start the new start time
+     * @param end the new end time
+     * @param isCompleted the new value of isCompleted
+     * @return Task that are updated
+     */
+    public ArrayList<Task> updateTask(String keyword, String newContent, 
+                                      String start, String end, 
+                                      String isCompleted) {
+        backupFile();
+        ArrayList<Task> taskToUpdate = readTask(keyword, false, "", "", 
+                                                false, true);
+        for (int i = 0; i < data.size(); ++i) {
+            for (int j = 0; j < taskToUpdate.size(); ++j) {
+                if (data.get(i).getValue(Keyword.CONTENT)
+                        .equals(taskToUpdate.get(j)
+                        .getValue(Keyword.CONTENT))) {
+                    updateContent(data.get(i),newContent);
+                    updateCompleted(data.get(i),isCompleted);
+                    updateTime(data.get(i),start,end);
+                    break;
+                }
+            }
+        }
+        saveFile();
+        return taskToUpdate;
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+	 */
+
+    /**
+     * Get the list of tasks
+     * @param keyword Keyword of a task to be search
+     * @param isExact true if the keyword have to be a word of the taskname
+     * 				false if the keyword can be any substring of the taskname
+     * @param start all returned task will be the task after start.
+     * 			leave it blank if you don't want to filter by time
+     * @param end all returned task will be the task before end
+     * @param isArchivedIncluded true if the archived task is included
+     * @param isCompletedIncluded true if the completed task is included
+     * @return
+     */
+    public ArrayList<Task> readTask(String keyword, boolean isExact, 
+                                    String start, String end, 
+                                    boolean isArchivedIncluded, 
+                                    boolean isCompletedIncluded) {
+        ArrayList<Task> noTolerance = readTaskTolerance(keyword, isExact, start, 
+                                                        end, isArchivedIncluded, 
+                                                        isCompletedIncluded, 0);
+        if (noTolerance.size() > 0) {
+            return noTolerance;
+        }
+       
+        for (int tolerance = 1; tolerance <= 2; ++tolerance) {
+            nearMatchString = "";
+            ArrayList<Task> result = readTaskTolerance(keyword, isExact, start, 
+                                                       end, isArchivedIncluded, 
+                                                       isCompletedIncluded, 
+                                                       tolerance);
+            
+            if (result.size() > 0) {
+                return result;
+            }
+        }
+        return new ArrayList<Task>();
+    }
+    
+    /**
+     * Get the value of nearMatchString because of the tollerance after search
+     * @return
+     */
+    public String getNearMatchString() {
+        return nearMatchString;
+    }
+    
+    private boolean isPassArchiveCheck(Task task, boolean isArchivedIncluded) {
+        return (isArchivedIncluded || task.getValue(Keyword.ARCHIVED)
+                                          .equals("false"));
+    }
+    
+    private boolean isPassCompleteCheck(Task task, boolean isCompleteIncluded) {
+        return (isCompleteIncluded || task.getValue(Keyword.COMPLETED)
+                                          .equals("false"));
+    }
+    
+    private boolean isPassKeywordCheck(Task task, String key, int tolerance, 
+                                       boolean isExact) {
+        if (tolerance == 0 && !isExact) {
+            nearMatchString = "";
+            return task.getValue(Keyword.CONTENT).contains(key);
+        }
+        StringMatching sm = new StringMatching();
+        String[] listOfWords = task.getValue(Keyword.CONTENT).split(" ");
+        boolean wordFound = false;
+        if (key.equals("")) {
+            nearMatchString = "";
+            return true;
+        }
+        for (int j = 0; j < listOfWords.length; ++j) {
+            if (wordFound) {
+                continue;
+            }
+            if (sm.computeEditDistance(listOfWords[j], key) <= tolerance) {
+                if (tolerance == 0) {
+                    nearMatchString = "";
+                } else {
+                    nearMatchString = listOfWords[j];
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private boolean isPassTimeCheck(Task task, String start, String end) {
+        if (start.isEmpty() && end.isEmpty()) {
+            return true;
+        }
+        String taskStart = task.getValue(Keyword.START);
+        String taskEnd = task.getValue(Keyword.END);
+        if (Keyword.getMeaning(task.getValue(Keyword.TYPE))
+                   .equals(Keyword.DEADLINE)) {
+            taskStart = taskEnd;
+        }
+        Clock clock = new Clock();
+        if (!start.isEmpty()) {
+            if (clock.parseFromCommonFormat(start) > 
+                clock.parseFromCommonFormat(taskEnd)) {
+                return false;
+            }
+        }
+        if (!end.isEmpty()) {
+            if (clock.parseFromCommonFormat(end) < 
+                clock.parseFromCommonFormat(taskStart)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+	 */
+
+    private ArrayList<Task> readTaskTolerance(String keyword, boolean isExact, 
+                                              String start, String end, 
+                                              boolean isArchivedIncluded, 
+                                              boolean isCompleteIncluded, 
+                                              int tolerance) {
+        ArrayList<Task> result = new ArrayList<Task>();
+        for (int i = 0; i < data.size(); ++i) {
+            if (!isPassArchiveCheck(data.get(i), isArchivedIncluded)) {
+                continue;
+            }
+            if (!isPassCompleteCheck(data.get(i), isCompleteIncluded)) {
+                continue;
+            }
+            if (!isPassKeywordCheck(data.get(i), keyword, tolerance, isExact)) {
+                continue;
+            }
+            if (!isPassTimeCheck(data.get(i), start, end)) {
+                continue;
+            }
+            result.add(data.get(i));
+        }
+        return result;
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+	 */
+
+    /**
+     * Restore previous data.
+     * Basically swap the previous data(before last operation) and current data
+     */
+    public void undo() {
+    	//create a temporary arraylist of task
+        temp = new ArrayList<Task>();
+        //move everything in current data to the temporary data
+        for(int i = 0; i < data.size(); ++i) {
+            Task toAdd = new Task(data.get(i));
+            temp.add(toAdd);
+        }
+        //move everything from previous data to current data
+        data = new ArrayList<Task>();
+        for(int i = 0; i < previousData.size(); ++i) {
+            data.add(previousData.get(i));
+        }
+        //move everyting from temporary data to previous data
+        previousData = new ArrayList<Task>();
+        for(int i = 0; i < temp.size(); ++i) {
+            previousData.add(temp.get(i));
+        }
+        saveFile();
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+	 */
+
+    /**
+     * Write to file with appropriate formatting
+     * @param writer BufferedWriter to write to the file
+     * @throws IOException
+     */
+    private void writeToFile(BufferedWriter writer) throws IOException {
+        for (int i = 0; i < data.size(); ++i) {
+            writer.write("{\n");
+            writer.write(data.get(i).toString());
+            writer.write("}\n");
+        }
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+	 */
+
+    /**
+     * Get contents of file and put it to data arraylist
+     * @param read BufferedReader to read from the file
+     */
+    private void getData(BufferedReader read) {
+        try {
+            String text = read.readLine();
+            //while have not reached EOF
+            while (text != null) { 
+                text = text.trim();
+                String operation = "";
+                //each tasks are separated with {} like JSON file
+                //read until reach '}' which means the end of a task
+                while (!text.equals("}")) {
+                    text = read.readLine();
+                    if (!text.equals("}")) {
+                        operation = operation + text + "\n";
+                    }
+                }
+                data.add(Task.parseTask(operation));
+                text = read.readLine();
+            }
+        } catch (IOException e) {
+        }
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+	 */
+
+    /**
+     * Create a new file
+     */
+    private void createNewFile() {
+        File file = new File(fileName);
+        try {
+            file.createNewFile();
+        } catch (IOException e) { 
+        }
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+	 */
+
+    /**
+     * Backup existing file for undo purpose
+     * Move everything from current data to previous data
+     */
+    private void backupFile() {
+        previousData = new ArrayList<Task>();
+        for (int i = 0; i < data.size(); ++i) {
+            Task toAdd = new Task(data.get(i));
+            previousData.add(toAdd);
+        }
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+	 */
+
+    /**
+     * Save file
+     * Move everything in the data arraylist to the textfile
+     */
+    private void saveFile() {
+        try {
+            FileWriter fileWriter = new FileWriter(fileName);
+            BufferedWriter writer = new BufferedWriter(fileWriter);           
+            writeToFile(writer);
+            writer.close();
+        } catch (IOException e) {
+        }
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+	 */
+
+    /**
+     * Load file
+     * Move everything in the textfile to the arraylist
+     */
+    private void loadFile() {
+        try {
+            FileReader fr = new FileReader(fileName);
+            BufferedReader read = new BufferedReader(fr);
+            getData(read);
+            read.close();
+        } catch (FileNotFoundException e) {
+            createNewFile();
+        } catch (IOException e) {
+        }
+    }
+}
+
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandlerTest.java
+	 */
+
+
+public class DataHandlerTest {
+    private DataHandler dh;
+    private Task sampleTaskOne, sampleTaskTwo, sampleTaskThree;
+    private ArrayList<String> ExpectedOutputZero, ExpectedOutputOne, 
+                              ExpectedOutputTwo, ExpectedOutputThree, 
+                              ExpectedOutputFour, ExpectedOutputFive;
+
+    private void setUpTasks() {
+        sampleTaskOne = new Task();
+        sampleTaskTwo = new Task();
+        sampleTaskThree = new Task();
+
+        sampleTaskOne.setValue(Keyword.CONTENT,"test one");
+        sampleTaskTwo.setValue(Keyword.CONTENT,"test two");
+        sampleTaskThree.setValue(Keyword.CONTENT,"test three");
+    }
+
+    private void setUpExpectedOutput() {
+        ExpectedOutputZero = new ArrayList<String>();
+
+        ExpectedOutputOne = new ArrayList<String>();
+        ExpectedOutputOne.add(sampleTaskOne.getValue(Keyword.CONTENT));
+
+        ExpectedOutputTwo = new ArrayList<String>();
+        ExpectedOutputTwo.add(sampleTaskOne.getValue(Keyword.CONTENT));
+        ExpectedOutputTwo.add(sampleTaskTwo.getValue(Keyword.CONTENT));
+
+        ExpectedOutputThree = new ArrayList<String>();
+        ExpectedOutputThree.add(sampleTaskOne.getValue(Keyword.CONTENT));
+        ExpectedOutputThree.add(sampleTaskTwo.getValue(Keyword.CONTENT));
+        ExpectedOutputThree.add(sampleTaskThree.getValue(Keyword.CONTENT));
+
+        ExpectedOutputFour = new ArrayList<String>();
+        ExpectedOutputFour.add(sampleTaskOne.getValue(Keyword.CONTENT));
+        ExpectedOutputFour.add(sampleTaskTwo.getValue(Keyword.CONTENT));
+        ExpectedOutputFour.add(sampleTaskOne.getValue(Keyword.CONTENT));
+
+        ExpectedOutputFive = new ArrayList<String>();
+        ExpectedOutputFive.add(sampleTaskThree.getValue(Keyword.CONTENT));
+        ExpectedOutputFive.add(sampleTaskTwo.getValue(Keyword.CONTENT));
+        ExpectedOutputFive.add(sampleTaskThree.getValue(Keyword.CONTENT));
+    }
+
+    public ArrayList<String> getAllData() {
+        ArrayList<Task> data = dh.readTask("", false, "", "", false,false);
+        ArrayList<String> result = new ArrayList<String>();
+        for (int i = 0; i < data.size(); ++i) {
+            result.add(data.get(i).getValue(Keyword.CONTENT));
+        }
+        return result;
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        dh = new DataHandler();
+        setUpTasks();
+        setUpExpectedOutput();
+    }
+
+    public void testDelete() {
+        //clear the data first, start the test with empty data
+        dh.deleteTask("",true);
+        assertEquals(getAllData(),ExpectedOutputZero); //make sure it is cleared
+    }
+
+    public void testCreate() {
+        dh.createTask(sampleTaskOne);
+        assertEquals(getAllData(),ExpectedOutputOne); 
+
+        dh.createTask(sampleTaskTwo);
+        assertEquals(getAllData(),ExpectedOutputTwo);
+
+        dh.createTask(sampleTaskThree);
+        assertEquals(getAllData(),ExpectedOutputThree);
+    }
+
+    public void testUndo() {
+        dh.undo();
+        assertEquals(getAllData(),ExpectedOutputTwo);
+
+        dh.undo();
+        assertEquals(getAllData(),ExpectedOutputThree); //make sure the redo also works
+    }
+
+    public void testUpdate() {
+        dh.updateTask(sampleTaskThree.getValue(Keyword.CONTENT),sampleTaskOne.getValue(Keyword.CONTENT),"","","");
+        assertEquals(getAllData(),ExpectedOutputFour);
+
+        dh.updateTask(sampleTaskOne.getValue(Keyword.CONTENT),"test three","","","");
+        assertEquals(getAllData(),ExpectedOutputFive);
+    }
+
+    @Test
+    public void test() {
+        testDelete();
+        testCreate();
+        testUndo();
+        testUpdate();
+    }
+
+}
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\DataHandlerTest.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+	 */
+
+    
+    private int compareTo(Task taskOne, Task taskTwo, Keyword key) {
+        //time comparison must be handled separately
+    	if (key.equals(Keyword.START) || key.equals(Keyword.END)) {
+    		Clock clock = new Clock();
+    		String taskOneTime = taskOne.getValue(key);
+    		String taskTwoTime = taskTwo.getValue(key);
+    		long taskOneTimeLong = clock.parseFromCommonFormat(taskOneTime);
+    		long taskTwoTimeLong = clock.parseFromCommonFormat(taskTwoTime);
+    		//compare the integer
+    		if (taskOneTimeLong < taskTwoTimeLong) {
+    			return -1;
+    		} else if (taskOneTimeLong == taskTwoTimeLong) {
+    			return 0;
+    		} else {
+    			return 1;
+    		}
+    	}
+    	return taskOne.getValue(key).compareTo(taskTwo.getValue(key));
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+	 */
+
+    private void sortTasks(ArrayList<Task> tasksList,Keyword sortKey,
+                           boolean isAscending) {
+        for (int i = 0; i < tasksList.size(); ++i) {
+            for (int j = i; j < tasksList.size(); ++j) {
+                if (compareTo(tasksList.get(i),tasksList.get(j),sortKey) > 0) {
+                    Collections.swap(tasksList, i, j);
+                }
+            }
+        }
+        if (!isAscending) {
+            Collections.reverse(tasksList);
+        }
+    }
+    
+    private ArrayList<String> processADayEmptySlot(ArrayList<Task> onThisDay) 
+            throws Exception {
+        ArrayList<String> resultThisDay = new ArrayList<String>();
+        String freeTimeNow = "00:00";
+        Clock clock = new Clock();
+        for (int j = 0; j < onThisDay.size(); ++j) {
+            if (onThisDay.get(j).getValue(Keyword.START).equals("")) {
+                continue;
+            }
+            Task task = onThisDay.get(j);
+            String startTime = clock.getTime(task.getValue(Keyword.START));
+            String endTime = clock.getTime(task.getValue(Keyword.END));
+            if (freeTimeNow.compareTo(startTime) < 0) {
+                resultThisDay.add(freeTimeNow + " to " + startTime);
+            }
+            if (freeTimeNow.compareTo(endTime) < 0) {
+                freeTimeNow = endTime;
+            }
+        }
+        if (freeTimeNow.compareTo("23:59") < 0) {
+            resultThisDay.add(freeTimeNow + " to 23:59");
+        }
+        if (resultThisDay.size() == 0) {
+            resultThisDay.add(ANNOUNCEMENT_NO_EMPTY_SLOT);
+        }
+        return resultThisDay;
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+	 */
+
+    private void searchEmptySlot(HashMap<Keyword, String> parameters) 
+            throws Exception {   
+        String start = parameters.get(Keyword.START);
+        String end = parameters.get(Keyword.END);
+        Clock clock = new Clock();
+        int startDay = clock.getDay(start);
+        for (int i = startDay; ; ++i) {
+            String startSearch = String.valueOf(i);
+            while (startSearch.length() < 2) {
+                startSearch = '0' + startSearch;
+            }
+            startSearch = startSearch + start.substring(2, start.length());
+            startSearch = clock.normalize(startSearch);
+            if (clock.parseFromCommonFormat(startSearch) > 
+                clock.parseFromCommonFormat(end)) {
+                break;
+            }
+            String endSearch = clock.getDate(startSearch) + " 23:59";
+            ArrayList<Task> onThisDay = dataHandler.readTask("", false, 
+                                                             startSearch, 
+                                                             endSearch, 
+                                                             false, false);
+            sortTasks(onThisDay,Keyword.START, true);
+            
+            ArrayList<String> resultThisDay = processADayEmptySlot(onThisDay);
+            
+            String date = clock.getDate(startSearch);
+            String day = dayName[clock.getDayOfTheWeek(date)];
+            result.add("\nOn " + day + " " + clock.getDay(startSearch) + " " + 
+                       clock.getMonth(clock.getDate(startSearch)) 
+                       + " free from:" );
+            for (int j = 0; j < resultThisDay.size(); ++j) {
+                result.add(String.valueOf(j + 1) + ". " + resultThisDay.get(j));
+            }
+            
+        }
+    }
+
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\pact\EventHandler.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Keyword.java
+	 */
+
+    /**
+     * List all available commands for autocomplete purposes
+     * @return
+     */
+    public static String[] listAllCommands() {
+        Keyword[] commandList = { CREATE, READ, DELETE, UPDATE, EXIT, QEXIT, 
+                                  UNDO, CLEAR, COMPLETED, INCOMPLETE, 
+                                  EMPTYSLOT };
+        ArrayList<String> merged = new ArrayList<String>();
+        for (int i = 0; i < commandList.length; ++i) {
+            String[] dictionary = listDictionary(commandList[i]);
+            merged.addAll(new ArrayList<String>(Arrays.asList(dictionary)));
+        }
+        
+        String[] finalResult = new String[merged.size()];
+        merged.toArray(finalResult);
+        return finalResult;
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Keyword.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Keyword.java
+	 */
+
+    /**
+     * List all available arguments for autocomplete purposes
+     * @return
+     */
+    public static String[] listAllArguments() {
+        Keyword[] argumentList = { METHOD, CONTENT, NEWCONTENT, START, END, 
+                                   EXACT, TYPE, ALLDAY, ARCHIVED, FOREVER, 
+                                   SORT, ALL };
+        ArrayList<String> mergedResult = new ArrayList<String>();
+        for (int i = 0; i < argumentList.length; ++i) {
+            ArrayList<String> dictionary = new ArrayList<String>(Arrays.asList(listDictionary(argumentList[i])));
+            for (int j = 0; j < dictionary.size(); ++j) {
+                dictionary.set(j,"--" + dictionary.get(j));
+            }
+            mergedResult.addAll(dictionary);
+        }
+        
+        String[] finalResult = new String[mergedResult.size()];
+        mergedResult.toArray(finalResult);
+        return finalResult;
+    }
+    
+}
+
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Keyword.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\StringMatching.java
+	 */
+
+	private void initializeDpTable(int dp[][],String s,String t) {
+		for (int i = 0; i <= s.length(); ++i) {
+            for (int j = 0; j <= t.length(); ++j) {
+            	//set dp[][] to sufficiently large number
+            	//edit distance of two strings must not be greater than
+            	//the maximum length
+            	dp[i][j] = Math.max(s.length(), t.length());
+            }
+        }
+	}
+	
+	/**
+	 * Compute the Edit Distance of two strings
+	 * @param s first string to be compared
+	 * @param t second string to be compared
+	 * @return the edit distance between two strings
+	 */
+    public int computeEditDistance(String s, String t) {
+    	//compute edit distance using standard Dynamic Programming
+        int dp[][] = new int[s.length() + 1][t.length() + 1];
+        
+        initializeDpTable(dp,s,t);
+        
+        dp[s.length()][t.length()] = 0;
+        for (int i = s.length(); i >= 0; --i) {
+            for (int j = t.length(); j >= 0; --j) {
+                if (i == s.length() && j == t.length()) {
+                    continue;
+                }
+                if (i < s.length()) {
+                    dp[i][j] = Math.min(dp[i][j], dp[i + 1][j] + 1);
+                }
+                if (j < t.length()) {
+                    dp[i][j] = Math.min(dp[i][j], dp[i][j + 1] + 1);
+                }
+                if (i < s.length() && j < t.length()) {
+                    if (s.charAt(i) == t.charAt(j)) {
+                        dp[i][j] = Math.min(dp[i][j], dp[i + 1][j + 1]);
+                    } else {
+                        dp[i][j] = Math.min(dp[i][j], dp[i + 1][j + 1] + 1);
+                    }
+                }
+            }
+        }
+        return dp[0][0];
+    }
+}
+
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\StringMatching.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Task.java
+	 */
+
+    public Task(Task copy) {
+        this.content = copy.getValue(Keyword.CONTENT);
+        this.start = copy.getValue(Keyword.START);
+        this.end = copy.getValue(Keyword.END);
+        this.type = Keyword.getMeaning(copy.getValue(Keyword.TYPE));
+        this.isCompleted = Boolean.parseBoolean(copy.getValue(Keyword.COMPLETED));
+        this.isArchived = Boolean.parseBoolean(copy.getValue(Keyword.ARCHIVED));
+        this.isAllDayTask = Boolean.parseBoolean(copy.getValue(Keyword.ALLDAY));
+    }
+    
+	// End of segment: C:\Users\Tamana Anna Tharakan\workspace\Pact\src\utility\Task.java
+
+
+
+
+
