@@ -61,7 +61,8 @@ public class Parser {
      * @throws Exception
      */
     private void configCreate() throws Exception {
-        if (!startType.equals(TimeType.NONE) && !endType.equals(TimeType.NONE)) { 
+        if (!startType.equals(TimeType.NONE) && 
+            !endType.equals(TimeType.NONE)) { 
             //have both start and end
             if (!startType.equals(endType)) {
                 throw new Exception(NON_MATCHING_FORMAT);
@@ -91,10 +92,12 @@ public class Parser {
      */
     private void configEmptySlot() throws Exception {
         if (startType.equals(TimeType.NONE)) { 
-            throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + EMPTYSLOT_TASK_FORMAT);
+            throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + 
+                                EMPTYSLOT_TASK_FORMAT);
         }
         if (endType.equals(TimeType.NONE)) {
-            throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + EMPTYSLOT_TASK_FORMAT);
+            throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + 
+                                EMPTYSLOT_TASK_FORMAT);
         }
         
     }
@@ -120,7 +123,8 @@ public class Parser {
             String delims = "[ ]+";
             String[] tmp = value.trim().split(delims);
             if (tmp.length > 3) {
-                throw new Exception(INCORRECT_TIME_FORMAT + HELP + TIMED_TASK_FORMAT + DEADLINE_TASK_FORMAT);
+                throw new Exception(INCORRECT_TIME_FORMAT + HELP + 
+                                    TIMED_TASK_FORMAT + DEADLINE_TASK_FORMAT);
             }
             if (argType.equals(Keyword.START)) {
                 value = new Clock().parse(value, "0000");
@@ -132,7 +136,8 @@ public class Parser {
         }
         String[] check = value.split(" ");
         if (check[0].length() > 10) {
-            throw new Exception(INVALID_DATE + HELP + FlOATING_TASK_FORMAT + DEADLINE_TASK_FORMAT + TIMED_TASK_FORMAT);
+            throw new Exception(INVALID_DATE + HELP + FlOATING_TASK_FORMAT + 
+                                DEADLINE_TASK_FORMAT + TIMED_TASK_FORMAT);
         }
         return value;
     }
@@ -197,27 +202,34 @@ public class Parser {
         if (userCode.equals(Keyword.QEXIT)) {
             throw new Exception("exit from program");
         }
-        if (values.equals("") || (values.charAt(0) == '-' && values.charAt(1) == '-')) {
+        if (values.equals("") || (values.charAt(0) == '-' && 
+                                  values.charAt(1) == '-')) {
             if (userCode.equals(Keyword.CREATE)) {
-                throw new Exception(NO_ARGUMENTS_ADD + HELP + FlOATING_TASK_FORMAT + DEADLINE_TASK_FORMAT + TIMED_TASK_FORMAT);
+                throw new Exception(NO_ARGUMENTS_ADD + HELP + 
+                                    FlOATING_TASK_FORMAT + 
+                                    DEADLINE_TASK_FORMAT + TIMED_TASK_FORMAT);
             } else if (userCode.equals(Keyword.UPDATE)) {
                 throw new Exception(NO_ARGUMENTS_UPDATE + HELP + UPDATE_FORMAT);
             } else if (userCode.equals(Keyword.DELETE)) {
                 throw new Exception(NO_ARGUMENTS_DELETE + HELP + DELETE_FORMAT);
             } else if (userCode.equals(Keyword.COMPLETED)) {
-                throw new Exception(NO_ARGUMENTS_COMPLETED + HELP + COMPLETED_TASK_FORMAT);
+                throw new Exception(NO_ARGUMENTS_COMPLETED + HELP + 
+                                    COMPLETED_TASK_FORMAT);
             } else if (userCode.equals(Keyword.INCOMPLETE)) {
-                throw new Exception(NO_ARGUMENTS_INCOMPLETE + HELP + INCOMPLETE_TASK_FORMAT);
+                throw new Exception(NO_ARGUMENTS_INCOMPLETE + HELP + 
+                                    INCOMPLETE_TASK_FORMAT);
             }
         }
 
         if (userCode.equals(Keyword.EMPTYSLOT)) {
             String[] check = values.trim().split("--");
             if (values.equals("") || values.charAt(0) != '-') {
-                 throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + EMPTYSLOT_TASK_FORMAT);
+                 throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + 
+                                     EMPTYSLOT_TASK_FORMAT);
              }
             if (check.length < 3) {
-                throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + EMPTYSLOT_TASK_FORMAT);
+                throw new Exception(NO_ARGUMENTS_EMPTYSLOT + HELP + 
+                                    EMPTYSLOT_TASK_FORMAT);
             }
         }
          
