@@ -27,7 +27,7 @@ import utility.Keyword;
 public class CommandLineInterface {
     public static String[] fullDays = new String[] { "", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }; 
     private static final Logger logger = Logger.getLogger(CommandLineInterface.class.getName());
-
+    //@author A0119656W
     /**
      * main method
      * 
@@ -80,7 +80,7 @@ public class CommandLineInterface {
             }
         }
     }
-
+    //@author A0119656W
     private void printWelcomeMessage() {
         Clock clock = new Clock();
         try {
@@ -99,7 +99,7 @@ public class CommandLineInterface {
             logger.info("Logging from first try-catch ends "); 
         }
     }
-    
+    //@author A0101331H
     private void confirmExit() throws Exception {
         Clock clock = new Clock();
         System.out.println("Are you sure you want to exit? [Y/N]");
@@ -108,7 +108,7 @@ public class CommandLineInterface {
             System.exit(0);
         }
     }
-
+	//@author A0101331H
     private boolean printTable(String userCommand) {
         String[] arr;
         arr = userCommand.split(" ", 2);
@@ -117,7 +117,7 @@ public class CommandLineInterface {
         }
         return false;
     }
-
+    //@author A0113012J
     /**
      * Print error messages to user
      * @param message
@@ -132,7 +132,7 @@ public class CommandLineInterface {
         System.out.println(repeat("*", 90));
         
     }
-        
+    //@author A0101331H   
     /**
      * Construct table for the user
      * @param result
@@ -147,7 +147,7 @@ public class CommandLineInterface {
             System.out.println(result.get(0));
         }
     }
-
+    //@author A0101331H
     /**
      * print header of table
      */
@@ -161,7 +161,7 @@ public class CommandLineInterface {
                                      new int[]{ 5, 30, 6, 11, 6, 4, 11, 6, 4, 6}) + "|");
         System.out.printf("|%s|\n", repeat("-", 98));
     }
-    
+    //@author A0101331H
     /**
      * construct contents from result to structured string and print
      * @param result
@@ -178,7 +178,7 @@ public class CommandLineInterface {
         }
 
     }
-
+    //@author A0101331H
     /**
      * construct serial number component of the table
      * @param i
@@ -187,7 +187,7 @@ public class CommandLineInterface {
     private void addSerialNumber(int i, StringBuilder sb) {
         sb.append(createRow(new String[]{ "" + i + "." }, new int[]{ 5 }));
     }
-    
+    //@author A0101331H
     /**
      * construct task name component of the table
      * @param splitString
@@ -200,7 +200,7 @@ public class CommandLineInterface {
             sb.append(createRow(new String[]{ splitString[0], "OK" }, new int[]{ 30, 6 }));
         }
     }
-
+    //@author A0101331H
     /**
      * process the Date And Time and calls addDateAndTime method
      * @param splitString
@@ -220,7 +220,7 @@ public class CommandLineInterface {
             }
         }
     }
-
+    //@author A0101331H
     /**
      * construct Date and Time component of the table
      * @param arg
@@ -257,13 +257,13 @@ public class CommandLineInterface {
         }
         sb.append(st);
     }
-
+    //@author A0101331H
     private String addNoOfDaysLeft(String date) throws Exception {
         Clock clock = new Clock();
         String day = clock.getDateDifference(clock.getCurrentDateAndTime(), date);
         return day;
     }
-
+    //@author A0101331H
     /**
      * print bottom line of table
      */

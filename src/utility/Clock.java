@@ -17,7 +17,7 @@ public class Clock {
     public static String FORMAT_DATE = "dd/MM/yyyy";
     private static String[] DICTIONARY_DATE = { "ddMMyyyy", "ddMMMMyyyy", "MMMMddyyyy"};
     private static String[] DICTIONARY_TIME = { "hhmma", "hha", "HHmm" };
-    
+    //@author A0119656W
     /**
      * Guess the time from input string using a dictionary_date or dictionary_time
      * @param input
@@ -37,7 +37,7 @@ public class Clock {
         }
         throw new Exception("Cannot guess this time");
     }
-    
+    //@author A0119656W
     /**
      * Parse and set the time into GregorianCalendar format
      * @param dateString
@@ -78,6 +78,7 @@ public class Clock {
         Date date = new Date();
         return new SimpleDateFormat(FORMAT_HOUR).format(date);
     }
+    //@author A0101331H
     public String getGreeting(String hour) {
         int time = Integer.parseInt(hour);
 
@@ -92,7 +93,7 @@ public class Clock {
         }
     }
 
-
+    //@author A0101331H
     public String getExitGreeting(String hour) {
         int time = Integer.parseInt(hour);
         if (time >= 0  && time < 12) {
@@ -158,7 +159,7 @@ public class Clock {
         }
         return result.getTimeInMillis();
     }
-
+    //@author A0101331H
     public String getDateDifference(String start,String end)throws Exception{
         SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_COMMON);
         Date startDate = null;
