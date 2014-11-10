@@ -25,20 +25,27 @@ import utility.Clock;
 import utility.Keyword;
 
 public class CommandLineInterface {
-    public static String[] fullDays = new String[] { "", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }; 
-    private static final Logger logger = Logger.getLogger(CommandLineInterface.class.getName());
+    public static String[] fullDays = { "", "Sunday", "Monday", "Tuesday", 
+                                        "Wednesday", "Thursday", "Friday", 
+                                        "Saturday" };
+    private static final String cliName = CommandLineInterface.class.getName();
+    private static final Logger logger = Logger.getLogger(cliName);
+
     //@author A0119656W
     /**
      * main method
      * 
      * @param args
      */
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         Handler fh = new FileHandler("test.log", true);
         fh.setFormatter(new SimpleFormatter());
         logger.addHandler(fh);
         logger.setLevel(Level.FINE);
-        PrintStream outPS =new PrintStream(new BufferedOutputStream (new FileOutputStream("test.log", true)));  // append is true
+        //append is true
+        FileOutputStream fos = new FileOutputStream("test.log", true);
+        PrintStream outPS = new PrintStream(new BufferedOutputStream(fos));  
+        
         System.setErr(outPS); // redirect System.err
 
         CommandLineInterface cli = new CommandLineInterface();
@@ -68,9 +75,9 @@ public class CommandLineInterface {
                     cli.confirmExit();
                 }
             } catch (Exception pe) {
-                //System.out.println("Your command could not be processed.Please try again!");
                 if (pe.getMessage().equals("exit from program")) {
-                    System.out.println(clock.getExitGreeting(clock.getCurrentHour()));
+                    String msg = clock.getExitGreeting(clock.getCurrentHour());
+                    System.out.println(msg);
                     return;
                 }
                 logger.info("Logging from second try-catch begins"); 
@@ -80,19 +87,28 @@ public class CommandLineInterface {
             }
         }
     }
+    
+    //@author A0119656W
+    private String getTimeMessage() throws Exception {
+        Clock clock = new Clock();
+        String currentTime = clock.getCurrentDateAndTime();
+        return clock.getGreeting(clock.getCurrentHour()) + "Date: " +
+               clock.getDay(currentTime) + " " + 
+               clock.getMonth(currentTime) + " " + 
+               clock.getYear(currentTime) + ", " + 
+               fullDays[clock.getDayOfTheWeek(clock.getDate(currentTime))] + 
+               "\nTime: " + clock.getTime(currentTime) + "\n";
+    }
+    
     //@author A0119656W
     private void printWelcomeMessage() {
-        Clock clock = new Clock();
         try {
-            String currentTime = clock.getCurrentDateAndTime();
-            System.out.println("WELCOME TO PERSONAL ASSISTANT COORDINATOR TOOL(PACT)!\n");
-            System.out.println(clock.getGreeting(clock.getCurrentHour()) + "Date: " +
-                               clock.getDay(currentTime) + " " + 
-                               clock.getMonth(currentTime) + " " + 
-                               clock.getYear(currentTime) + ", " + 
-                               fullDays[clock.getDayOfTheWeek(clock.getDate(currentTime))] + "\nTime: " + 
-                               clock.getTime(currentTime) + "\n");
-            System.out.println("Commands : \"create\", \"update\", \"delete\", \"search\", \"display\", \"undo\", \"complete\", \"exit\" ");
+            System.out.println("WELCOME TO PERSONAL ASSISTANT " +
+                               "COORDINATOR TOOL(PACT)!\n");
+            System.out.println(getTimeMessage());
+            System.out.println("Commands : \"create\", \"update\", " +
+                               "\"delete\", \"search\", \"display\", " +
+                               "\"undo\", \"complete\", \"exit\"");
         } catch (Exception e) {
             logger.info("Logging from first try-catch begins"); 
             logger.log(Level.SEVERE, e.getMessage(), e);
@@ -125,7 +141,8 @@ public class CommandLineInterface {
     private void printErrorMessage(String message) {
         System.out.println("\nERROR!");
         System.out.println(repeat("*", 90));
-        System.out.println("Your command could not be processed.Please try again!");
+        System.out.println("Your command could not be processed. " + 
+                           "Please try again!");
         System.out.println("");
         System.out.println("Cause of Error:");
         System.out.println(message);
@@ -153,12 +170,20 @@ public class CommandLineInterface {
      */
     private void printHeader() {
         System.out.println(repeat("*", 100));
-        System.out.println(createRow(new String[] { "", "", "", "Start", "End", "No of" }, 
+        System.out.println(createRow(new String[] { "", "", "", 
+                                                    "Start", "End", "No of" }, 
                                      new int[]{ 5, 30, 6, 23, 23, 6 }) + "|");
-        System.out.println(createRow(new String[] { "S/N", "TaskName", "Done", repeat("-", 47), "Days" }, 
+        System.out.println(createRow(new String[] { "S/N", "TaskName", "Done", 
+                                                    repeat("-", 47), "Days" }, 
                                      new int[]{ 5, 30, 6, 47, 6 }) + "|");
-        System.out.println(createRow(new String[] { repeat(" ", 5), repeat(" ", 30), repeat(" ", 6), "Date", "Time", "Day", "Date", "Time", "Day", "Left" }, 
-                                     new int[]{ 5, 30, 6, 11, 6, 4, 11, 6, 4, 6}) + "|");
+        System.out.println(createRow(new String[] { repeat(" ", 5), 
+                                                    repeat(" ", 30), 
+                                                    repeat(" ", 6), 
+                                                    "Date", "Time", "Day", 
+                                                    "Date", "Time", "Day", 
+                                                    "Left" }, 
+                                     new int[]{ 5, 30, 6, 11, 6, 
+                                                4, 11, 6, 4, 6}) + "|");
         System.out.printf("|%s|\n", repeat("-", 98));
     }
     //@author A0101331H
@@ -193,11 +218,14 @@ public class CommandLineInterface {
      * @param splitString
      * @param sb
      */
-    private void addTaskNameAndCompleted(String[] splitString, StringBuilder sb) {
+    private void addTaskNameAndCompleted(String[] splitString, 
+                                         StringBuilder sb) {
         if (splitString[1].equals("false")) {
-            sb.append(createRow(new String[]{ splitString[0], "" }, new int[]{ 30, 6 }));
+            sb.append(createRow(new String[]{ splitString[0], "" }, 
+                                new int[]{ 30, 6 }));
         } else {
-            sb.append(createRow(new String[]{ splitString[0], "OK" }, new int[]{ 30, 6 }));
+            sb.append(createRow(new String[]{ splitString[0], "OK" }, 
+                                new int[]{ 30, 6 }));
         }
     }
     //@author A0101331H
@@ -208,7 +236,8 @@ public class CommandLineInterface {
      */
     private void processDateAndTime(String[] splitString, StringBuilder sb) {
         if (splitString[2].equals("")) { //floating tasks
-            sb.append(createRow(new String[]{ "-", "-", "-", "-", "-", "-", "" }, 
+            sb.append(createRow(new String[]{ "-", "-", "-", 
+                                              "-", "-", "-", "" }, 
                                 new int[]{ 11, 6, 4, 11, 6, 4, 6 }));
         } else {
             String temp = splitString[2];
@@ -227,11 +256,13 @@ public class CommandLineInterface {
      * @param sb
      * @throws Exception 
      */
-    private void addDateAndTime(String[] arg, StringBuilder sb) throws Exception {
+    private void addDateAndTime(String[] arg, 
+                                StringBuilder sb) throws Exception {
         int[] formatter = new int[]{ 11, 6, 4, 11, 6, 4, 6 };
         String st = "";
         Clock clock = new Clock();
-        String[] array = new String[]{ "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+        String[] arr = new String[]{ "", "Sun", "Mon", "Tue", 
+                                       "Wed", "Thu", "Fri", "Sat" };
         if (arg.length == 1) {
             st = createRow(new String[]{ "-", "-", "-", 
                                          arg[0], "-", "-", 
@@ -239,20 +270,27 @@ public class CommandLineInterface {
                            formatter);
         } else if (arg.length == 2) {
             if (arg[1].length() == 10) {
-                st = createRow(new String[]{ arg[0], "-", array[clock.getDayOfTheWeek(arg[0])], 
-                                             arg[1], "-", array[clock.getDayOfTheWeek(arg[1])], 
-                                             addNoOfDaysLeft(arg[1] + " 23:59") }, 
-                               formatter);
+                st = createRow(new String[]{ arg[0], "-", 
+                                             arr[clock.getDayOfTheWeek(arg[0])], 
+                                             arg[1], "-", 
+                                             arr[clock.getDayOfTheWeek(arg[1])], 
+                                             addNoOfDaysLeft(arg[1] + " 23:59") 
+                                           }, formatter);
             } else {
                 st = createRow(new String[]{ "-", "-", "-", 
-                                             arg[0], arg[1], array[clock.getDayOfTheWeek(arg[0])],
-                                             addNoOfDaysLeft(arg[0] + " " + arg[1]) }, 
+                                             arg[0], arg[1], 
+                                             arr[clock.getDayOfTheWeek(arg[0])],
+                                             addNoOfDaysLeft(arg[0] + " " + 
+                                                             arg[1]) }, 
                                formatter);
             }
         } else if (arg.length == 4) {
-            st = createRow(new String[]{ arg[0], arg[1], array[clock.getDayOfTheWeek(arg[0])], 
-                                         arg[2], arg[3], array[clock.getDayOfTheWeek(arg[2])], 
-                                         addNoOfDaysLeft(arg[2] + " " + arg[3]) },
+            st = createRow(new String[]{ arg[0], arg[1], 
+                                         arr[clock.getDayOfTheWeek(arg[0])], 
+                                         arg[2], arg[3], 
+                                         arr[clock.getDayOfTheWeek(arg[2])], 
+                                         addNoOfDaysLeft(arg[2] + " " + 
+                                                         arg[3]) },
                            formatter);
         }
         sb.append(st);
@@ -260,7 +298,8 @@ public class CommandLineInterface {
     //@author A0101331H
     private String addNoOfDaysLeft(String date) throws Exception {
         Clock clock = new Clock();
-        String day = clock.getDateDifference(clock.getCurrentDateAndTime(), date);
+        String currentTime = clock.getCurrentDateAndTime();
+        String day = clock.getDateDifference(currentTime, date);
         return day;
     }
     //@author A0101331H
@@ -284,7 +323,8 @@ public class CommandLineInterface {
      * 
      * @return command
      */
-    private String getUserCommand() throws IOException { // get from Scanner or something else
+    private String getUserCommand() throws IOException { 
+        // get from Scanner or something else
         String command;
         ConsoleReader reader = new ConsoleReader();
         reader.setBellEnabled(false);

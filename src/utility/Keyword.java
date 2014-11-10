@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public enum Keyword {
+    
     CREATE      (new String[] { "add", "create", "new" }),
     READ        (new String[] { "show", "display", "search", "read" }),
     UPDATE      (new String[] { "update", "change" }), 
@@ -38,6 +39,7 @@ public enum Keyword {
  
     private String[] dictionary;
 
+    //@author A0119656W
     /**
      * Use a particular dictionary
      * @param otherOptions
@@ -46,6 +48,7 @@ public enum Keyword {
         this.dictionary = otherOptions;  
     }
     
+    //@author A0119656W
     /**
      * Obtain the meaning of the command string
      * @param code
@@ -63,6 +66,7 @@ public enum Keyword {
         return INVALID;
     }
     
+    //@author A0119656W
     /**
      * Check if the keyword is a command
      * @param input
@@ -73,6 +77,7 @@ public enum Keyword {
         return Arrays.asList(commandList).contains(input);
     }
     
+    //@author A0119656W
     /**
      * Check if the input arguments are valid
      * @param method
@@ -105,10 +110,12 @@ public enum Keyword {
         return Arrays.asList(argList).contains(key);
     }
     
+    //@author A0119656W
     public static String[] listDictionary(Keyword method) {
         return method.dictionary;
     }
     
+    //@author A0119656W
     public static String[] listAllCommands() {
         Keyword[] commandList = { CREATE, READ, DELETE, UPDATE, EXIT, QEXIT, UNDO, CLEAR, COMPLETED, INCOMPLETE, EMPTYSLOT };
         ArrayList<String> mergedResult = new ArrayList<String>();
@@ -121,6 +128,7 @@ public enum Keyword {
         return finalResult;
     }
     
+    //@author A0119656W
     public static String[] listAllArguments() {
         Keyword[] argumentList = { METHOD, CONTENT, NEWCONTENT, START, END, EXACT, TYPE, ALLDAY, ARCHIVED, FOREVER, SORT, ALL };
         ArrayList<String> mergedResult = new ArrayList<String>();

@@ -15,11 +15,14 @@ public class Clock {
     public static String FORMAT_COMMON = "dd/MM/yyyy HH:mm";
     public static String FORMAT_HOUR = "HH";
     public static String FORMAT_DATE = "dd/MM/yyyy";
-    private static String[] DICTIONARY_DATE = { "ddMMyyyy", "ddMMMMyyyy", "MMMMddyyyy"};
+    private static String[] DICTIONARY_DATE = { "ddMMyyyy", "ddMMMMyyyy", 
+                                                "MMMMddyyyy"};
     private static String[] DICTIONARY_TIME = { "hhmma", "hha", "HHmm" };
+
     //@author A0119656W
     /**
-     * Guess the time from input string using a dictionary_date or dictionary_time
+     * Guess the time from input string using a dictionary_date 
+     * or dictionary_time
      * @param input
      * @param dictionary
      * @return Date
@@ -37,6 +40,7 @@ public class Clock {
         }
         throw new Exception("Cannot guess this time");
     }
+
     //@author A0119656W
     /**
      * Parse and set the time into GregorianCalendar format
@@ -57,15 +61,20 @@ public class Clock {
         if (!dateString.isEmpty()) {
             date = guess(dateString, DICTIONARY_DATE);
             tmp.setTime(date);
-            result.set(GregorianCalendar.DATE, tmp.get(GregorianCalendar.DATE));
-            result.set(GregorianCalendar.MONTH, tmp.get(GregorianCalendar.MONTH));
-            result.set(GregorianCalendar.YEAR, tmp.get(GregorianCalendar.YEAR));
+            result.set(GregorianCalendar.DATE, 
+                       tmp.get(GregorianCalendar.DATE));
+            result.set(GregorianCalendar.MONTH, 
+                       tmp.get(GregorianCalendar.MONTH));
+            result.set(GregorianCalendar.YEAR, 
+                       tmp.get(GregorianCalendar.YEAR));
         }
         if (!timeString.isEmpty()) {
             date = guess(timeString, DICTIONARY_TIME);
             tmp.setTime(date);
-            result.set(GregorianCalendar.HOUR_OF_DAY, tmp.get(GregorianCalendar.HOUR_OF_DAY));
-            result.set(GregorianCalendar.MINUTE, tmp.get(GregorianCalendar.MINUTE));
+            result.set(GregorianCalendar.HOUR_OF_DAY, 
+                       tmp.get(GregorianCalendar.HOUR_OF_DAY));
+            result.set(GregorianCalendar.MINUTE, 
+                       tmp.get(GregorianCalendar.MINUTE));
         }
         return new SimpleDateFormat(FORMAT_COMMON).format(result.getTime());
     }
@@ -74,10 +83,12 @@ public class Clock {
         Date date = new Date();
         return new SimpleDateFormat(FORMAT_COMMON).format(date);
     }
+    
     public String getCurrentHour() {
         Date date = new Date();
         return new SimpleDateFormat(FORMAT_HOUR).format(date);
     }
+    
     //@author A0101331H
     public String getGreeting(String hour) {
         int time = Integer.parseInt(hour);
@@ -108,11 +119,13 @@ public class Clock {
             return "";
         }
     }
+    
     public int getDay(String source) {
-        return Integer.parseInt(source.substring(0,2));
+        return Integer.parseInt(source.substring(0, 2));
     }
+    
     public int getYear(String source) {
-        return Integer.parseInt(source.substring(6,10));
+        return Integer.parseInt(source.substring(6, 10));
     }
     
     public String normalize(String toNormalize) throws Exception {
@@ -129,7 +142,9 @@ public class Clock {
         dateString = dateString.replace("/", "");
         Date date = guess(dateString, DICTIONARY_DATE);
         tmp.setTime(date); 
-        String[] monthArray = new String[]{"JAN", "FEB", "MAY","APR", "MAY", "JUN", "JUL", "AUG","SEP", "OCT", "NOV", "DEC"};
+        String[] monthArray = new String[]{"JAN", "FEB", "MAY","APR", "MAY", 
+                                           "JUN", "JUL", "AUG","SEP", "OCT", 
+                                           "NOV", "DEC"};
         return monthArray[tmp.get(GregorianCalendar.MONTH)];
     }
     
@@ -137,6 +152,7 @@ public class Clock {
         String array[] = toSplit.split(" ");
         return array[1];
     }
+
     public int getDayOfTheWeek(String dateString)throws Exception {
          GregorianCalendar tmp = new GregorianCalendar();
          dateString = dateString.replace("/", "");
@@ -146,6 +162,7 @@ public class Clock {
     }
 
     
+    //@author A0119656W
     /**
      * Parse source into GregorianCalendar format
      * @param source
@@ -171,7 +188,8 @@ public class Clock {
             throw new Exception("error in getting date difference");
         }
   
-        double days = (double) ((endDate.getTime() - startDate.getTime()) /(1000.0* 60.0 * 60.0 * 24.0));
+        double days = (double) ((endDate.getTime() - startDate.getTime()) / 
+                                (1000.0* 60.0 * 60.0 * 24.0));
         DecimalFormat df = new DecimalFormat("#.##");
         String dateDifference = df.format(days);
         if (days > 365 ) {
